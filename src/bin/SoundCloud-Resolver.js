@@ -1,24 +1,46 @@
-const SoundCloud = require('soundcloud-scraper');
+const SoundCloud = require('@sidislive/soundcloud-scraper')
+const PlayDLExtractor = require('./Track-Extractor')
 
-const SoundCloudClient = new SoundCloud.Client();
-const YTDLExtractor = require('./Track-Extractor');
-
-async function SoundCloudExtractor(Query, RegexValue) {
-  if (
-    (RegexValue[3] && RegexValue[3].includes('/sets/'))
-    || (RegexValue[2] && RegexValue[2].includes('/sets/'))
-    || (RegexValue[4] && RegexValue[4].includes('/sets/'))
-    || Query.includes('/sets/')
-  ) {
-    // Need Work here
+class SoundCloudExtractor {
+  static #TokenGen = null
+  static #Client = null
+  static async SoundCloudResolver(Query, RegexValue) {
+    if (!SoundCloudExtractor.#TokenGen)
+      SoundCloudExtractor.#TokenGen = await SoundCloud.Util.keygen(true)
+    if (!SoundCloudExtractor.#Client)
+      SoundCloudExtractor.#Client = new SoundCloud.Client(
+        SoundCloudExtractor.#TokenGen,
+      )
+    if (
+      (RegexValue[3] && RegexValue[3].includes('/sets/')) ||
+      (RegexValue[2] && RegexValue[2].includes('/sets/')) ||
+      (RegexValue[4] && RegexValue[4].includes('/sets/')) ||
+      Query.includes('/sets/')
+    ) {
+      const SoundCloudPlaylist = await SoundCloudExtractor.#Client.getPlaylist(
+        Query,
+      )
+      const SoundCloudTracks = await Promise.all(
+        SoundCloudPlaylist.tracks.map(async (track) => {
+          return await SoundCloudExtractor.#SoundCloundTrackModel(track)
+        }),
+      )
+      return {
+        playlist: true,
+        tracks: SoundCloudTracks,
+      }
+    }
+    const SoundCloudRawTrack = await SoundCloudExtractor.#Client.getSongInfo(
+      Query,
+    )
+    return {
+      playlist: false,
+      tracks: [
+        await SoundCloudExtractor.#SoundCloundTrackModel(SoundCloudRawTrack),
+      ],
+    }
   }
-  const SoundCloudRawTrack = await SoundCloudClient.getSongInfo(Query);
-  return {
-    playlist: false,
-    tracks: [await SoundCloundTrackModel(SoundCloudRawTrack)],
-  };
-
-  async function SoundCloundTrackModel(SoundCloudRawTrack) {
+  static async #SoundCloundTrackModel(SoundCloudRawTrack) {
     const track = {
       Id: SoundCloudRawTrack.id,
       url: SoundCloudRawTrack.url ?? null,
@@ -39,10 +61,15 @@ async function SoundCloudExtractor(Query, RegexValue) {
       likes: SoundCloudRawTrack.likes ?? null,
       is_live: false,
       dislikes: null,
-    };
-    const CompleteTracks = await YTDLExtractor(track.title, 'souncloud', track);
-    return CompleteTracks;
+    }
+    return (
+      await PlayDLExtractor.DataExtractorYoutube(
+        track.title,
+        'souncloud',
+        track,
+      )
+    )[0]
   }
 }
 
-module.exports = SoundCloudExtractor;
+module.exports = SoundCloudExtractor
