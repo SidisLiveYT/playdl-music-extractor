@@ -8,7 +8,7 @@ class PlayDLExtractor {
       Limit: 1,
       Quality: undefined,
       Proxy: undefined,
-    } || undefined,
+    },
     ExtraValue = {},
   ) {
     try {
@@ -19,7 +19,8 @@ class PlayDLExtractor {
           (validate(Query) === 'yt_playlist'
             ? { youtube: 'playlist' }
             : null)
-          ?? (validate(Query) === 'yt_video' ? { youtube: 'video' } : undefined),
+          ?? (validate(Query) === 'yt_video' ? { youtube: 'video' } : undefined)
+          ?? undefined,
       });
       const CacheData = await Promise.all(
         PlayDLSearchResults.map(
@@ -43,15 +44,21 @@ class PlayDLExtractor {
       Limit: 1,
       Quality: undefined,
       Proxy: undefined,
-    } || undefined,
+    },
   ) {
     const StreamSource = await stream(
       url,
       YoutubeStreamOptions
         ? {
           quality:
-              (YoutubeStreamOptions.Quality.includes('low') ? 0 : null)
-              ?? (YoutubeStreamOptions.Quality.includes('medium')
+              (YoutubeStreamOptions
+              && YoutubeStreamOptions.Quality
+              && YoutubeStreamOptions.Quality.includes('low')
+                ? 0
+                : null)
+              ?? (YoutubeStreamOptions
+              && YoutubeStreamOptions.Quality
+              && YoutubeStreamOptions.Quality.includes('medium')
                 ? 1
                 : undefined)
               ?? undefined,
@@ -71,7 +78,7 @@ class PlayDLExtractor {
       Limit: 1,
       Quality: undefined,
       Proxy: undefined,
-    } || undefined,
+    },
     ExtraValue = {},
   ) {
     const SourceStream = await PlayDLExtractor.#streamdownloader(
@@ -88,7 +95,7 @@ class PlayDLExtractor {
           : null ?? null,
       author_link:
         ExtraValue.author_link ?? YoutubeVideoRawData.channel
-          ? YoutubeVideoRawData.channel.link
+          ? YoutubeVideoRawData.channel.url
           : null ?? null,
       description:
         ExtraValue.description ?? YoutubeVideoRawData.description ?? null,

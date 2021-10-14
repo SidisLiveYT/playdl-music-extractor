@@ -7,7 +7,7 @@ async function QueryResolver(
     Limit: 1,
     Quality: undefined,
     Proxy: undefined,
-  } || undefined,
+  },
 ) {
   const YoutubeUrlRegex = /^.*(youtu.be\/|list=|watch=|v=)([^#\&\?]*).*/;
   const ValidateUrlResult = await validate(Query);
