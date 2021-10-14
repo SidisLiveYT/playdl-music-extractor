@@ -59,17 +59,17 @@ async function SpotifyScrapper(
         ?? VideoThumbnailPreview.title
         ?? null,
       author:
-        SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
+        (SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
           ? SpotifyTrackRawData.artists[0].name
-          : (SpotifyTrackRawData.track
+          : SpotifyTrackRawData.track
             && SpotifyTrackRawData.track.artists
             && SpotifyTrackRawData.track.artists[0]
             ? SpotifyTrackRawData.track.artists[0].name
             : null) ?? null,
       author_link:
-        SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
+        (SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
           ? SpotifyTrackRawData.artists[0].url
-          : (SpotifyTrackRawData.track
+          : SpotifyTrackRawData.track
             && SpotifyTrackRawData.track.artists
             && SpotifyTrackRawData.track.artists[0]
             ? SpotifyTrackRawData.track.artists[0].url

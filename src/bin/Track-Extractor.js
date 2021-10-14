@@ -62,9 +62,10 @@ class PlayDLExtractor {
                 ? 1
                 : undefined)
               ?? undefined,
-          proxy: YoutubeStreamOptions.Proxy
-            ? [YoutubeStreamOptions.Proxy]
-            : null ?? undefined,
+          proxy:
+              (YoutubeStreamOptions.Proxy
+                ? [YoutubeStreamOptions.Proxy]
+                : null) ?? undefined,
         }
         : undefined,
     );
