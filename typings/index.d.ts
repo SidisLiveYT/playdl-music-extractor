@@ -1,3 +1,6 @@
-import { YoutubeData } from './Instances'
+import { YoutubeData, YoutubeStreamOptions } from './Instances'
 
-export function Extractor (Query: String): Promise<YoutubeData> | undefined
+export function Extractor (
+  Query: String,
+  YoutubeStreamOptions: YoutubeStreamOptions
+): Promise<YoutubeData> | undefined

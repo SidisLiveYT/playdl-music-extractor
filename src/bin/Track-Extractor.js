@@ -3,7 +3,7 @@ const { search, validate, stream } = require('play-dl');
 class PlayDLExtractor {
   static async DataExtractorYoutube(
     Query,
-    extractor = false,
+    extractor = null,
     YoutubeStreamOptions = {
       Limit: 1,
       Quality: undefined,
@@ -66,7 +66,7 @@ class PlayDLExtractor {
 
   static async #YoutubeTrackModel(
     YoutubeVideoRawData,
-    extractor = false,
+    extractor = null,
     YoutubeStreamOptions = {
       Limit: 1,
       Quality: undefined,

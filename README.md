@@ -2,16 +2,16 @@
   <br />
   <br />
   <p>
-<h1>Video Extractor</h1>
+<h1>PlayDL Music Extractor</h1>
   </p>
 </div>
 
 ## About
 
-Video Extractor is a Extractor/Scrapper and Helps Players to fetch data from custom-youtube-dl or Custom Extractors , as Per reduces extra work and credentials.
+PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.
 
 - Object-oriented , means Value returned in a structure format
-- Python Based Browser Extrator -> Need to have Python installed in binary $PATH
+- Python Based Browser Extrator -> Need to have Python installed in binary \$PATH
 - Supports 700+ Website's Urls and Even Youtube Search
 - Delay/Buffer Timeout is max 3 seconds on tracks and 7 sec for Playlists
 - Customisable Extractors
@@ -54,7 +54,8 @@ Data : {
       description: String,
       custom_extractor: `youtube-dl`,
       duration: 0,
-      stream_url: String,
+      stream: String,
+      stream_type: String,
       orignal_extractor: 'youtube' | 'spotify' | 'facebook' | 'arbitary',
       thumbnail: String,
       channelId: 0 || String,
@@ -66,12 +67,32 @@ Data : {
 }
 ```
 
-- `Data.tracks[0].stream_url can be used in terms of stream value in @discordjs/voice or any other Audio package .`
-- `Object can be seen null or undefined based on platform , like channelId and channel_url isn't present for facebook and soundcloud , But most usable stuff will be there for all shorts of Videos`
+- `Data.tracks[0].stream can be used in terms of stream value in @discordjs/voice or any other Audio package .`
+
+## Use-Case for @discordjs/voice Package
+
+```
+const { Extractor } = require('playdl-music-extractor')
+const { createAudioResource } = require('@discordjs/voice')
+
+var Data = await Extractor(Url || "Despacito" , {
+  Limit: 1,
+  Quality: 'highest',
+  Proxy: ["IP's Domain:PortNumber"],
+  }
+)
+
+var Audio_Resource = createAudioResource(Data.tracks[0].stream ,{
+  inputType: Data.tracks[0].stream_type
+})
+
+//Rest is mentioned in @discordjs/voice examples , from here "Audio_Resource" is important
+
+```
 
 ## Links
 
-- [Youtube-dl](https://www.npmjs.com/package/@sidislive/youtube-dl-exec)
+- [play-dl](https://www.npmjs.com/package/play-dl)
 - [Source Code](https://github.com/SidisLiveYT/playdl-music-extractor.git)
 - [GitHub Repo Link](https://github.com/SidisLiveYT/playdl-music-extractor)
 - [NPM Package](https://www.npmjs.com/package/playdl-music-extractor)

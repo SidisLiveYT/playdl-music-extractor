@@ -1,7 +1,7 @@
 {
   "name": "playdl-music-extractor",
   "version": "1.0.0",
-  "description": "Jericho Player Framework's Extractor supports youtube-dl stream data download for @discordjs/voice Audio Resrc",
+  "description": "PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials",
   "main": "./src/index.js",
   "module": "./src/index.mjs",
   "types": "./typings/index.d.ts",
@@ -47,6 +47,7 @@
     "facebook-video-link": "^1.0.2",
     "is-url": "^1.2.4",
     "play-dl": "^1.1.5",
+    "reverbnation-scraper": "^2.0.0",
     "spotify-url-info": "^2.2.3",
     "youtube-sr": "^4.1.8"
   },

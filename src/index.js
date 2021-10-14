@@ -7,6 +7,7 @@ const FacebookResolver = require('./bin/Facebook-Resolver');
 /**
  * @function Extractor Youtube-DL Extractor for Music Players Node.jsv16
  * @param {String} Query Query for Searching Data as Tracks , Playlist or albums
+ * @param {Object} YoutubeStreamOptions Youtube Stream Options for play-dl
  * @returns {Promise<YoutubeData>} Youtube-DLTracks
  */
 

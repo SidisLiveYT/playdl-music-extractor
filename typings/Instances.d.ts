@@ -18,6 +18,12 @@ export type YoutubeTrack = {
   dislikes: Number
 }
 
+export type YoutubeStreamOptions = {
+  Limit: number
+  Quality: String
+  Proxy: Array<String>
+}
+
 export type YoutubeData = {
   playlist: Boolean
   tracks: Array<YoutubeTrack>
