@@ -63,8 +63,7 @@
     "is-url": "^1.2.4",
     "play-dl": "^1.1.6",
     "reverbnation-scraper": "^2.0.0",
-    "spotify-url-info": "^2.2.3",
-    "youtube-sr": "^4.1.8"
+    "spotify-url-info": "^2.2.3"
   },
   "directories": {
     "example": "example"
