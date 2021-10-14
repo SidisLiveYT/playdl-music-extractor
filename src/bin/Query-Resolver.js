@@ -17,21 +17,11 @@ async function QueryResolver(
       ?? ValidateUrlResult.includes('playlist')
       ?? ValidateUrlResult.includes('album')
       ?? false,
-    tracks:
-      Query.match(YoutubeUrlRegex)
-      && ValidateUrlResult
-      && (ValidateUrlResult.includes('playlist')
-        || ValidateUrlResult.includes('album'))
-        ? await PlayDLExtractor.DataExtractorYoutube(
-          Query,
-          'youtube',
-          YoutubeStreamOptions,
-        )
-        : await PlayDLExtractor.DataExtractorYoutube(
-          Query,
-          'youtube',
-          YoutubeStreamOptions,
-        ),
+    tracks: await PlayDLExtractor.DataExtractorYoutube(
+      Query,
+      'youtube',
+      YoutubeStreamOptions,
+    ),
   };
   return YoutubeTracks;
 }
