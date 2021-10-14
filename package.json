@@ -27,9 +27,9 @@
     "@babel/eslint-parser": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.0.1",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-import": "^2.25.2",
     "nyc": "^15.1.0",
     "semantic-release": "^18.0.0"
   },
@@ -38,6 +38,21 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "keywords": [
+    "youtube-scrapper",
+    "video-extractor",
+    "youtube",
+    "spotify",
+    "soundcloud",
+    "facebook",
+    "music-extractor",
+    "soundcloud-scrapper",
+    "spotify-scrapper",
+    "youtube-extractor",
+    "youtube-downloader",
+    "play-dl",
+    "jericho-player"
+  ],
   "engines": {
     "node": ">= 16.6.0",
     "npm": ">=7.0.0"
@@ -46,7 +61,7 @@
     "@sidislive/soundcloud-scraper": "^1.0.0",
     "facebook-video-link": "^1.0.2",
     "is-url": "^1.2.4",
-    "play-dl": "^1.1.5",
+    "play-dl": "^1.1.6",
     "reverbnation-scraper": "^2.0.0",
     "spotify-url-info": "^2.2.3",
     "youtube-sr": "^4.1.8"
