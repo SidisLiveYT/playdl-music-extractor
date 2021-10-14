@@ -1,0 +1,10 @@
+.nyc_output/
+node_modules/
+.vscode/
+test/
+.eslintrc.json
+.github/
+.gitignore
+.babelrc
+.eslintignore
+.npmrc
