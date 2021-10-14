@@ -3,6 +3,7 @@ const QueryResolver = require('./bin/Query-Resolver');
 const SoundCloudExtractor = require('./bin/SoundCloud-Resolver');
 const YoutubeData = require('../typings/instances-commonjs');
 const FacebookResolver = require('./bin/Facebook-Resolver');
+const ReverbnationResolver = require('./bin/Reverbnation-Resolver');
 
 /**
  * @function Extractor play-dl Extractor for Music Players Node.jsv16
@@ -22,6 +23,7 @@ async function Extractor(
   const SpotifyUrlRegex = /^(?:spotify:|(?:https?:\/\/(?:open|play)\.spotify\.com\/))(?:embed)?\/?(album|track|playlist)(?::|\/)((?:[0-9a-zA-Z]){22})/;
   const SoundCloundUrlRegex = /^(?:(https?):\/\/)?(?:(?:www|m)\.)?(soundcloud\.com|snd\.sc)\/(.*)$/;
   const FacebookVideoUrlRegex = /(?:https?:\/{2})?(?:w{3}\.)?(facebook|fb).com\/.*\/videos\/.*/;
+  if (!Query || (Query && typeof Query !== 'string')) throw TypeError('Query is invalid or is not String');
   if (Query.match(SpotifyUrlRegex)) return await SpotifyExtractor(Query, YoutubeStreamOptions);
   if (Query.match(FacebookVideoUrlRegex)) return await FacebookResolver(Query, YoutubeStreamOptions);
   if (Query.match(SoundCloundUrlRegex)) {
@@ -31,6 +33,7 @@ async function Extractor(
       YoutubeStreamOptions,
     );
   }
+  if (Query.toLowerCase().includes('www.reverbnation.com')) return await ReverbnationResolver(Query, YoutubeStreamOptions);
   return await QueryResolver(Query, YoutubeStreamOptions);
 }
 
