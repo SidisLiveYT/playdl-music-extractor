@@ -1,46 +1,72 @@
-const SoundCloud = require('@sidislive/soundcloud-scraper')
-const PlayDLExtractor = require('./Track-Extractor')
+const SoundCloud = require('@sidislive/soundcloud-scraper');
+const PlayDLExtractor = require('./Track-Extractor');
 
 class SoundCloudExtractor {
   static #TokenGen = null
+
   static #Client = null
-  static async SoundCloudResolver(Query, RegexValue) {
-    if (!SoundCloudExtractor.#TokenGen)
-      SoundCloudExtractor.#TokenGen = await SoundCloud.Util.keygen(true)
-    if (!SoundCloudExtractor.#Client)
+
+  static async SoundCloudResolver(
+    Query,
+    RegexValue,
+    YoutubeStreamOptions = {
+      Limit: 1,
+      Quality: undefined,
+      Proxy: undefined,
+    } || undefined,
+  ) {
+    if (!SoundCloudExtractor.#TokenGen) {
+      SoundCloudExtractor.#TokenGen = await SoundCloud.Util.keygen(true);
+    }
+    if (!SoundCloudExtractor.#Client) {
       SoundCloudExtractor.#Client = new SoundCloud.Client(
         SoundCloudExtractor.#TokenGen,
-      )
+      );
+    }
     if (
-      (RegexValue[3] && RegexValue[3].includes('/sets/')) ||
-      (RegexValue[2] && RegexValue[2].includes('/sets/')) ||
-      (RegexValue[4] && RegexValue[4].includes('/sets/')) ||
-      Query.includes('/sets/')
+      (RegexValue[3] && RegexValue[3].includes('/sets/'))
+      || (RegexValue[2] && RegexValue[2].includes('/sets/'))
+      || (RegexValue[4] && RegexValue[4].includes('/sets/'))
+      || Query.includes('/sets/')
     ) {
       const SoundCloudPlaylist = await SoundCloudExtractor.#Client.getPlaylist(
         Query,
-      )
+      );
       const SoundCloudTracks = await Promise.all(
-        SoundCloudPlaylist.tracks.map(async (track) => {
-          return await SoundCloudExtractor.#SoundCloundTrackModel(track)
-        }),
-      )
+        SoundCloudPlaylist.tracks.map(
+          async (track) => await SoundCloudExtractor.#SoundCloundTrackModel(
+            track,
+            YoutubeStreamOptions,
+          ),
+        ),
+      );
       return {
         playlist: true,
         tracks: SoundCloudTracks,
-      }
+      };
     }
     const SoundCloudRawTrack = await SoundCloudExtractor.#Client.getSongInfo(
       Query,
-    )
+    );
     return {
       playlist: false,
       tracks: [
-        await SoundCloudExtractor.#SoundCloundTrackModel(SoundCloudRawTrack),
+        await SoundCloudExtractor.#SoundCloundTrackModel(
+          SoundCloudRawTrack,
+          YoutubeStreamOptions,
+        ),
       ],
-    }
+    };
   }
-  static async #SoundCloundTrackModel(SoundCloudRawTrack) {
+
+  static async #SoundCloundTrackModel(
+    SoundCloudRawTrack,
+    YoutubeStreamOptions = {
+      Limit: 1,
+      Quality: undefined,
+      Proxy: undefined,
+    } || undefined,
+  ) {
     const track = {
       Id: SoundCloudRawTrack.id,
       url: SoundCloudRawTrack.url ?? null,
@@ -61,15 +87,16 @@ class SoundCloudExtractor {
       likes: SoundCloudRawTrack.likes ?? null,
       is_live: false,
       dislikes: null,
-    }
+    };
     return (
       await PlayDLExtractor.DataExtractorYoutube(
         track.title,
         'souncloud',
+        YoutubeStreamOptions,
         track,
       )
-    )[0]
+    )[0];
   }
 }
 
-module.exports = SoundCloudExtractor
+module.exports = SoundCloudExtractor;

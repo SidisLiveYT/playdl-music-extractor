@@ -7,8 +7,9 @@ export type YoutubeTrack = {
   description: String
   custom_extractor: `youtube-dl`
   duration: Number
-  stream_url: String
-  orignal_extractor: String | 'youtbe' | 'spotify' | 'facebook' | 'arbitary'
+  stream: String
+  stream_type: String
+  orignal_extractor: String | 'youtube' | 'spotify' | 'facebook' | 'arbitary'
   thumbnail: String
   channelId: String | Number
   channel_url: String
@@ -18,6 +19,6 @@ export type YoutubeTrack = {
 }
 
 export type YoutubeData = {
-  playlist : Boolean,
-  tracks : Array<YoutubeTrack>
+  playlist: Boolean
+  tracks: Array<YoutubeTrack>
 }

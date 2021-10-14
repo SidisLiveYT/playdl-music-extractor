@@ -1,4 +1,4 @@
-const { search, validate, stream } = require('play-dl')
+const { search, validate, stream } = require('play-dl');
 
 class PlayDLExtractor {
   static async DataExtractorYoutube(
@@ -13,29 +13,30 @@ class PlayDLExtractor {
   ) {
     try {
       const PlayDLSearchResults = await search(Query, {
-        limit: validate(Query) === 'yt_playlist' ? 100 : Limit ?? 1,
+        limit:
+          validate(Query) === 'yt_playlist' ? 100 : YoutubeStreamOptions.Limit,
         source:
-          validate(Query) === 'yt_playlist'
+          (validate(Query) === 'yt_playlist'
             ? { youtube: 'playlist' }
-            : validate(Query) === 'yt_video'
-            ? { youtube: 'video' }
-            : undefined,
-      })
+            : null)
+          ?? (validate(Query) === 'yt_video' ? { youtube: 'video' } : undefined),
+      });
       const CacheData = await Promise.all(
-        PlayDLSearchResults.map(async (Video) => {
-          return await PlayDLExtractor.#YoutubeTrackModel(
+        PlayDLSearchResults.map(
+          async (Video) => await PlayDLExtractor.#YoutubeTrackModel(
             Video,
             extractor,
             YoutubeStreamOptions,
             ExtraValue,
-          )
-        }),
-      )
-      return CacheData
+          ),
+        ),
+      );
+      return CacheData;
     } catch (error) {
-      return []
+      return [];
     }
   }
+
   static async #streamdownloader(
     url,
     YoutubeStreamOptions = {
@@ -48,20 +49,21 @@ class PlayDLExtractor {
       url,
       YoutubeStreamOptions
         ? {
-            quality:
-              (YoutubeStreamOptions.Quality.includes(`low`) ? 0 : null) ??
-              (YoutubeStreamOptions.Quality.includes(`medium`)
+          quality:
+              (YoutubeStreamOptions.Quality.includes('low') ? 0 : null)
+              ?? (YoutubeStreamOptions.Quality.includes('medium')
                 ? 1
-                : undefined) ??
-              undefined,
-            proxy: YoutubeStreamOptions.Proxy
-              ? [YoutubeStreamOptions.Proxy]
-              : null ?? undefined,
-          }
+                : undefined)
+              ?? undefined,
+          proxy: YoutubeStreamOptions.Proxy
+            ? [YoutubeStreamOptions.Proxy]
+            : null ?? undefined,
+        }
         : undefined,
-    )
-    return StreamSource
+    );
+    return StreamSource;
   }
+
   static async #YoutubeTrackModel(
     YoutubeVideoRawData,
     extractor = false,
@@ -75,7 +77,7 @@ class PlayDLExtractor {
     const SourceStream = await PlayDLExtractor.#streamdownloader(
       YoutubeVideoRawData.url ?? null,
       YoutubeStreamOptions,
-    )
+    );
     const track = {
       Id: 0,
       url: ExtraValue.url ?? YoutubeVideoRawData.url ?? null,
@@ -92,8 +94,8 @@ class PlayDLExtractor {
         ExtraValue.description ?? YoutubeVideoRawData.description ?? null,
       custom_extractor: 'play-dl',
       duration: ExtraValue.duration ?? YoutubeVideoRawData.durationInSec ?? 0,
-      stream: SourceStream.stream ?? null,
-      stream_type: SourceStream.type ?? null,
+      stream: ExtraValue.stream ?? SourceStream.stream ?? null,
+      stream_type: SourceStream.type ?? undefined,
       orignal_extractor: extractor ?? 'youtube',
       thumbnail:
         ExtraValue.thumbnail ?? YoutubeVideoRawData.thumbnail
@@ -110,9 +112,9 @@ class PlayDLExtractor {
       likes: ExtraValue.likes ?? YoutubeVideoRawData.likes ?? 0,
       is_live: ExtraValue.is_live ?? YoutubeVideoRawData.live ?? false,
       dislikes: ExtraValue.dislikes ?? YoutubeVideoRawData.dislikes ?? 0,
-    }
-    return track
+    };
+    return track;
   }
 }
 
-module.exports = PlayDLExtractor
+module.exports = PlayDLExtractor;

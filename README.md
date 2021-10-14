@@ -55,7 +55,7 @@ Data : {
       custom_extractor: `youtube-dl`,
       duration: 0,
       stream_url: String,
-      orignal_extractor: 'youtbe' | 'spotify' | 'facebook' | 'arbitary',
+      orignal_extractor: 'youtube' | 'spotify' | 'facebook' | 'arbitary',
       thumbnail: String,
       channelId: 0 || String,
       channel_url: String,
