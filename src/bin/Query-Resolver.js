@@ -1,4 +1,5 @@
 const { validate } = require('play-dl');
+const UriCheck = require('is-url');
 const PlayDLExtractor = require('./Track-Extractor');
 
 async function QueryResolver(
@@ -9,8 +10,17 @@ async function QueryResolver(
     Proxy: undefined,
   },
 ) {
-  const YoutubeUrlRegex = /^.*(youtu.be\/|list=|watch=|v=)([^#\&\?]*).*/;
   const ValidateUrlResult = await validate(Query);
+  if (
+    UriCheck(Query)
+    && (!ValidateUrlResult
+      || (ValidateUrlResult && ValidateUrlResult.includes('search')))
+  ) {
+    return {
+      playlist: false,
+      tracks: [],
+    };
+  }
   const YoutubeTracks = {
     playlist:
       !ValidateUrlResult
