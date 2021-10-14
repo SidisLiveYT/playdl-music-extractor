@@ -68,7 +68,7 @@ Data : {
 
 - `Data.tracks[0].stream can be used in terms of stream value in @discordjs/voice or any other Audio package .`
 
-## Use-Case for @discordjs/voice Package
+## Use-Case/Example for @discordjs/voice Package
 
 ```
 const { Extractor } = require('playdl-music-extractor')
