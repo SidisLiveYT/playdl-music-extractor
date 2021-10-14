@@ -78,7 +78,7 @@ async function SpotifyScrapper(
         SpotifyTrackRawData.description
         ?? VideoThumbnailPreview.description
         ?? null,
-      custom_extractor: 'youtube-dl',
+      custom_extractor: 'play-dl',
       duration:
         SpotifyTrackRawData.duration_ms
         ?? (SpotifyTrackRawData.track

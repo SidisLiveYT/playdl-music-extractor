@@ -5,7 +5,7 @@ var YoutubeTrack = {
   author: null,
   author_link: null,
   description: null,
-  custom_extractor: `youtube-dl`,
+  custom_extractor: `play-dl`,
   duration: 0,
   stream: null,
   stream_type: null,

@@ -11,12 +11,11 @@
 PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.
 
 - Object-oriented , means Value returned in a structure format
-- Python Based Browser Extrator -> Need to have Python installed in binary \$PATH
-- Supports 700+ Website's Urls and Even Youtube Search
+- Supports Youtube , Spotify , Reverbnation , SoundCloud , Facebook Urls and Even Youtube Search
 - Delay/Buffer Timeout is max 3 seconds on tracks and 7 sec for Playlists
 - Customisable Extractors
 - Performant
-- 100% coverage of youtube-dl and custom extractors
+- 100% coverage of play-dl and custom extractors
 
 ## Installation
 
@@ -52,7 +51,7 @@ Data : {
       author: String,
       author_link: String,
       description: String,
-      custom_extractor: `youtube-dl`,
+      custom_extractor: `play-dl`,
       duration: 0,
       stream: String,
       stream_type: String,

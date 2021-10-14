@@ -5,10 +5,10 @@ const YoutubeData = require('../typings/instances-commonjs');
 const FacebookResolver = require('./bin/Facebook-Resolver');
 
 /**
- * @function Extractor Youtube-DL Extractor for Music Players Node.jsv16
+ * @function Extractor play-dl Extractor for Music Players Node.jsv16
  * @param {String} Query Query for Searching Data as Tracks , Playlist or albums
  * @param {Object} YoutubeStreamOptions Youtube Stream Options for play-dl
- * @returns {Promise<YoutubeData>} Youtube-DLTracks
+ * @returns {Promise<YoutubeData>} play-dlTracks
  */
 
 async function Extractor(

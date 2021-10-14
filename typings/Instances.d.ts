@@ -5,7 +5,7 @@ export type YoutubeTrack = {
   author: String
   author_link: String
   description: String
-  custom_extractor: `youtube-dl`
+  custom_extractor: `play-dl`
   duration: Number
   stream: String
   stream_type: String
