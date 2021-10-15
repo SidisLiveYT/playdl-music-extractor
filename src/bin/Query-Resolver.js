@@ -8,11 +8,13 @@ async function QueryResolver(
     Limit: 1,
     Quality: undefined,
     Proxy: undefined,
+    IgnoreError: false,
   },
 ) {
   const ValidateUrlResult = await validate(Query);
   if (
     UriCheck(Query)
+    && YoutubeStreamOptions.IgnoreError
     && (!ValidateUrlResult
       || (ValidateUrlResult && ValidateUrlResult.includes('search')))
   ) {
@@ -21,9 +23,19 @@ async function QueryResolver(
       tracks: [],
     };
   }
+  if (
+    UriCheck(Query)
+    && (!ValidateUrlResult
+      || (ValidateUrlResult && ValidateUrlResult.includes('search')))
+  ) {
+    throw Error('Invalid Query or Url for package is Detected');
+  }
   const YoutubeTracks = {
     playlist:
-      !ValidateUrlResult
+      (!ValidateUrlResult
+      || (ValidateUrlResult && ValidateUrlResult.includes('search'))
+        ? false
+        : null)
       ?? ValidateUrlResult.includes('playlist')
       ?? ValidateUrlResult.includes('album')
       ?? false,

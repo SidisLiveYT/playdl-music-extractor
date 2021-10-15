@@ -9,7 +9,7 @@ var YoutubeTrack = {
   duration: 0,
   stream: null,
   stream_type: null,
-  orignal_extractor: null | 'youtube' | 'spotify' | 'facebook' | 'arbitary',
+  orignal_extractor: null | 'youtube' | 'spotify' | 'facebook' | 'arbitrary',
   thumbnail: null,
   channelId: null | 0,
   channel_url: null,

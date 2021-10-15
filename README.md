@@ -35,7 +35,12 @@ const { Extractor } = require('playdl-music-extractor') //For CommonJS
 import { Extractor } from 'playdl-music-extractor' //for ES6
 
 
-var Data = await Extractor(Url || Query)
+var Data = await Extractor(Url || Query, {
+  Limit: 1,
+  Quality: 'highest',
+  Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
+  IgnoreError: true,
+})
 ```
 
 ## Strucutre of Data/Track
@@ -55,7 +60,7 @@ Data : {
       duration: 0,
       stream: String,
       stream_type: String,
-      orignal_extractor: 'youtube' | 'spotify' | 'facebook' | 'arbitary',
+      orignal_extractor: 'youtube' | 'spotify' | 'facebook' | 'arbitrary',
       thumbnail: String,
       channelId: 0 || String,
       channel_url: String,
@@ -74,12 +79,12 @@ Data : {
 const { Extractor } = require('playdl-music-extractor')
 const { createAudioResource } = require('@discordjs/voice')
 
-var Data = await Extractor(Url || "Despacito" , {
+const Data = await Extractor('Despacito', {
   Limit: 1,
   Quality: 'highest',
-  Proxy: ["IP's Domain:PortNumber"],
-  }
-)
+  Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
+  IgnoreError: true,
+})
 
 var Audio_Resource = createAudioResource(Data.tracks[0].stream ,{
   inputType: Data.tracks[0].stream_type

@@ -76,7 +76,7 @@ class SoundCloudExtractor {
       description: SoundCloudRawTrack.description ?? null,
       custom_extractor: 'play-dl -> soundcloud',
       duration: SoundCloudRawTrack.duration ?? null,
-      stream_url:
+      stream:
         SoundCloudRawTrack.streamURL && SoundCloudRawTrack.streamURL !== 'null'
           ? SoundCloudRawTrack.streamURL
           : null ?? null,

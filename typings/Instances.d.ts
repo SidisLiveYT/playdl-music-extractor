@@ -9,7 +9,7 @@ export type YoutubeTrack = {
   duration: Number
   stream: String
   stream_type: String
-  orignal_extractor: String | 'youtube' | 'spotify' | 'facebook' | 'arbitary'
+  orignal_extractor: String | 'youtube' | 'spotify' | 'facebook' | 'arbitrary'
   thumbnail: String
   channelId: String | Number
   channel_url: String
@@ -22,6 +22,7 @@ export type YoutubeStreamOptions = {
   Limit: number
   Quality: String
   Proxy: Array<String>
+  IgnoreError: Boolean
 }
 
 export type YoutubeData = {

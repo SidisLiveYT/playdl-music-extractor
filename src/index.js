@@ -18,6 +18,7 @@ async function Extractor(
     Limit: 1,
     Quality: undefined,
     Proxy: undefined,
+    IgnoreError: false,
   } || undefined,
 ) {
   const SpotifyUrlRegex = /^(?:spotify:|(?:https?:\/\/(?:open|play)\.spotify\.com\/))(?:embed)?\/?(album|track|playlist)(?::|\/)((?:[0-9a-zA-Z]){22})/;
