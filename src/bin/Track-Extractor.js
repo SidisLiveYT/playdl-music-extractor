@@ -90,7 +90,7 @@ class PlayDLExtractor {
         YoutubeVideoRawData.url ?? null,
         YoutubeStreamOptions,
       )
-      : null;
+      : undefined;
     const track = {
       Id: 0,
       url: ExtraValue.url ?? YoutubeVideoRawData.url ?? null,
@@ -107,11 +107,14 @@ class PlayDLExtractor {
         ExtraValue.description ?? YoutubeVideoRawData.description ?? null,
       custom_extractor: 'play-dl',
       duration: ExtraValue.duration ?? YoutubeVideoRawData.durationInSec ?? 0,
-      stream:
-        ExtraValue.stream
-        ?? (SourceStream ? SourceStream.stream : null)
-        ?? null,
-      stream_type: (SourceStream ? SourceStream.type : null) ?? undefined,
+      stream: StreamDownloadBoolenRecord
+        ? ExtraValue.stream
+          ?? (SourceStream ? SourceStream.stream : null)
+          ?? null
+        : undefined,
+      stream_type: StreamDownloadBoolenRecord
+        ? (SourceStream ? SourceStream.type : null) ?? undefined
+        : undefined,
       orignal_extractor: extractor ?? 'youtube',
       thumbnail:
         ExtraValue.thumbnail ?? YoutubeVideoRawData.thumbnail
