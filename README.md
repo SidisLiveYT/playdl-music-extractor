@@ -30,12 +30,19 @@ npm install playdl-music-extractor
 Extractor Video/Playlist/Album Data from any Platform :-
 
 ```
-const { Extractor } = require('playdl-music-extractor') //For CommonJS
+const { Extractor, StreamDownloader } = require('playdl-music-extractor') //For CommonJS
                             OR
-import { Extractor } from 'playdl-music-extractor' //for ES6
+import { Extractor, StreamDownloader } from 'playdl-music-extractor' //for ES6
 
 
 var Data = await Extractor(Url || Query, {
+  Limit: 1,
+  Quality: 'highest',
+  Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
+  IgnoreError: true,
+})
+
+var StreamData = await StreamDownloader(Url || Query, {
   Limit: 1,
   Quality: 'highest',
   Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
@@ -58,7 +65,7 @@ Data : {
       description: String,
       custom_extractor: `play-dl`,
       duration: 0,
-      stream: String,
+      stream: String,  // Stream Related things will be sent via StreamDownloader()
       stream_type: String,
       orignal_extractor: 'youtube' | 'spotify' | 'facebook' | 'arbitrary',
       thumbnail: String,
@@ -71,7 +78,7 @@ Data : {
 }
 ```
 
-- `Data.tracks[0].stream can be used in terms of stream value in @discordjs/voice or any other Audio package .`
+- `Data.tracks[0].stream can be used in terms of stream value in @discordjs/voice or any other Audio package After using - StreamDownloader() .`
 
 ## Use-Case/Example for @discordjs/voice Package
 
