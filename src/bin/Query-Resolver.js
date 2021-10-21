@@ -10,6 +10,7 @@ async function QueryResolver(
     Proxy: undefined,
     IgnoreError: false,
   },
+  StreamDownloadBoolenRecord = null,
 ) {
   const ValidateUrlResult = await validate(Query);
   if (
@@ -43,6 +44,8 @@ async function QueryResolver(
       Query,
       'youtube',
       YoutubeStreamOptions,
+      null,
+      StreamDownloadBoolenRecord,
     ),
   };
   return YoutubeTracks;

@@ -14,6 +14,7 @@ class SoundCloudExtractor {
       Quality: undefined,
       Proxy: undefined,
     } || undefined,
+    StreamDownloadBoolenRecord = null,
   ) {
     if (!SoundCloudExtractor.#TokenGen) {
       SoundCloudExtractor.#TokenGen = await SoundCloud.Util.keygen(true);
@@ -37,6 +38,7 @@ class SoundCloudExtractor {
           async (track) => await SoundCloudExtractor.#SoundCloundTrackModel(
             track,
             YoutubeStreamOptions,
+            StreamDownloadBoolenRecord,
           ),
         ),
       );
@@ -54,6 +56,7 @@ class SoundCloudExtractor {
         await SoundCloudExtractor.#SoundCloundTrackModel(
           SoundCloudRawTrack,
           YoutubeStreamOptions,
+          StreamDownloadBoolenRecord,
         ),
       ],
     };
@@ -66,6 +69,7 @@ class SoundCloudExtractor {
       Quality: undefined,
       Proxy: undefined,
     } || undefined,
+    StreamDownloadBoolenRecord = null,
   ) {
     const track = {
       Id: SoundCloudRawTrack.id,
@@ -94,6 +98,7 @@ class SoundCloudExtractor {
         'souncloud',
         YoutubeStreamOptions,
         track,
+        StreamDownloadBoolenRecord,
       )
     )[0];
   }

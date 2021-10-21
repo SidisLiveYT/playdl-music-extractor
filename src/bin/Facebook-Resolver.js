@@ -8,6 +8,7 @@ async function FacebookExtractor(
     Quality: undefined,
     Proxy: undefined,
   } || undefined,
+  StreamDownloadBoolenRecord = null,
 ) {
   const FacebookData = await FacebookParser(Url);
   return {
@@ -20,8 +21,10 @@ async function FacebookExtractor(
           ? FacebookData.title.slice(0, 35)
           : null)
         ?? null,
+      'facebook',
       YoutubeStreamOptions,
       { stream: FacebookData.link },
+      StreamDownloadBoolenRecord,
     ),
   };
 }

@@ -8,6 +8,7 @@ async function ReverbnationExtractor(
     Quality: undefined,
     Proxy: undefined,
   } || undefined,
+  StreamDownloadBoolenRecord = null,
 ) {
   const ReverbnationData = await ReverbnationParser.getInfo(Url);
   return {
@@ -20,6 +21,7 @@ async function ReverbnationExtractor(
           ? ReverbnationData.title.slice(0, 35)
           : null)
         ?? null,
+      'reverbnation',
       YoutubeStreamOptions,
       {
         stream:
@@ -29,6 +31,7 @@ async function ReverbnationExtractor(
             ? ReverbnationData.songs[0].streamURL
             : undefined,
       },
+      StreamDownloadBoolenRecord,
     ),
   };
 }

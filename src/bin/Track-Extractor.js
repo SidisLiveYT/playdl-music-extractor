@@ -10,6 +10,7 @@ class PlayDLExtractor {
       Proxy: undefined,
     },
     ExtraValue = {},
+    StreamDownloadBoolenRecord = null,
   ) {
     try {
       const PlayDLSearchResults = await search(Query, {
@@ -29,6 +30,7 @@ class PlayDLExtractor {
             extractor,
             YoutubeStreamOptions,
             ExtraValue,
+            StreamDownloadBoolenRecord,
           ),
         ),
       );
@@ -81,11 +83,14 @@ class PlayDLExtractor {
       Proxy: undefined,
     },
     ExtraValue = {},
+    StreamDownloadBoolenRecord = null,
   ) {
-    const SourceStream = await PlayDLExtractor.#streamdownloader(
-      YoutubeVideoRawData.url ?? null,
-      YoutubeStreamOptions,
-    );
+    const SourceStream = StreamDownloadBoolenRecord
+      ? await PlayDLExtractor.#streamdownloader(
+        YoutubeVideoRawData.url ?? null,
+        YoutubeStreamOptions,
+      )
+      : null;
     const track = {
       Id: 0,
       url: ExtraValue.url ?? YoutubeVideoRawData.url ?? null,
@@ -102,8 +107,11 @@ class PlayDLExtractor {
         ExtraValue.description ?? YoutubeVideoRawData.description ?? null,
       custom_extractor: 'play-dl',
       duration: ExtraValue.duration ?? YoutubeVideoRawData.durationInSec ?? 0,
-      stream: ExtraValue.stream ?? SourceStream.stream ?? null,
-      stream_type: SourceStream.type ?? undefined,
+      stream:
+        ExtraValue.stream
+        ?? (SourceStream ? SourceStream.stream : null)
+        ?? null,
+      stream_type: (SourceStream ? SourceStream.type : null) ?? undefined,
       orignal_extractor: extractor ?? 'youtube',
       thumbnail:
         ExtraValue.thumbnail ?? YoutubeVideoRawData.thumbnail

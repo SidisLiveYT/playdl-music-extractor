@@ -8,12 +8,14 @@ async function SpotifyScrapper(
     Quality: undefined,
     Proxy: undefined,
   } || undefined,
+  StreamDownloadBoolenRecord = null,
 ) {
   const SpotifyTracksRawData = await getData(Url);
   if (SpotifyTracksRawData.type === 'track') {
     const CacheTrack = await SpotifyTrackExtractor(
       SpotifyTracksRawData,
       YoutubeStreamOptions,
+      StreamDownloadBoolenRecord,
     );
     return {
       playlist: false,
@@ -23,7 +25,11 @@ async function SpotifyScrapper(
 
   const ProcessedTracks = await Promise.all(
     SpotifyTracksRawData.tracks.items.map(
-      async (Track) => await SpotifyTrackExtractor(Track, YoutubeStreamOptions),
+      async (Track) => await SpotifyTrackExtractor(
+        Track,
+        YoutubeStreamOptions,
+        StreamDownloadBoolenRecord,
+      ),
     ),
   );
 
@@ -39,6 +45,7 @@ async function SpotifyScrapper(
       Quality: undefined,
       Proxy: undefined,
     } || undefined,
+    StreamDownloadBoolenRecord = null,
   ) {
     const VideoThumbnailPreview = await getPreview(
       SpotifyTrackRawData.external_urls
@@ -98,6 +105,7 @@ async function SpotifyScrapper(
       'spotify',
       YoutubeStreamOptions,
       track,
+      StreamDownloadBoolenRecord,
     );
     return CompleteTracks[0];
   }

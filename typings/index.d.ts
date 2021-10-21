@@ -4,3 +4,8 @@ export function Extractor (
   Query: String,
   YoutubeStreamOptions: YoutubeStreamOptions
 ): Promise<YoutubeData> | undefined
+
+export function StreamDownloader (
+  Query: String,
+  YoutubeStreamOptions: YoutubeStreamOptions
+): Promise<YoutubeData> | undefined
