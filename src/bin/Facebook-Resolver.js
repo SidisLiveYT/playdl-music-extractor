@@ -8,7 +8,7 @@ async function FacebookExtractor(
     Quality: undefined,
     Proxy: undefined,
   } || undefined,
-  StreamDownloadBoolenRecord = null,
+  StreamDownloadBoolenRecord = undefined,
 ) {
   const FacebookData = await FacebookParser(Url);
   return {
@@ -16,11 +16,11 @@ async function FacebookExtractor(
     tracks: await PlayDLExtractor.DataExtractorYoutube(
       (FacebookData && FacebookData.title
         ? FacebookData.title.slice(0, 35)
-        : null)
+        : undefined)
         ?? (FacebookData && FacebookData[0] && FacebookData[0].title
           ? FacebookData.title.slice(0, 35)
-          : null)
-        ?? null,
+          : undefined)
+        ?? undefined,
       'facebook',
       YoutubeStreamOptions,
       { stream: FacebookData.link },

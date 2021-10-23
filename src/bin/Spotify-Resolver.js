@@ -8,7 +8,7 @@ async function SpotifyScrapper(
     Quality: undefined,
     Proxy: undefined,
   } || undefined,
-  StreamDownloadBoolenRecord = null,
+  StreamDownloadBoolenRecord = undefined,
 ) {
   const SpotifyTracksRawData = await getData(Url);
   if (SpotifyTracksRawData.type === 'track') {
@@ -45,7 +45,7 @@ async function SpotifyScrapper(
       Quality: undefined,
       Proxy: undefined,
     } || undefined,
-    StreamDownloadBoolenRecord = null,
+    StreamDownloadBoolenRecord = undefined,
   ) {
     const VideoThumbnailPreview = await getPreview(
       SpotifyTrackRawData.external_urls
@@ -59,12 +59,12 @@ async function SpotifyScrapper(
           ? SpotifyTrackRawData.external_urls.spotify
           : SpotifyTrackRawData.track.external_urls.spotify)
         ?? VideoThumbnailPreview.link
-        ?? null,
+        ?? undefined,
       title:
         SpotifyTrackRawData.name
-        ?? (SpotifyTrackRawData.track ? SpotifyTrackRawData.track.name : null)
+        ?? (SpotifyTrackRawData.track ? SpotifyTrackRawData.track.name : undefined)
         ?? VideoThumbnailPreview.title
-        ?? null,
+        ?? undefined,
       author:
         (SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
           ? SpotifyTrackRawData.artists[0].name
@@ -72,7 +72,7 @@ async function SpotifyScrapper(
             && SpotifyTrackRawData.track.artists
             && SpotifyTrackRawData.track.artists[0]
             ? SpotifyTrackRawData.track.artists[0].name
-            : null) ?? null,
+            : undefined) ?? undefined,
       author_link:
         (SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
           ? SpotifyTrackRawData.artists[0].url
@@ -80,25 +80,25 @@ async function SpotifyScrapper(
             && SpotifyTrackRawData.track.artists
             && SpotifyTrackRawData.track.artists[0]
             ? SpotifyTrackRawData.track.artists[0].url
-            : null) ?? null,
+            : undefined) ?? undefined,
       description:
         SpotifyTrackRawData.description
         ?? VideoThumbnailPreview.description
-        ?? null,
+        ?? undefined,
       custom_extractor: 'play-dl',
       duration:
         SpotifyTrackRawData.duration_ms
         ?? (SpotifyTrackRawData.track
           ? SpotifyTrackRawData.track.duration_ms
-          : null)
-        ?? null,
+          : undefined)
+        ?? undefined,
       orignal_extractor: 'spotify',
-      thumbnail: VideoThumbnailPreview.image ?? null,
-      channelId: null,
-      channel_url: null,
-      likes: null,
+      thumbnail: VideoThumbnailPreview.image ?? undefined,
+      channelId: undefined,
+      channel_url: undefined,
+      likes: undefined,
       is_live: false,
-      dislikes: null,
+      dislikes: undefined,
     };
     const CompleteTracks = await PlayDLExtractor.DataExtractorYoutube(
       track.title,

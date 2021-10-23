@@ -3,14 +3,14 @@ const { search, validate, stream } = require('play-dl');
 class PlayDLExtractor {
   static async DataExtractorYoutube(
     Query,
-    extractor = null,
+    extractor = undefined,
     YoutubeStreamOptions = {
       Limit: 1,
       Quality: undefined,
       Proxy: undefined,
     },
     ExtraValue = {},
-    StreamDownloadBoolenRecord = null,
+    StreamDownloadBoolenRecord = undefined,
   ) {
     try {
       const PlayDLSearchResults = await search(Query, {
@@ -19,7 +19,7 @@ class PlayDLExtractor {
         source:
           (validate(Query) === 'yt_playlist'
             ? { youtube: 'playlist' }
-            : null)
+            : undefined)
           ?? (validate(Query) === 'yt_video' ? { youtube: 'video' } : undefined)
           ?? undefined,
       });
@@ -29,7 +29,7 @@ class PlayDLExtractor {
             Video,
             extractor,
             YoutubeStreamOptions,
-            ExtraValue,
+            ExtraValue ?? {},
             StreamDownloadBoolenRecord,
           ),
         ),
@@ -57,7 +57,7 @@ class PlayDLExtractor {
               && YoutubeStreamOptions.Quality
               && YoutubeStreamOptions.Quality.includes('low')
                 ? 0
-                : null)
+                : undefined)
               ?? (YoutubeStreamOptions
               && YoutubeStreamOptions.Quality
               && YoutubeStreamOptions.Quality.includes('medium')
@@ -67,7 +67,7 @@ class PlayDLExtractor {
           proxy:
               (YoutubeStreamOptions.Proxy
                 ? [YoutubeStreamOptions.Proxy]
-                : null) ?? undefined,
+                : undefined) ?? undefined,
         }
         : undefined,
     );
@@ -76,58 +76,58 @@ class PlayDLExtractor {
 
   static async #YoutubeTrackModel(
     YoutubeVideoRawData,
-    extractor = null,
+    extractor = undefined,
     YoutubeStreamOptions = {
       Limit: 1,
       Quality: undefined,
       Proxy: undefined,
     },
     ExtraValue = {},
-    StreamDownloadBoolenRecord = null,
+    StreamDownloadBoolenRecord = undefined,
   ) {
     const SourceStream = StreamDownloadBoolenRecord
       ? await PlayDLExtractor.#streamdownloader(
-        YoutubeVideoRawData.url ?? null,
+        YoutubeVideoRawData.url ?? undefined,
         YoutubeStreamOptions,
       )
       : undefined;
     const track = {
       Id: 0,
-      url: ExtraValue.url ?? YoutubeVideoRawData.url ?? null,
-      title: ExtraValue.title ?? YoutubeVideoRawData.title ?? null,
+      url: ExtraValue.url ?? YoutubeVideoRawData.url ?? undefined,
+      title: ExtraValue.title ?? YoutubeVideoRawData.title ?? undefined,
       author:
         ExtraValue.author ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.name
-          : null ?? null,
+          : undefined ?? undefined,
       author_link:
         ExtraValue.author_link ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.url
-          : null ?? null,
+          : undefined ?? undefined,
       description:
-        ExtraValue.description ?? YoutubeVideoRawData.description ?? null,
+        ExtraValue.description ?? YoutubeVideoRawData.description ?? undefined,
       custom_extractor: 'play-dl',
       duration: ExtraValue.duration ?? YoutubeVideoRawData.durationInSec ?? 0,
       stream: StreamDownloadBoolenRecord
         ? ExtraValue.stream
-          ?? (SourceStream ? SourceStream.stream : null)
-          ?? null
+          ?? (SourceStream ? SourceStream.stream : undefined)
+          ?? undefined
         : undefined,
       stream_type: StreamDownloadBoolenRecord
-        ? (SourceStream ? SourceStream.type : null) ?? undefined
+        ? (SourceStream ? SourceStream.type : undefined) ?? undefined
         : undefined,
       orignal_extractor: extractor ?? 'youtube',
       thumbnail:
         ExtraValue.thumbnail ?? YoutubeVideoRawData.thumbnail
           ? YoutubeVideoRawData.thumbnail.url
-          : null ?? null,
+          : undefined ?? undefined,
       channelId:
         ExtraValue.author ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.id
-          : null ?? null,
+          : undefined ?? undefined,
       channel_url:
         ExtraValue.author_link ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.url
-          : null ?? null,
+          : undefined ?? undefined,
       likes: ExtraValue.likes ?? YoutubeVideoRawData.likes ?? 0,
       is_live: ExtraValue.is_live ?? YoutubeVideoRawData.live ?? false,
       dislikes: ExtraValue.dislikes ?? YoutubeVideoRawData.dislikes ?? 0,

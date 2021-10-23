@@ -10,7 +10,7 @@ async function QueryResolver(
     Proxy: undefined,
     IgnoreError: false,
   },
-  StreamDownloadBoolenRecord = null,
+  StreamDownloadBoolenRecord = undefined,
 ) {
   const ValidateUrlResult = await validate(Query);
   if (
@@ -36,7 +36,7 @@ async function QueryResolver(
       (!ValidateUrlResult
       || (ValidateUrlResult && ValidateUrlResult.includes('search'))
         ? false
-        : null)
+        : undefined)
       ?? ValidateUrlResult.includes('playlist')
       ?? ValidateUrlResult.includes('album')
       ?? false,
@@ -44,7 +44,7 @@ async function QueryResolver(
       Query,
       'youtube',
       YoutubeStreamOptions,
-      null,
+      undefined,
       StreamDownloadBoolenRecord,
     ),
   };

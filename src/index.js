@@ -38,6 +38,13 @@ async function Extractor(
   return await QueryResolver(Query, YoutubeStreamOptions);
 }
 
+/**
+ * @function StreamDownloader play-dl Stream Downloader for Music Players Node.jsv16
+ * @param {String} Query Query for Searching Data as Tracks , Playlist or albums
+ * @param {Object} YoutubeStreamOptions Youtube Stream Options for play-dl
+ * @returns {Promise<YoutubeData>} play-dlTracks
+ */
+
 async function StreamDownloader(
   Query,
   YoutubeStreamOptions = {

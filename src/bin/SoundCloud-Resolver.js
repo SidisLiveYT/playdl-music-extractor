@@ -2,9 +2,9 @@ const SoundCloud = require('@sidislive/soundcloud-scraper');
 const PlayDLExtractor = require('./Track-Extractor');
 
 class SoundCloudExtractor {
-  static #TokenGen = null
+  static #TokenGen = undefined
 
-  static #Client = null
+  static #Client = undefined
 
   static async SoundCloudResolver(
     Query,
@@ -14,7 +14,7 @@ class SoundCloudExtractor {
       Quality: undefined,
       Proxy: undefined,
     } || undefined,
-    StreamDownloadBoolenRecord = null,
+    StreamDownloadBoolenRecord = undefined,
   ) {
     if (!SoundCloudExtractor.#TokenGen) {
       SoundCloudExtractor.#TokenGen = await SoundCloud.Util.keygen(true);
@@ -69,28 +69,28 @@ class SoundCloudExtractor {
       Quality: undefined,
       Proxy: undefined,
     } || undefined,
-    StreamDownloadBoolenRecord = null,
+    StreamDownloadBoolenRecord = undefined,
   ) {
     const track = {
       Id: SoundCloudRawTrack.id,
-      url: SoundCloudRawTrack.url ?? null,
-      title: SoundCloudRawTrack.title ?? null,
-      author: SoundCloudRawTrack.author.name ?? null,
-      author_link: SoundCloudRawTrack.author.url ?? null,
-      description: SoundCloudRawTrack.description ?? null,
+      url: SoundCloudRawTrack.url ?? undefined,
+      title: SoundCloudRawTrack.title ?? undefined,
+      author: SoundCloudRawTrack.author.name ?? undefined,
+      author_link: SoundCloudRawTrack.author.url ?? undefined,
+      description: SoundCloudRawTrack.description ?? undefined,
       custom_extractor: 'play-dl -> soundcloud',
-      duration: SoundCloudRawTrack.duration ?? null,
+      duration: SoundCloudRawTrack.duration ?? undefined,
       stream:
-        SoundCloudRawTrack.streamURL && SoundCloudRawTrack.streamURL !== 'null'
+        SoundCloudRawTrack.streamURL && SoundCloudRawTrack.streamURL !== 'undefined'
           ? SoundCloudRawTrack.streamURL
-          : null ?? null,
+          : undefined ?? undefined,
       orignal_extractor: 'soundcloud',
-      thumbnail: SoundCloudRawTrack.thumbnail ?? null,
-      channelId: null,
-      channel_url: null,
-      likes: SoundCloudRawTrack.likes ?? null,
+      thumbnail: SoundCloudRawTrack.thumbnail ?? undefined,
+      channelId: undefined,
+      channel_url: undefined,
+      likes: SoundCloudRawTrack.likes ?? undefined,
       is_live: false,
-      dislikes: null,
+      dislikes: undefined,
     };
     return (
       await PlayDLExtractor.DataExtractorYoutube(
