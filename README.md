@@ -78,6 +78,7 @@ Data : {
 }
 ```
 
+- `Extractor() can be used if you need only the info about the Query from various platforms`
 - `Data.tracks[0].stream can be used in terms of stream value in @discordjs/voice or any other Audio package After using - StreamDownloader() .`
 
 ## Use-Case/Example for @discordjs/voice Package

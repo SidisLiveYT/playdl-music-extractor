@@ -62,7 +62,9 @@ async function SpotifyScrapper(
         ?? undefined,
       title:
         SpotifyTrackRawData.name
-        ?? (SpotifyTrackRawData.track ? SpotifyTrackRawData.track.name : undefined)
+        ?? (SpotifyTrackRawData.track
+          ? SpotifyTrackRawData.track.name
+          : undefined)
         ?? VideoThumbnailPreview.title
         ?? undefined,
       author:
@@ -101,7 +103,7 @@ async function SpotifyScrapper(
       dislikes: undefined,
     };
     const CompleteTracks = await PlayDLExtractor.DataExtractorYoutube(
-      track.title,
+      `${track.title} ${track.author.slice(0, 10)}`,
       'spotify',
       YoutubeStreamOptions,
       track,

@@ -81,7 +81,8 @@ class SoundCloudExtractor {
       custom_extractor: 'play-dl -> soundcloud',
       duration: SoundCloudRawTrack.duration ?? undefined,
       stream:
-        SoundCloudRawTrack.streamURL && SoundCloudRawTrack.streamURL !== 'undefined'
+        SoundCloudRawTrack.streamURL
+        && SoundCloudRawTrack.streamURL !== 'undefined'
           ? SoundCloudRawTrack.streamURL
           : undefined ?? undefined,
       orignal_extractor: 'soundcloud',
@@ -94,7 +95,7 @@ class SoundCloudExtractor {
     };
     return (
       await PlayDLExtractor.DataExtractorYoutube(
-        track.title,
+        `${track.title} ${track.author.slice(0, 10)}`,
         'souncloud',
         YoutubeStreamOptions,
         track,
