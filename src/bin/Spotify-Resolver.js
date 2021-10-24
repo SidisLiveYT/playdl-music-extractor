@@ -34,7 +34,7 @@ async function SpotifyScrapper(
   );
 
   return {
-    playlist: false,
+    playlist: true,
     tracks: ProcessedTracks,
   };
 
