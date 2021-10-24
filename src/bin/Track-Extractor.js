@@ -95,6 +95,10 @@ class PlayDLExtractor {
       Id: 0,
       url: ExtraValue.url ?? YoutubeVideoRawData.url ?? undefined,
       title: ExtraValue.title ?? YoutubeVideoRawData.title ?? undefined,
+      video_Id:
+        ExtraValue && ExtraValue.id !== 0
+          ? ExtraValue.id
+          : YoutubeVideoRawData.id ?? undefined,
       author:
         ExtraValue.author ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.name

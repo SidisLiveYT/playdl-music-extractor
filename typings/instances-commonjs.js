@@ -2,6 +2,7 @@ var YoutubeTrack = {
   Id: 0,
   url: null,
   title: null,
+  video_Id: null,
   author: null,
   author_link: null,
   description: null,
