@@ -30,9 +30,9 @@ npm install playdl-music-extractor
 Extractor Video/Playlist/Album Data from any Platform :-
 
 ```
-const { Extractor, StreamDownloader } = require('playdl-music-extractor') //For CommonJS
+const { Extractor, StreamDownloader , HumanTimeConversion } = require('playdl-music-extractor') //For CommonJS
                             OR
-import { Extractor, StreamDownloader } from 'playdl-music-extractor' //for ES6
+import { Extractor, StreamDownloader , HumanTimeConversion } from 'playdl-music-extractor' //for ES6
 
 
 var Data = await Extractor(Url || Query, {
@@ -48,6 +48,8 @@ var StreamData = await StreamDownloader(Url || Query, {
   Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
   IgnoreError: true,
 })
+
+var HumanTime = HumanTimeConversion(Milliseconds)
 ```
 
 ## Strucutre of Data/Track
@@ -58,27 +60,27 @@ Data : {
   tracks : [
     {
       Id: 0,
-      url: String,
-      title: String,
-      video_Id: String,
-      author: String,
-      author_link: String,
-      description: String,
-      custom_extractor: `play-dl`,
+      url: null,
+      title: null,
+      author: null,
+      author_link: null,
+      description: null,
+      custom_extractor: `youtube-dl`,
       duration: 0,
-      human_duration: 0
-      stream: String,  // Stream Related things will be sent via StreamDownloader()
-      stream_type: String,
-      stream_video_Id: String,
-      orignal_extractor: 'youtube' | 'spotify' | 'facebook' | 'arbitrary',
-      thumbnail: String,
-      channelId: 0 || String,
-      channel_url: String,
+      human_duration: undefined,
+      preview_stream_url: null,
+      stream: null,
+      stream_type: undefined,
+      stream_duration: 0,
+      stream_video_Id: undefined,
+      stream_human_duration: undefined,
+      orignal_extractor: null | 'youtube' | 'spotify' | 'facebook' | 'arbitrary',
+      thumbnail: null,
+      channelId: 'none' | 0,
+      channel_url: null,
       likes: 0,
       is_live: false,
       dislikes: 0,
-      stream_duration: 0,
-      human_stream_duration: 0,
 }]
 }
 ```

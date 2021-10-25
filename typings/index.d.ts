@@ -9,3 +9,7 @@ export function StreamDownloader (
   Query: String,
   YoutubeStreamOptions: YoutubeStreamOptions
 ): Promise<YoutubeData> | undefined
+
+export function HumanTimeConversion (
+  DurationMilliSeconds: Number
+): String | undefined

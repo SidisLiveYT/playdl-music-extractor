@@ -94,8 +94,8 @@ class PlayDLExtractor {
     const track = {
       Id: 0,
       url: ExtraValue.url ?? YoutubeVideoRawData.url ?? undefined,
-      title: ExtraValue.title ?? YoutubeVideoRawData.title ?? undefined,
       video_Id: ExtraValue.video_Id ?? YoutubeVideoRawData.id ?? undefined,
+      title: ExtraValue.title ?? YoutubeVideoRawData.title ?? undefined,
       author:
         ExtraValue.author ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.name
@@ -112,7 +112,7 @@ class PlayDLExtractor {
           ? 0
           : ExtraValue.duration
             ?? (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
-      human_duration: PlayDLExtractor.#__humanTimeConversion(
+      human_duration: PlayDLExtractor.HumanTimeConversion(
         ExtraValue.is_live || YoutubeVideoRawData.live
           ? 0
           : ExtraValue.duration
@@ -126,8 +126,20 @@ class PlayDLExtractor {
       stream_type: StreamDownloadBoolenRecord
         ? (SourceStream ? SourceStream.type : undefined) ?? undefined
         : undefined,
+      stream_duration: StreamDownloadBoolenRecord
+        ? ExtraValue.is_live || YoutubeVideoRawData.live
+          ? 0
+          : YoutubeVideoRawData.durationInSec * 1000
+        : undefined,
       stream_video_Id:
         YoutubeVideoRawData.id ?? ExtraValue.video_Id ?? undefined,
+      stream_human_duration: StreamDownloadBoolenRecord
+        ? PlayDLExtractor.HumanTimeConversion(
+          ExtraValue.is_live || YoutubeVideoRawData.live
+            ? 0
+            : (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
+        )
+        : undefined,
       orignal_extractor: extractor ?? 'youtube',
       thumbnail:
         ExtraValue.thumbnail ?? YoutubeVideoRawData.thumbnail
@@ -144,24 +156,14 @@ class PlayDLExtractor {
       likes: ExtraValue.likes ?? YoutubeVideoRawData.likes ?? 0,
       is_live: ExtraValue.is_live ?? YoutubeVideoRawData.live ?? false,
       dislikes: ExtraValue.dislikes ?? YoutubeVideoRawData.dislikes ?? 0,
-      stream_duration: StreamDownloadBoolenRecord
-        ? ExtraValue.is_live || YoutubeVideoRawData.live
-          ? 0
-          : YoutubeVideoRawData.durationInSec * 1000
-        : undefined,
-      human_stream_duration: StreamDownloadBoolenRecord
-        ? PlayDLExtractor.#__humanTimeConversion(
-          ExtraValue.is_live || YoutubeVideoRawData.live
-            ? 0
-            : (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
-        )
-        : undefined,
     };
     return track;
   }
 
-  static #__humanTimeConversion(DurationMilliSeconds = 0) {
-    const ProcessedString = undefined;
+  static HumanTimeConversion(DurationMilliSeconds = 0) {
+    if (typeof DurationMilliSeconds !== 'number') return void null;
+    DurationMilliSeconds /= 1000;
+    let ProcessedString = '';
     for (
       let DurationArray = [
           [Math.floor(DurationMilliSeconds / 31536e3), 'Years'],
@@ -176,9 +178,13 @@ class PlayDLExtractor {
             ),
             'Minutes',
           ],
-          [(((DurationMilliSeconds % 31536e3) % 86400) % 3600) % 60, 'Seconds'],
+          [
+            Math.floor(
+              (((DurationMilliSeconds % 31536e3) % 86400) % 3600) % 60,
+            ),
+            'Seconds',
+          ],
         ],
-        ProcessedString = '',
         SideArray = 0,
         GarbageValue = DurationArray.length;
       SideArray < GarbageValue;

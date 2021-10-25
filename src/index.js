@@ -4,6 +4,7 @@ const SoundCloudExtractor = require('./bin/SoundCloud-Resolver');
 const YoutubeData = require('../typings/instances-commonjs');
 const FacebookResolver = require('./bin/Facebook-Resolver');
 const ReverbnationResolver = require('./bin/Reverbnation-Resolver');
+const { HumanTimeConversion } = require('./bin/Track-Extractor');
 
 /**
  * @function Extractor play-dl Extractor for Music Players Node.jsv16
@@ -100,4 +101,4 @@ function Filteration(DataStructure) {
   return DataStructure;
 }
 
-module.exports = { Extractor, StreamDownloader };
+module.exports = { Extractor, StreamDownloader, HumanTimeConversion };
