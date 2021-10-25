@@ -25,17 +25,19 @@ async function Extractor(
   const SoundCloundUrlRegex = /^(?:(https?):\/\/)?(?:(?:www|m)\.)?(soundcloud\.com|snd\.sc)\/(.*)$/;
   const FacebookVideoUrlRegex = /(?:https?:\/{2})?(?:w{3}\.)?(facebook|fb).com\/.*\/videos\/.*/;
   if (!Query || (Query && typeof Query !== 'string')) throw TypeError('Query is invalid or is not String');
-  if (Query.match(SpotifyUrlRegex)) return await SpotifyExtractor(Query, YoutubeStreamOptions);
-  if (Query.match(FacebookVideoUrlRegex)) return await FacebookResolver(Query, YoutubeStreamOptions);
+  if (Query.match(SpotifyUrlRegex)) return Filteration(await SpotifyExtractor(Query, YoutubeStreamOptions));
+  if (Query.match(FacebookVideoUrlRegex)) return Filteration(await FacebookResolver(Query, YoutubeStreamOptions));
   if (Query.match(SoundCloundUrlRegex)) {
-    return await SoundCloudExtractor.SoundCloudResolver(
-      Query,
-      Query.match(SoundCloundUrlRegex),
-      YoutubeStreamOptions,
+    return Filteration(
+      await SoundCloudExtractor.SoundCloudResolver(
+        Query,
+        Query.match(SoundCloundUrlRegex),
+        YoutubeStreamOptions,
+      ),
     );
   }
-  if (Query.toLowerCase().includes('www.reverbnation.com')) return await ReverbnationResolver(Query, YoutubeStreamOptions);
-  return await QueryResolver(Query, YoutubeStreamOptions);
+  if (Query.toLowerCase().includes('www.reverbnation.com')) return Filteration(await ReverbnationResolver(Query, YoutubeStreamOptions));
+  return Filteration(await QueryResolver(Query, YoutubeStreamOptions));
 }
 
 /**
@@ -58,18 +60,44 @@ async function StreamDownloader(
   const SoundCloundUrlRegex = /^(?:(https?):\/\/)?(?:(?:www|m)\.)?(soundcloud\.com|snd\.sc)\/(.*)$/;
   const FacebookVideoUrlRegex = /(?:https?:\/{2})?(?:w{3}\.)?(facebook|fb).com\/.*\/videos\/.*/;
   if (!Query || (Query && typeof Query !== 'string')) throw TypeError('Query is invalid or is not String');
-  if (Query.match(SpotifyUrlRegex)) return await SpotifyExtractor(Query, YoutubeStreamOptions, true);
-  if (Query.match(FacebookVideoUrlRegex)) return await FacebookResolver(Query, YoutubeStreamOptions, true);
-  if (Query.match(SoundCloundUrlRegex)) {
-    return await SoundCloudExtractor.SoundCloudResolver(
-      Query,
-      Query.match(SoundCloundUrlRegex),
-      YoutubeStreamOptions,
-      true,
+  if (Query.match(SpotifyUrlRegex)) {
+    return Filteration(
+      await SpotifyExtractor(Query, YoutubeStreamOptions, true),
     );
   }
-  if (Query.toLowerCase().includes('www.reverbnation.com')) return await ReverbnationResolver(Query, YoutubeStreamOptions, true);
-  return await QueryResolver(Query, YoutubeStreamOptions, true);
+  if (Query.match(FacebookVideoUrlRegex)) {
+    return Filteration(
+      await FacebookResolver(Query, YoutubeStreamOptions, true),
+    );
+  }
+  if (Query.match(SoundCloundUrlRegex)) {
+    return Filteration(
+      await SoundCloudExtractor.SoundCloudResolver(
+        Query,
+        Query.match(SoundCloundUrlRegex),
+        YoutubeStreamOptions,
+        true,
+      ),
+    );
+  }
+  if (Query.toLowerCase().includes('www.reverbnation.com')) {
+    return Filteration(
+      await ReverbnationResolver(Query, YoutubeStreamOptions, true),
+    );
+  }
+  return Filteration(await QueryResolver(Query, YoutubeStreamOptions, true));
+}
+
+function Filteration(DataStructure) {
+  if (DataStructure && DataStructure.tracks && DataStructure.tracks[0]) DataStructure.tracks = DataStructure.tracks.filter(Boolean);
+  else if (
+    DataStructure
+    && DataStructure.tracks
+    && !DataStructure.tracks[0]
+    && DataStructure.tracks.length > 1
+  ) DataStructure.tracks = DataStructure.tracks.filter(Boolean);
+
+  return DataStructure;
 }
 
 module.exports = { Extractor, StreamDownloader };
