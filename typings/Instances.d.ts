@@ -1,5 +1,5 @@
 export type YoutubeTrack = {
-  Id: 0
+  Id: Number
   url: String
   title: String
   video_Id: String
@@ -8,8 +8,10 @@ export type YoutubeTrack = {
   description: String
   custom_extractor: `play-dl`
   duration: Number
+  human_duration: Number
   stream: String
   stream_type: String
+  stream_video_Id: String
   orignal_extractor: String | 'youtube' | 'spotify' | 'facebook' | 'arbitrary'
   thumbnail: String
   channelId: String | Number
@@ -17,6 +19,8 @@ export type YoutubeTrack = {
   likes: Number
   is_live: Boolean
   dislikes: Number
+  stream_duration: number
+  human_stream_duration: Number
 }
 
 export type YoutubeStreamOptions = {

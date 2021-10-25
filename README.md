@@ -66,8 +66,10 @@ Data : {
       description: String,
       custom_extractor: `play-dl`,
       duration: 0,
+      human_duration: 0
       stream: String,  // Stream Related things will be sent via StreamDownloader()
       stream_type: String,
+      stream_video_Id: String,
       orignal_extractor: 'youtube' | 'spotify' | 'facebook' | 'arbitrary',
       thumbnail: String,
       channelId: 0 || String,
@@ -75,20 +77,23 @@ Data : {
       likes: 0,
       is_live: false,
       dislikes: 0,
+      stream_duration: 0,
+      human_stream_duration: 0,
 }]
 }
 ```
 
-- `Extractor() can be used if you need only the info about the Query from various platforms`
+- `Extractor() is same as StreamDownloader() but it will not download info related to Streams like - "stream","stream_type" and e.t.c , just the info about the Query`
+- `"<Track>.stream_duration" is Stream Duration in Milliseconds as Stream is from Youtube`
 - `Data.tracks[0].stream can be used in terms of stream value in @discordjs/voice or any other Audio package After using - StreamDownloader() .`
 
 ## Use-Case for @discordjs/voice Package
 
 ```
-const { Extractor } = require('playdl-music-extractor')
+const { StreamDownloader } = require('playdl-music-extractor')
 const { createAudioResource } = require('@discordjs/voice')
 
-const Data = await Extractor('Despacito', {
+const Data = await StreamDownloader('Despacito', {
   Limit: 1,
   Quality: 'highest',
   Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
@@ -99,7 +104,13 @@ var Audio_Resource = createAudioResource(Data.tracks[0].stream ,{
   inputType: Data.tracks[0].stream_type
 })
 
-//Rest is mentioned in @discordjs/voice examples , from here "Audio_Resource" is important
+
+/*
+
+- Rest is mentioned in @discordjs/voice examples , from here "Audio_Resource" is important
+- Extractor() is same as StreamDownloader() but it will not download info related to Streams like - "stream","stream_type" and e.t.c , just the info about the Query
+
+*/
 
 ```
 

@@ -67,6 +67,12 @@ async function SpotifyScrapper(
             : undefined)
           ?? VideoThumbnailPreview.title
           ?? undefined,
+        video_Id:
+          (SpotifyTrackRawData.track
+            ? SpotifyTrackRawData.track.id
+            : undefined)
+          ?? SpotifyTrackRawData.id
+          ?? undefined,
         author:
           (SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
             ? SpotifyTrackRawData.artists[0].name
