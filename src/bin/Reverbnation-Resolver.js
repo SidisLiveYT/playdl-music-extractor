@@ -10,30 +10,37 @@ async function ReverbnationExtractor(
   } || undefined,
   StreamDownloadBoolenRecord = undefined,
 ) {
-  const ReverbnationData = await ReverbnationParser.getInfo(Url);
-  return {
-    playlist: false,
-    tracks: await PlayDLExtractor.DataExtractorYoutube(
-      (ReverbnationData && ReverbnationData.title
-        ? ReverbnationData.title.slice(0, 35)
-        : undefined)
-        ?? (ReverbnationData && ReverbnationData[0] && ReverbnationData[0].title
+  try {
+    const ReverbnationData = await ReverbnationParser.getInfo(Url);
+    return {
+      playlist: false,
+      tracks: await PlayDLExtractor.DataExtractorYoutube(
+        (ReverbnationData && ReverbnationData.title
           ? ReverbnationData.title.slice(0, 35)
           : undefined)
-        ?? undefined,
-      'reverbnation',
-      YoutubeStreamOptions,
-      {
-        stream:
-          ReverbnationData
-          && ReverbnationData.songs
-          && ReverbnationData.songs[0]
-            ? ReverbnationData.songs[0].streamURL
-            : undefined,
-      },
-      StreamDownloadBoolenRecord,
-    ),
-  };
+          ?? (ReverbnationData && ReverbnationData[0] && ReverbnationData[0].title
+            ? ReverbnationData.title.slice(0, 35)
+            : undefined)
+          ?? undefined,
+        'reverbnation',
+        YoutubeStreamOptions,
+        {
+          stream:
+            ReverbnationData
+            && ReverbnationData.songs
+            && ReverbnationData.songs[0]
+              ? ReverbnationData.songs[0].streamURL
+              : undefined,
+        },
+        StreamDownloadBoolenRecord,
+      ),
+    };
+  } catch (error) {
+    return {
+      playlist: false,
+      tracks: [],
+    };
+  }
 }
 
 module.exports = ReverbnationExtractor;

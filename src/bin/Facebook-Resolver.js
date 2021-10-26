@@ -10,23 +10,30 @@ async function FacebookExtractor(
   } || undefined,
   StreamDownloadBoolenRecord = undefined,
 ) {
-  const FacebookData = await FacebookParser(Url);
-  return {
-    playlist: false,
-    tracks: await PlayDLExtractor.DataExtractorYoutube(
-      (FacebookData && FacebookData.title
-        ? FacebookData.title.slice(0, 35)
-        : undefined)
-        ?? (FacebookData && FacebookData[0] && FacebookData[0].title
+  try {
+    const FacebookData = await FacebookParser(Url);
+    return {
+      playlist: false,
+      tracks: await PlayDLExtractor.DataExtractorYoutube(
+        (FacebookData && FacebookData.title
           ? FacebookData.title.slice(0, 35)
           : undefined)
-        ?? undefined,
-      'facebook',
-      YoutubeStreamOptions,
-      { stream: FacebookData.link },
-      StreamDownloadBoolenRecord,
-    ),
-  };
+          ?? (FacebookData && FacebookData[0] && FacebookData[0].title
+            ? FacebookData.title.slice(0, 35)
+            : undefined)
+          ?? undefined,
+        'facebook',
+        YoutubeStreamOptions,
+        { stream: FacebookData.link },
+        StreamDownloadBoolenRecord,
+      ),
+    };
+  } catch (error) {
+    return {
+      playlist: false,
+      tracks: [],
+    };
+  }
 }
 
 module.exports = FacebookExtractor;

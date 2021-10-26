@@ -10,32 +10,39 @@ async function SpotifyScrapper(
   } || undefined,
   StreamDownloadBoolenRecord = undefined,
 ) {
-  const SpotifyTracksRawData = await getData(Url);
-  if (SpotifyTracksRawData.type === 'track') {
-    const CacheTrack = await SpotifyTrackExtractor(
-      SpotifyTracksRawData,
-      YoutubeStreamOptions,
-      StreamDownloadBoolenRecord,
-    );
-    return {
-      playlist: false,
-      tracks: [CacheTrack],
-    };
-  }
-
-  const ProcessedTracks = await Promise.all(
-    SpotifyTracksRawData.tracks.items.map(
-      async (Track) => await SpotifyTrackExtractor(
-        Track,
+  try {
+    const SpotifyTracksRawData = await getData(Url);
+    if (SpotifyTracksRawData.type === 'track') {
+      const CacheTrack = await SpotifyTrackExtractor(
+        SpotifyTracksRawData,
         YoutubeStreamOptions,
         StreamDownloadBoolenRecord,
+      );
+      return {
+        playlist: false,
+        tracks: [CacheTrack],
+      };
+    }
+
+    const ProcessedTracks = await Promise.all(
+      SpotifyTracksRawData.tracks.items.map(
+        async (Track) => await SpotifyTrackExtractor(
+          Track,
+          YoutubeStreamOptions,
+          StreamDownloadBoolenRecord,
+        ),
       ),
-    ),
-  );
-  return {
-    playlist: !!ProcessedTracks[0],
-    tracks: ProcessedTracks,
-  };
+    );
+    return {
+      playlist: !!ProcessedTracks[0],
+      tracks: ProcessedTracks,
+    };
+  } catch (error) {
+    return {
+      playlist: false,
+      tracks: [],
+    };
+  }
 
   async function SpotifyTrackExtractor(
     SpotifyTrackRawData,
