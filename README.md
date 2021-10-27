@@ -38,16 +38,24 @@ import { Extractor, StreamDownloader , HumanTimeConversion } from 'playdl-music-
 var Data = await Extractor(Url || Query, {
   Limit: 1,
   Quality: 'highest',
+  Cookies: undefined, //YT Cookies Headers in String form
   Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
   IgnoreError: true,
 })
 
+if(Data.error) throw Data.error;
+
+
 var StreamData = await StreamDownloader(Url || Query, {
   Limit: 1,
   Quality: 'highest',
+  Cookies: undefined, //YT Cookies Headers in String form
   Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
   IgnoreError: true,
 })
+
+if(StreamData.error) throw StreamData.error;
+
 
 var HumanTime = HumanTimeConversion(Milliseconds)
 ```
@@ -81,7 +89,9 @@ Data : {
       likes: 0,
       is_live: false,
       dislikes: 0,
-}]
+    }
+  ],
+  error : Error | undefined
 }
 ```
 
@@ -98,9 +108,12 @@ const { createAudioResource } = require('@discordjs/voice')
 const Data = await StreamDownloader('Despacito', {
   Limit: 1,
   Quality: 'highest',
+  Cookies: undefined, //YT Cookies Headers in String form
   Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
   IgnoreError: true,
 })
+
+if(Data.error) throw Data.error;
 
 var Audio_Resource = createAudioResource(Data.tracks[0].stream ,{
   inputType: Data.tracks[0].stream_type

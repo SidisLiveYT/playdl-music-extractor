@@ -6,6 +6,7 @@ async function ReverbnationExtractor(
   YoutubeStreamOptions = {
     Limit: 1,
     Quality: undefined,
+    Cookies: undefined,
     Proxy: undefined,
   } || undefined,
   StreamDownloadBoolenRecord = undefined,
@@ -34,11 +35,13 @@ async function ReverbnationExtractor(
         },
         StreamDownloadBoolenRecord,
       ),
+      error: undefined,
     };
   } catch (error) {
     return {
       playlist: false,
       tracks: [],
+      error,
     };
   }
 }

@@ -7,6 +7,7 @@ async function QueryResolver(
   YoutubeStreamOptions = {
     Limit: 1,
     Quality: undefined,
+    Cookies: undefined,
     Proxy: undefined,
     IgnoreError: false,
   },
@@ -23,6 +24,7 @@ async function QueryResolver(
       return {
         playlist: false,
         tracks: [],
+        error: 'No Supported URL',
       };
     }
     if (
@@ -54,6 +56,7 @@ async function QueryResolver(
     return {
       playlist: false,
       tracks: [],
+      error,
     };
   }
 }

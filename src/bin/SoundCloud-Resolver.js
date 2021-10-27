@@ -12,6 +12,7 @@ class SoundCloudExtractor {
     YoutubeStreamOptions = {
       Limit: 1,
       Quality: undefined,
+      Cookies: undefined,
       Proxy: undefined,
     } || undefined,
     StreamDownloadBoolenRecord = undefined,
@@ -46,6 +47,7 @@ class SoundCloudExtractor {
         return {
           playlist: true,
           tracks: SoundCloudTracks,
+          error: undefined,
         };
       }
       const SoundCloudRawTrack = await SoundCloudExtractor.#Client.getSongInfo(
@@ -60,11 +62,13 @@ class SoundCloudExtractor {
             StreamDownloadBoolenRecord,
           ),
         ],
+        error: undefined,
       };
     } catch (error) {
       return {
         playlist: false,
         tracks: [],
+        error,
       };
     }
   }
@@ -74,45 +78,42 @@ class SoundCloudExtractor {
     YoutubeStreamOptions = {
       Limit: 1,
       Quality: undefined,
+      Cookies: undefined,
       Proxy: undefined,
     } || undefined,
     StreamDownloadBoolenRecord = undefined,
   ) {
-    try {
-      const track = {
-        Id: SoundCloudRawTrack.id,
-        url: SoundCloudRawTrack.url ?? undefined,
-        title: SoundCloudRawTrack.title ?? undefined,
-        author: SoundCloudRawTrack.author.name ?? undefined,
-        author_link: SoundCloudRawTrack.author.url ?? undefined,
-        description: SoundCloudRawTrack.description ?? undefined,
-        custom_extractor: 'play-dl -> soundcloud',
-        duration: SoundCloudRawTrack.duration ?? undefined,
-        stream:
-          SoundCloudRawTrack.streamURL
-          && SoundCloudRawTrack.streamURL !== 'undefined'
-            ? SoundCloudRawTrack.streamURL
-            : undefined ?? undefined,
-        orignal_extractor: 'soundcloud',
-        thumbnail: SoundCloudRawTrack.thumbnail ?? undefined,
-        channelId: undefined,
-        channel_url: undefined,
-        likes: SoundCloudRawTrack.likes ?? undefined,
-        is_live: false,
-        dislikes: undefined,
-      };
-      return (
-        await PlayDLExtractor.DataExtractorYoutube(
-          `${track.title} ${track.author.slice(0, 10)}`,
-          'souncloud',
-          YoutubeStreamOptions,
-          track,
-          StreamDownloadBoolenRecord,
-        )
-      )[0];
-    } catch (error) {
-      return void null;
-    }
+    const track = {
+      Id: SoundCloudRawTrack.id,
+      url: SoundCloudRawTrack.url ?? undefined,
+      title: SoundCloudRawTrack.title ?? undefined,
+      author: SoundCloudRawTrack.author.name ?? undefined,
+      author_link: SoundCloudRawTrack.author.url ?? undefined,
+      description: SoundCloudRawTrack.description ?? undefined,
+      custom_extractor: 'play-dl -> soundcloud',
+      duration: SoundCloudRawTrack.duration ?? undefined,
+      stream:
+        SoundCloudRawTrack.streamURL
+        && SoundCloudRawTrack.streamURL !== 'undefined'
+          ? SoundCloudRawTrack.streamURL
+          : undefined ?? undefined,
+      orignal_extractor: 'soundcloud',
+      thumbnail: SoundCloudRawTrack.thumbnail ?? undefined,
+      channelId: undefined,
+      channel_url: undefined,
+      likes: SoundCloudRawTrack.likes ?? undefined,
+      is_live: false,
+      dislikes: undefined,
+    };
+    return (
+      await PlayDLExtractor.DataExtractorYoutube(
+        `${track.title} ${track.author.slice(0, 10)}`,
+        'souncloud',
+        YoutubeStreamOptions,
+        track,
+        StreamDownloadBoolenRecord,
+      )
+    )[0];
   }
 }
 

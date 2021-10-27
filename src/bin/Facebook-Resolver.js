@@ -6,6 +6,7 @@ async function FacebookExtractor(
   YoutubeStreamOptions = {
     Limit: 1,
     Quality: undefined,
+    Cookies: undefined,
     Proxy: undefined,
   } || undefined,
   StreamDownloadBoolenRecord = undefined,
@@ -27,11 +28,13 @@ async function FacebookExtractor(
         { stream: FacebookData.link },
         StreamDownloadBoolenRecord,
       ),
+      error: undefined,
     };
   } catch (error) {
     return {
       playlist: false,
       tracks: [],
+      error,
     };
   }
 }

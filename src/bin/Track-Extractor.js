@@ -1,43 +1,56 @@
-const { search, validate, stream } = require('play-dl');
+const {
+  search, validate, stream, setToken,
+} = require('play-dl');
 
 class PlayDLExtractor {
+  static #YoutubeCookies = undefined
+
   static async DataExtractorYoutube(
     Query,
     extractor = undefined,
     YoutubeStreamOptions = {
       Limit: 1,
       Quality: undefined,
+      Cookies: undefined,
       Proxy: undefined,
     },
     ExtraValue = {},
     StreamDownloadBoolenRecord = undefined,
   ) {
-    try {
-      const PlayDLSearchResults = await search(Query, {
-        limit:
-          validate(Query) === 'yt_playlist' ? 100 : YoutubeStreamOptions.Limit,
-        source:
-          (validate(Query) === 'yt_playlist'
-            ? { youtube: 'playlist' }
-            : undefined)
-          ?? (validate(Query) === 'yt_video' ? { youtube: 'video' } : undefined)
-          ?? undefined,
+    if (
+      YoutubeStreamOptions
+      && YoutubeStreamOptions.Cookies
+      && PlayDLExtractor.#YoutubeCookies !== YoutubeStreamOptions.Cookies
+    ) {
+      PlayDLExtractor.#YoutubeCookies = YoutubeStreamOptions.Cookies;
+      setToken({
+        youtube: {
+          cookie: PlayDLExtractor.#YoutubeCookies,
+        },
       });
-      const CacheData = await Promise.all(
-        PlayDLSearchResults.map(
-          async (Video) => await PlayDLExtractor.#YoutubeTrackModel(
-            Video,
-            extractor,
-            YoutubeStreamOptions,
-            ExtraValue ?? {},
-            StreamDownloadBoolenRecord,
-          ),
-        ),
-      );
-      return CacheData;
-    } catch (error) {
-      return [];
     }
+    const PlayDLSearchResults = await search(Query, {
+      limit:
+        validate(Query) === 'yt_playlist' ? 100 : YoutubeStreamOptions.Limit,
+      source:
+        (validate(Query) === 'yt_playlist'
+          ? { youtube: 'playlist' }
+          : undefined)
+        ?? (validate(Query) === 'yt_video' ? { youtube: 'video' } : undefined)
+        ?? undefined,
+    });
+    const CacheData = await Promise.all(
+      PlayDLSearchResults.map(
+        async (Video) => await PlayDLExtractor.#YoutubeTrackModel(
+          Video,
+          extractor,
+          YoutubeStreamOptions,
+          ExtraValue ?? {},
+          StreamDownloadBoolenRecord,
+        ),
+      ),
+    );
+    return CacheData;
   }
 
   static async #streamdownloader(

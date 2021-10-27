@@ -8,13 +8,13 @@ export type YoutubeTrack = {
   description: String
   custom_extractor: `youtube-dl`
   duration: Number
-  human_duration: String,
+  human_duration: String
   preview_stream_url: String
-  stream: String,
-  stream_type: String,
-  stream_duration: Number,
-  stream_video_Id: String,
-  stream_human_duration: String,
+  stream: String
+  stream_type: String
+  stream_duration: Number
+  stream_video_Id: String
+  stream_human_duration: String
   orignal_extractor: String | 'youtube' | 'spotify' | 'facebook' | 'arbitrary'
   thumbnail: String
   channelId: String | Number
@@ -27,6 +27,7 @@ export type YoutubeTrack = {
 export type YoutubeStreamOptions = {
   Limit: number
   Quality: String
+  Cookies: String
   Proxy: Array<String>
   IgnoreError: Boolean
 }
@@ -34,4 +35,5 @@ export type YoutubeStreamOptions = {
 export type YoutubeData = {
   playlist: Boolean
   tracks: Array<YoutubeTrack>
+  error: Error | String | undefined
 }

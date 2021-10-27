@@ -11,9 +11,12 @@ const TracksData = await Extractor('Despacito', {
   IgnoreError: true,
 })
 
+if(TracksData.error) throw TracksData.error;
+
 console.log(TracksData)
 console.log(TracksData.tracks)
 console.log(TracksData.tracks[0].url)
+
 
 const TracksData = await StreamDownloader('Despacito', {
   Limit: 1,
@@ -21,6 +24,8 @@ const TracksData = await StreamDownloader('Despacito', {
   Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
   IgnoreError: true,
 })
+
+if(TracksData.error) throw TracksData.error;
 
 console.log(TracksData)
 console.log(TracksData.tracks)

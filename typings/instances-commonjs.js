@@ -26,6 +26,7 @@ var YoutubeTrack = {
 var YoutubeData = {
   playlist: false,
   tracks: [YoutubeTrack],
+  error: undefined,
 }
 
 module.exports = YoutubeData

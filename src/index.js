@@ -19,6 +19,7 @@ async function Extractor(
     Limit: 1,
     Quality: undefined,
     Proxy: undefined,
+    Cookies: undefined,
     IgnoreError: false,
   } || undefined,
 ) {
@@ -54,6 +55,7 @@ async function StreamDownloader(
     Limit: 1,
     Quality: undefined,
     Proxy: undefined,
+    Cookies: undefined,
     IgnoreError: false,
   } || undefined,
 ) {
