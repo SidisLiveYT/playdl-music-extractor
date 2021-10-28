@@ -1,7 +1,10 @@
 const SpotifyExtractor = require('./bin/Spotify-Resolver');
 const QueryResolver = require('./bin/Query-Resolver');
 const SoundCloudExtractor = require('./bin/SoundCloud-Resolver');
-const YoutubeData = require('../typings/instances-commonjs');
+const {
+  YoutubeData,
+  YoutubeStreamOptions,
+} = require('../typings/instances-commonjs');
 const FacebookResolver = require('./bin/Facebook-Resolver');
 const ReverbnationResolver = require('./bin/Reverbnation-Resolver');
 const { HumanTimeConversion } = require('./bin/Track-Extractor');
@@ -9,7 +12,7 @@ const { HumanTimeConversion } = require('./bin/Track-Extractor');
 /**
  * @function Extractor play-dl Extractor for Music Players Node.jsv16
  * @param {String} Query Query for Searching Data as Tracks , Playlist or albums
- * @param {Object} YoutubeStreamOptions Youtube Stream Options for play-dl
+ * @param {Object<YoutubeStreamOptions>} YoutubeStreamOptions Youtube Stream Options for play-dl
  * @returns {Promise<YoutubeData>} play-dlTracks
  */
 
@@ -45,7 +48,7 @@ async function Extractor(
 /**
  * @function StreamDownloader play-dl Stream Downloader for Music Players Node.jsv16
  * @param {String} Query Query for Searching Data as Tracks , Playlist or albums
- * @param {Object} YoutubeStreamOptions Youtube Stream Options for play-dl
+ * @param {Object<YoutubeStreamOptions>} YoutubeStreamOptions Youtube Stream Options for play-dl
  * @returns {Promise<YoutubeData>} play-dlTracks
  */
 

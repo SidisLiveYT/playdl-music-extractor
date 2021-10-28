@@ -29,4 +29,12 @@ var YoutubeData = {
   error: undefined,
 }
 
-module.exports = YoutubeData
+YoutubeStreamOptions = {
+  Limit: 1,
+  Quality: undefined,
+  Proxy: undefined,
+  Cookies: undefined,
+  IgnoreError: false,
+}
+
+module.exports = { YoutubeData , YoutubeStreamOptions }
