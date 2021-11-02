@@ -89,7 +89,14 @@ class PlayDLExtractor {
       );
       return StreamSource;
     } catch (error) {
-      if (Loop >= 3) throw Error(error.message);
+      if (
+        Loop >= 3
+        || !(
+          error.message.includes('429')
+          || error.message.includes('Ratelimit')
+          || error.message.includes('ratelimit')
+        )
+      ) throw Error(error.message);
       YoutubeStreamOptions.Proxy = [(await randomOne(true)).url];
       return await PlayDLExtractor.#streamdownloader(
         url,
