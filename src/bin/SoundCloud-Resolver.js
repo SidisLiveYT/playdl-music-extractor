@@ -2,9 +2,9 @@ const SoundCloud = require('@sidislive/soundcloud-scraper');
 const PlayDLExtractor = require('./Track-Extractor');
 
 class SoundCloudExtractor {
-  static #TokenGen = undefined
+  static #TokenGen = undefined;
 
-  static #Client = undefined
+  static #Client = undefined;
 
   static async SoundCloudResolver(
     Query,

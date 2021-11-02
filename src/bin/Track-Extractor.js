@@ -1,9 +1,10 @@
 const {
   search, validate, stream, setToken,
 } = require('play-dl');
+const { randomOne } = require('proxies-generator');
 
 class PlayDLExtractor {
-  static #YoutubeCookies = undefined
+  static #YoutubeCookies = undefined;
 
   static async DataExtractorYoutube(
     Query,
@@ -60,31 +61,42 @@ class PlayDLExtractor {
       Quality: undefined,
       Proxy: undefined,
     },
+    Loop = 0,
   ) {
-    const StreamSource = await stream(
-      url,
-      YoutubeStreamOptions
-        ? {
-          quality:
-              (YoutubeStreamOptions
-              && YoutubeStreamOptions.Quality
-              && YoutubeStreamOptions.Quality.includes('low')
-                ? 0
-                : undefined)
-              ?? (YoutubeStreamOptions
-              && YoutubeStreamOptions.Quality
-              && YoutubeStreamOptions.Quality.includes('medium')
-                ? 1
-                : undefined)
-              ?? undefined,
-          proxy:
-              (YoutubeStreamOptions.Proxy
-                ? [YoutubeStreamOptions.Proxy]
-                : undefined) ?? undefined,
-        }
-        : undefined,
-    );
-    return StreamSource;
+    try {
+      const StreamSource = await stream(
+        url,
+        YoutubeStreamOptions
+          ? {
+            quality:
+                (YoutubeStreamOptions
+                && YoutubeStreamOptions.Quality
+                && YoutubeStreamOptions.Quality.includes('low')
+                  ? 0
+                  : undefined)
+                ?? (YoutubeStreamOptions
+                && YoutubeStreamOptions.Quality
+                && YoutubeStreamOptions.Quality.includes('medium')
+                  ? 1
+                  : undefined)
+                ?? undefined,
+            proxy:
+                (YoutubeStreamOptions.Proxy
+                  ? [YoutubeStreamOptions.Proxy]
+                  : undefined) ?? undefined,
+          }
+          : undefined,
+      );
+      return StreamSource;
+    } catch (error) {
+      if (Loop >= 3) throw Error(error.message);
+      YoutubeStreamOptions.Proxy = [(await randomOne(true)).url];
+      return await PlayDLExtractor.#streamdownloader(
+        url,
+        YoutubeStreamOptions,
+        ++Loop,
+      );
+    }
   }
 
   static async #YoutubeTrackModel(
