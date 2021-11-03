@@ -61,7 +61,9 @@ async function SpotifyScrapper(
     const VideoThumbnailPreview = await getPreview(
       SpotifyTrackRawData.external_urls
         ? SpotifyTrackRawData.external_urls.spotify
-        : SpotifyTrackRawData.track.external_urls.spotify,
+        : SpotifyTrackRawData.track
+          ? SpotifyTrackRawData.track.external_urls.spotify
+          : undefined,
     );
     const track = {
       Id: 0,
@@ -95,11 +97,11 @@ async function SpotifyScrapper(
       author_link:
         (SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
           ? SpotifyTrackRawData.artists[0].url
-          : (SpotifyTrackRawData.track
+          : SpotifyTrackRawData.track
             && SpotifyTrackRawData.track.artists
             && SpotifyTrackRawData.track.artists[0]
             ? SpotifyTrackRawData.track.artists[0].url
-            : undefined)) ?? undefined,
+            : undefined) ?? undefined,
       description:
         SpotifyTrackRawData.description
         ?? VideoThumbnailPreview.description
@@ -120,7 +122,7 @@ async function SpotifyScrapper(
       dislikes: undefined,
     };
     const CompleteTracks = await PlayDLExtractor.DataExtractorYoutube(
-      `${track.title} ${track.author.slice(0, 10)}`,
+      `${track.title}`,
       'spotify',
       YoutubeStreamOptions,
       track,
