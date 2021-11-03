@@ -95,11 +95,11 @@ async function SpotifyScrapper(
       author_link:
         (SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
           ? SpotifyTrackRawData.artists[0].url
-          : SpotifyTrackRawData.track
+          : (SpotifyTrackRawData.track
             && SpotifyTrackRawData.track.artists
             && SpotifyTrackRawData.track.artists[0]
             ? SpotifyTrackRawData.track.artists[0].url
-            : undefined) ?? undefined,
+            : undefined)) ?? undefined,
       description:
         SpotifyTrackRawData.description
         ?? VideoThumbnailPreview.description

@@ -93,10 +93,10 @@ class SoundCloudExtractor {
       custom_extractor: 'play-dl -> soundcloud',
       duration: SoundCloudRawTrack.duration ?? undefined,
       stream:
-        SoundCloudRawTrack.streamURL
+        (SoundCloudRawTrack.streamURL
         && SoundCloudRawTrack.streamURL !== 'undefined'
           ? SoundCloudRawTrack.streamURL
-          : undefined ?? undefined,
+          : undefined) ?? undefined,
       orignal_extractor: 'soundcloud',
       thumbnail: SoundCloudRawTrack.thumbnail ?? undefined,
       channelId: undefined,

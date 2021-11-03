@@ -10,6 +10,7 @@
 
 PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.
 
+- Auto - Proxy Method for Ratelimit Issue ( Fixed Youtube [ 429 ] Error )
 - Object-oriented , means Value returned in a structure format
 - Supports Youtube , Spotify , Reverbnation , SoundCloud , Facebook Urls and Even Youtube Search
 - Delay/Buffer Timeout is max 3 seconds on tracks and 7 sec for Playlists
@@ -144,4 +145,4 @@ Before creating an issue, please ensure that it hasn't already been reported/sug
 ## Help
 
 If you don't understand something in the ReadMe.md , you are experiencing problems, or you just need a gentle
-nudge in the right direction, please don't hesitate to join our official [Support Server](https://discord.gg/Vkmzffpjny).
+nudge in the right direction, please don't hesitate to join our official [Support Server](https://discord.gg/MfME24sJ2a).

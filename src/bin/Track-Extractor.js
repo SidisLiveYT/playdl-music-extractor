@@ -129,26 +129,30 @@ class PlayDLExtractor {
       video_Id: ExtraValue.video_Id ?? YoutubeVideoRawData.id ?? undefined,
       title: ExtraValue.title ?? YoutubeVideoRawData.title ?? undefined,
       author:
-        ExtraValue.author ?? YoutubeVideoRawData.channel
+        ExtraValue.author
+        ?? (YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.name
-          : undefined ?? undefined,
+          : undefined)
+        ?? undefined,
       author_link:
-        ExtraValue.author_link ?? YoutubeVideoRawData.channel
+        ExtraValue.author_link
+        ?? (YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.url
-          : undefined ?? undefined,
+          : undefined)
+        ?? undefined,
       description:
         ExtraValue.description ?? YoutubeVideoRawData.description ?? undefined,
       custom_extractor: 'play-dl',
       duration:
-        ExtraValue.is_live || YoutubeVideoRawData.live
+        (ExtraValue.is_live || YoutubeVideoRawData.live
           ? 0
-          : ExtraValue.duration
-            ?? (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
+          : ExtraValue.duration)
+        ?? (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
       human_duration: PlayDLExtractor.HumanTimeConversion(
-        ExtraValue.is_live || YoutubeVideoRawData.live
+        (ExtraValue.is_live || YoutubeVideoRawData.live
           ? 0
-          : ExtraValue.duration
-              ?? (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
+          : ExtraValue.duration)
+          ?? (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
       ),
       stream: StreamDownloadBoolenRecord
         ? ExtraValue.stream
@@ -174,17 +178,17 @@ class PlayDLExtractor {
         : undefined,
       orignal_extractor: extractor ?? 'youtube',
       thumbnail:
-        ExtraValue.thumbnail ?? YoutubeVideoRawData.thumbnail
+        (ExtraValue.thumbnail ?? YoutubeVideoRawData.thumbnail
           ? YoutubeVideoRawData.thumbnail.url
-          : undefined ?? undefined,
+          : undefined) ?? undefined,
       channelId:
-        ExtraValue.author ?? YoutubeVideoRawData.channel
+        (ExtraValue.author ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.id
-          : undefined ?? undefined,
+          : undefined) ?? undefined,
       channel_url:
-        ExtraValue.author_link ?? YoutubeVideoRawData.channel
+        (ExtraValue.author_link ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.url
-          : undefined ?? undefined,
+          : undefined) ?? undefined,
       likes: ExtraValue.likes ?? YoutubeVideoRawData.likes ?? 0,
       is_live: ExtraValue.is_live ?? YoutubeVideoRawData.live ?? false,
       dislikes: ExtraValue.dislikes ?? YoutubeVideoRawData.dislikes ?? 0,
