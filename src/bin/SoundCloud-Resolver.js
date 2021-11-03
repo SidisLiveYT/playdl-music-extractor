@@ -107,7 +107,7 @@ class SoundCloudExtractor {
     };
     return (
       await PlayDLExtractor.DataExtractorYoutube(
-        `${track.title}`,
+        (`${track.title}`).slice(0, 12),
         'souncloud',
         YoutubeStreamOptions,
         track,

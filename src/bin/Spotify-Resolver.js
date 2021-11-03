@@ -122,7 +122,7 @@ async function SpotifyScrapper(
       dislikes: undefined,
     };
     const CompleteTracks = await PlayDLExtractor.DataExtractorYoutube(
-      `${track.title}`,
+      (`${track.title}`).slice(0, 12),
       'spotify',
       YoutubeStreamOptions,
       track,
