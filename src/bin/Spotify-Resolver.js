@@ -99,20 +99,26 @@ async function SpotifyScrapper(
         ?? SpotifyTrackRawData.id
         ?? undefined,
       author:
-        (SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
+        VideoThumbnailPreview.artist
+        ?? (SpotifyTrackRawData.artists
+        && SpotifyTrackRawData.artists[0]
+        && SpotifyTrackRawData.artists[0].name
           ? SpotifyTrackRawData.artists[0].name
           : SpotifyTrackRawData.track
             && SpotifyTrackRawData.track.artists
             && SpotifyTrackRawData.track.artists[0]
             ? SpotifyTrackRawData.track.artists[0].name
-            : undefined) ?? undefined,
+            : undefined)
+        ?? undefined,
       author_link:
-        (SpotifyTrackRawData.artists && SpotifyTrackRawData.artists[0]
-          ? SpotifyTrackRawData.artists[0].url
+        (SpotifyTrackRawData.artists
+        && SpotifyTrackRawData.artists[0]
+        && SpotifyTrackRawData.artists[0].external_urls
+          ? SpotifyTrackRawData.artists[0].external_urls.spotify
           : SpotifyTrackRawData.track
             && SpotifyTrackRawData.track.artists
             && SpotifyTrackRawData.track.artists[0]
-            ? SpotifyTrackRawData.track.artists[0].url
+            ? SpotifyTrackRawData.track.artists[0].external_urls.spotify
             : undefined) ?? undefined,
       description:
         SpotifyTrackRawData.description
@@ -134,7 +140,7 @@ async function SpotifyScrapper(
       dislikes: undefined,
     };
     const CompleteTracks = await PlayDLExtractor.DataExtractorYoutube(
-      `${track.title}`.slice(0, 15),
+      `${track.title}`,
       'spotify',
       YoutubeStreamOptions,
       track,
