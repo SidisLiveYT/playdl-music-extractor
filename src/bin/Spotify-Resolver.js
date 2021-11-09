@@ -25,7 +25,15 @@ async function SpotifyScrapper(
         error: undefined,
       };
     }
-
+    SpotifyTracksRawData.tracks.items = SpotifyTracksRawData.tracks.items.map(
+      (video) => {
+        if (video && video.track && video.track.name !== '') return video;
+        return void undefined;
+      },
+    );
+    SpotifyTracksRawData.tracks.items = SpotifyTracksRawData.tracks.items.filter(
+      Boolean,
+    );
     const ProcessedTracks = await Promise.all(
       SpotifyTracksRawData.tracks.items.map(
         async (Track) => await SpotifyTrackExtractor(
@@ -59,18 +67,22 @@ async function SpotifyScrapper(
     StreamDownloadBoolenRecord = undefined,
   ) {
     const VideoThumbnailPreview = await getPreview(
-      SpotifyTrackRawData.external_urls
-        ? SpotifyTrackRawData.external_urls.spotify
-        : SpotifyTrackRawData.track
-          ? SpotifyTrackRawData.track.external_urls.spotify
-          : undefined,
+      (SpotifyTrackRawData.id
+        ? `https://open.spotify.com/track/${SpotifyTrackRawData.id}`
+        : undefined)
+        ?? (SpotifyTrackRawData.track
+          ? `https://open.spotify.com/track/${SpotifyTrackRawData.track.id}`
+          : undefined),
     );
     const track = {
       Id: 0,
       url:
         (SpotifyTrackRawData.external_urls
           ? SpotifyTrackRawData.external_urls.spotify
-          : SpotifyTrackRawData.track.external_urls.spotify)
+          : undefined)
+        ?? (SpotifyTrackRawData.track.external_urls
+          ? SpotifyTrackRawData.track.external_urls.spotify
+          : undefined)
         ?? VideoThumbnailPreview.link
         ?? undefined,
       title:
@@ -122,7 +134,7 @@ async function SpotifyScrapper(
       dislikes: undefined,
     };
     const CompleteTracks = await PlayDLExtractor.DataExtractorYoutube(
-      (`${track.title}`).slice(0, 12),
+      `${track.title}`.slice(0, 15),
       'spotify',
       YoutubeStreamOptions,
       track,

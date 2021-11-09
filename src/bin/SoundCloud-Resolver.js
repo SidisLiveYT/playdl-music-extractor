@@ -35,6 +35,7 @@ class SoundCloudExtractor {
         const SoundCloudPlaylist = await SoundCloudExtractor.#Client.getPlaylist(
           Query,
         );
+        SoundCloudPlaylist.tracks = SoundCloudPlaylist.tracks.filter(Boolean);
         const SoundCloudTracks = await Promise.all(
           SoundCloudPlaylist.tracks.map(
             async (track) => await SoundCloudExtractor.#SoundCloundTrackModel(
@@ -107,7 +108,7 @@ class SoundCloudExtractor {
     };
     return (
       await PlayDLExtractor.DataExtractorYoutube(
-        (`${track.title}`).slice(0, 12),
+        `${track.title}`.slice(0, 12),
         'souncloud',
         YoutubeStreamOptions,
         track,

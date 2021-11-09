@@ -30,7 +30,7 @@ class PlayDLExtractor {
         },
       });
     }
-    const PlayDLSearchResults = await search(Query, {
+    let PlayDLSearchResults = await search(Query, {
       limit:
         validate(Query) === 'yt_playlist' ? 100 : YoutubeStreamOptions.Limit,
       source:
@@ -40,6 +40,7 @@ class PlayDLExtractor {
         ?? (validate(Query) === 'yt_video' ? { youtube: 'video' } : undefined)
         ?? undefined,
     });
+    PlayDLSearchResults = PlayDLSearchResults.filter(Boolean);
     const CacheData = await Promise.all(
       PlayDLSearchResults.map(
         async (Video) => await PlayDLExtractor.#YoutubeTrackModel(
@@ -178,9 +179,11 @@ class PlayDLExtractor {
         : undefined,
       orignal_extractor: extractor ?? 'youtube',
       thumbnail:
-        (ExtraValue.thumbnail ?? YoutubeVideoRawData.thumbnail
+        ExtraValue.thumbnail
+        ?? (YoutubeVideoRawData.thumbnail
           ? YoutubeVideoRawData.thumbnail.url
-          : undefined) ?? undefined,
+          : undefined)
+        ?? undefined,
       channelId:
         (ExtraValue.author ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.id
