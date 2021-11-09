@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/nav.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/skyceil.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <h4><a href="index.html">Home</a></h4>
+</nav>
+
+<div id="main">
+    <div class="burger">
+        <div class="burger-line-1"></div>
+        <div class="burger-line-2"></div>
+        <div class="burger-line-3"></div>
+    </div>
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3>playdl-music-extractor 2.3.6</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><div align="center">
+  <br />
+  <br />
+  <p>
+<h1>PlayDL Music Extractor</h1>
+  </p>
+</div>
+<h2>About</h2>
+<p>PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.</p>
+<ul>
+<li>Auto - Proxy Method for Ratelimit Issue ( Fixed Youtube [ 429 ] Error )</li>
+<li>Object-oriented , means Value returned in a structure format</li>
+<li>Supports Youtube , Spotify , Reverbnation , SoundCloud , Facebook Urls and Even Youtube Search</li>
+<li>Delay/Buffer Timeout is max 3 seconds on tracks and 7 sec for Playlists</li>
+<li>Customisable Extractors</li>
+<li>Performant</li>
+<li>100% coverage of play-dl and custom extractors</li>
+</ul>
+<h2>Installation</h2>
+<p><strong>Node.js 16 or newer is required.</strong></p>
+<pre class="prettyprint source"><code>npm install playdl-music-extractor
+</code></pre>
+<h2>Example usage</h2>
+<p>Extractor Video/Playlist/Album Data from any Platform :-</p>
+<pre class="prettyprint source"><code>const { Extractor, StreamDownloader , HumanTimeConversion } = require('playdl-music-extractor') //For CommonJS
+                            OR
+import { Extractor, StreamDownloader , HumanTimeConversion } from 'playdl-music-extractor' //for ES6
+
+
+var Data = await Extractor(Url || Query, {
+  Limit: 1,
+  Quality: 'highest',
+  Cookies: undefined, //YT Cookies Headers in String form
+  Proxy: undefined, //[{&quot;Ip-Address:Port-Number&quot;}] Format(Proxy)
+  IgnoreError: true,
+})
+
+if(Data.error) throw Data.error;
+
+
+var StreamData = await StreamDownloader(Url || Query, {
+  Limit: 1,
+  Quality: 'highest',
+  Cookies: undefined, //YT Cookies Headers in String form
+  Proxy: undefined, //[{&quot;Ip-Address:Port-Number&quot;}] Format(Proxy)
+  IgnoreError: true,
+})
+
+if(StreamData.error) throw StreamData.error;
+
+
+var HumanTime = HumanTimeConversion(Milliseconds)
+</code></pre>
+<h2>Strucutre of Data/Track</h2>
+<pre class="prettyprint source"><code>Data : {
+  playlist : Boolean,
+  tracks : [
+    {
+      Id: 0,
+      url: null,
+      title: null,
+      author: null,
+      author_link: null,
+      description: null,
+      custom_extractor: `youtube-dl`,
+      duration: 0,
+      human_duration: undefined,
+      preview_stream_url: null,
+      stream: null,
+      stream_type: undefined,
+      stream_duration: 0,
+      stream_video_Id: undefined,
+      stream_human_duration: undefined,
+      orignal_extractor: null | 'youtube' | 'spotify' | 'facebook' | 'arbitrary',
+      thumbnail: null,
+      channelId: 'none' | 0,
+      channel_url: null,
+      likes: 0,
+      is_live: false,
+      dislikes: 0,
+    }
+  ],
+  error : Error | undefined
+}
+</code></pre>
+<ul>
+<li><code>Extractor() is same as StreamDownloader() but it will not download info related to Streams like - &quot;stream&quot;,&quot;stream_type&quot; and e.t.c , just the info about the Query</code></li>
+<li><code>&quot;&lt;Track&gt;.stream_duration&quot; is Stream Duration in Milliseconds as Stream is from Youtube</code></li>
+<li><code>Data.tracks[0].stream can be used in terms of stream value in @discordjs/voice or any other Audio package After using - StreamDownloader() .</code></li>
+</ul>
+<h2>Use-Case for @discordjs/voice Package</h2>
+<pre class="prettyprint source"><code>const { StreamDownloader } = require('playdl-music-extractor')
+const { createAudioResource } = require('@discordjs/voice')
+
+const Data = await StreamDownloader('Despacito', {
+  Limit: 1,
+  Quality: 'highest',
+  Cookies: undefined, //YT Cookies Headers in String form
+  Proxy: undefined, //[{&quot;Ip-Address:Port-Number&quot;}] Format(Proxy)
+  IgnoreError: true,
+})
+
+if(Data.error) throw Data.error;
+
+var Audio_Resource = createAudioResource(Data.tracks[0].stream ,{
+  inputType: Data.tracks[0].stream_type
+})
+
+
+/*
+
+- Rest is mentioned in @discordjs/voice examples , from here &quot;Audio_Resource&quot; is important
+- Extractor() is same as StreamDownloader() but it will not download info related to Streams like - &quot;stream&quot;,&quot;stream_type&quot; and e.t.c , just the info about the Query
+
+*/
+
+</code></pre>
+<h2>Links</h2>
+<ul>
+<li><a href="https://www.npmjs.com/package/play-dl">play-dl</a></li>
+<li><a href="https://github.com/SidisLiveYT/playdl-music-extractor.git">Source Code</a></li>
+<li><a href="https://github.com/SidisLiveYT/playdl-music-extractor">GitHub Repo Link</a></li>
+<li><a href="https://www.npmjs.com/package/playdl-music-extractor">NPM Package</a></li>
+<li><a href="https://yarn.pm/playdl-music-extractor">Yarn Package</a></li>
+</ul>
+<h2>Contributing</h2>
+<p>Before creating an issue, please ensure that it hasn't already been reported/suggested, and double-check the ReadMe.md</p>
+<h2>Help</h2>
+<p>If you don't understand something in the ReadMe.md , you are experiencing problems, or you just need a gentle
+nudge in the right direction, please don't hesitate to join our official <a href="https://discord.gg/MfME24sJ2a">Support Server</a>.</p></article>
+    </section>
+
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Tue Nov 09 2021 14:09:20 GMT+0000 (Coordinated Universal Time) using <a href="https://github.com/zyrouge/jsdoc-skyceil">Skyceil Theme</a>
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+</body>
+</html>
