@@ -91,7 +91,7 @@ class PlayDLExtractor {
       return StreamSource;
     } catch (error) {
       if (
-        Loop >= 10
+        Loop >= 3
         || !(
           `${error.message}`.includes('429')
           || `${error.message}`.includes('Ratelimit')

@@ -27,7 +27,10 @@ async function SpotifyScrapper(
     }
     SpotifyTracksRawData.tracks.items = SpotifyTracksRawData.tracks.items.map(
       (video) => {
-        if (video && video.track && video.track.name !== '') return video;
+        if (
+          (video && video.track && video.track.name !== '')
+          || (video && video.name !== '')
+        ) return video;
         return void undefined;
       },
     );
