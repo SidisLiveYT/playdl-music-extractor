@@ -91,19 +91,32 @@ class PlayDLExtractor {
       return StreamSource;
     } catch (error) {
       if (
-        Loop >= 3
+        Loop >= 10
         || !(
-          error.message.includes('429')
-          || error.message.includes('Ratelimit')
-          || error.message.includes('ratelimit')
+          `${error.message}`.includes('429')
+          || `${error.message}`.includes('Ratelimit')
+          || `${error.message}`.includes('ratelimit')
+          || `${error.message}`.includes('unavailable')
         )
-      ) throw Error(error.message);
+        || !(
+          `${error}`.includes('429')
+          || `${error}`.includes('Ratelimit')
+          || `${error}`.includes('ratelimit')
+          || `${error}`.includes('unavailable')
+        )
+      ) throw Error(`${error.message}`);
       YoutubeStreamOptions.Proxy = [(await randomOne(true)).url];
-      return await PlayDLExtractor.#streamdownloader(
+      const StreamData = await PlayDLExtractor.#streamdownloader(
         url,
         YoutubeStreamOptions,
         ++Loop,
       );
+      if (Loop !== 0) return StreamData;
+
+      return {
+        streamdatas: StreamData,
+        error: `${error.message}` ?? `${error}`,
+      };
     }
   }
 
@@ -118,12 +131,16 @@ class PlayDLExtractor {
     ExtraValue = {},
     StreamDownloadBoolenRecord = undefined,
   ) {
-    const SourceStream = StreamDownloadBoolenRecord
+    let SourceStream = StreamDownloadBoolenRecord
       ? await PlayDLExtractor.#streamdownloader(
         YoutubeVideoRawData.url ?? undefined,
         YoutubeStreamOptions,
       )
       : undefined;
+    const ErrorData = SourceStream && SourceStream.error ? SourceStream.error : undefined;
+    SourceStream = SourceStream && SourceStream.streamdatas
+      ? SourceStream.streamdatas
+      : SourceStream;
     const track = {
       Id: 0,
       url: ExtraValue.url ?? YoutubeVideoRawData.url ?? undefined,
@@ -196,6 +213,12 @@ class PlayDLExtractor {
       is_live: ExtraValue.is_live ?? YoutubeVideoRawData.live ?? false,
       dislikes: ExtraValue.dislikes ?? YoutubeVideoRawData.dislikes ?? 0,
     };
+    if (ErrorData) {
+      return {
+        track,
+        error: ErrorData,
+      };
+    }
     return track;
   }
 
