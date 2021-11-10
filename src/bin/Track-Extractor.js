@@ -82,9 +82,14 @@ class PlayDLExtractor {
                   : undefined)
                 ?? undefined,
             proxy:
-                (YoutubeStreamOptions.Proxy
+                (YoutubeStreamOptions.Proxy && YoutubeStreamOptions.Proxy[0]
+                  ? YoutubeStreamOptions.Proxy
+                  : undefined)
+                ?? (YoutubeStreamOptions.Proxy
+                && typeof YoutubeStreamOptions.Proxy === 'string'
                   ? [YoutubeStreamOptions.Proxy]
-                  : undefined) ?? undefined,
+                  : undefined)
+                ?? undefined,
           }
           : undefined,
       );
@@ -97,14 +102,16 @@ class PlayDLExtractor {
           || `${error.message}`.includes('Ratelimit')
           || `${error.message}`.includes('ratelimit')
           || `${error.message}`.includes('unavailable')
+          || `${error.message}`.includes('Unavailable')
         )
         || !(
           `${error}`.includes('429')
           || `${error}`.includes('Ratelimit')
           || `${error}`.includes('ratelimit')
           || `${error}`.includes('unavailable')
+          || `${error}`.includes('Unavailable')
         )
-      ) throw Error(`${error.message}`);
+      ) throw Error(`${error.message ?? error}`);
       YoutubeStreamOptions.Proxy = [(await randomOne(true)).url];
       const StreamData = await PlayDLExtractor.#streamdownloader(
         url,
