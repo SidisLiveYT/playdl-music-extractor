@@ -8,6 +8,7 @@ const {
 const FacebookResolver = require('./bin/Facebook-Resolver');
 const ReverbnationResolver = require('./bin/Reverbnation-Resolver');
 const { HumanTimeConversion } = require('./bin/Track-Extractor');
+const { GetLyrics } = require('./bin/Lyrics-Extractor');
 
 /**
  * @function Extractor play-dl Extractor for Music Players Node.jsv16
@@ -110,9 +111,13 @@ function Filteration(DataStructure) {
     : DataStructure.error;
   if (DataStructure && DataStructure.tracks && DataStructure.tracks[0]) {
     DataStructure.tracks = DataStructure.tracks.filter(Boolean);
-    DataStructure.error = DataStructure.error && DataStructure.error[0] ? DataStructure.error.filter(Boolean) : DataStructure.error;
+    DataStructure.error = DataStructure.error && DataStructure.error[0]
+      ? DataStructure.error.filter(Boolean)
+      : DataStructure.error;
   }
   return DataStructure;
 }
 
-module.exports = { Extractor, StreamDownloader, HumanTimeConversion };
+module.exports = {
+  Extractor, StreamDownloader, HumanTimeConversion, GetLyrics,
+};

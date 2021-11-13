@@ -1,33 +1,37 @@
-const axios = require('axios');
+const { Client } = require('genius-lyrics');
 
-class Lyrics {
+class LyricsGen {
+  /**
+   * @private
+   * Private property as of Saved Client to handle Ratelimit of Requests
+   */
+  static #GeniusClient = undefined;
+
   /**
    * Looks for the data about a song.
    * @public
    * @static
-   * @param {string} SongName Song's Name
+   * @param {string} SongConstant Song's Name or Song Url
+   * @param {boolean} force Force to Fetch New Genius Client
+   * @param {number} researchCount Re-rearch counts with new Clients
+   * @returns {Promise<String|undefined>|undefined} Lyrics as String Value
    */
-  static async GetLyrics(SongName) {
-    return await axios({
-      method: 'get',
-      url: `http://api.deezer.com/search?limit=5&q=${encodeURIComponent(SongName)}`,
-      headers: {
-        'content-type': 'application/json',
-      },
-    })
-      .then(async (response) => await axios({
-        method: 'get',
-        url: `https://api.lyrics.ovh/v1/${encodeURIComponent(
-          response.data.data[0].artist.name,
-        )}/${encodeURIComponent(response.data.data[0].title)}`,
-        headers: {
-          'content-type': 'application/json',
-        },
-      })
-        .then((response) => response.data)
-        .catch((error) => void null))
-      .catch((error) => void null);
+  static async GetLyrics(SongConstant, force = false, researchCount = 0) {
+    if (!SongConstant) return void null;
+    try {
+      LyricsGen.#GeniusClient = !force && researchCount !== 0 && LyricsGen.#GeniusClient
+        ? LyricsGen.#GeniusClient ?? undefined
+        : new Client();
+
+      return await (
+        await LyricsGen.#GeniusClient.songs.search(`${SongConstant}`)
+      )[0].lyrics();
+    } catch (error) {
+      if (researchCount <= 0) return void null;
+      researchCount -= 1;
+      return await LyricsGen.GetLyrics(SongConstant, true, researchCount);
+    }
   }
 }
 
-module.exports = Lyrics;
+module.exports = LyricsGen;
