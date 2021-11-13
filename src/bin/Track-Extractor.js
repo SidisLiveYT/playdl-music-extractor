@@ -2,6 +2,7 @@ const {
   search, validate, stream, setToken,
 } = require('play-dl');
 const { randomOne } = require('proxies-generator');
+const { GetLyrics } = require('./Lyrics-Extractor');
 
 class PlayDLExtractor {
   static #YoutubeCookies = undefined;
@@ -184,6 +185,9 @@ class PlayDLExtractor {
           ?? (SourceStream ? SourceStream.stream : undefined)
           ?? undefined
         : undefined,
+      stream_url: StreamDownloadBoolenRecord
+        ? (SourceStream ? SourceStream.url : undefined) ?? undefined
+        : undefined,
       stream_type: StreamDownloadBoolenRecord
         ? (SourceStream ? SourceStream.type : undefined) ?? undefined
         : undefined,
@@ -216,6 +220,10 @@ class PlayDLExtractor {
         (ExtraValue.author_link ?? YoutubeVideoRawData.channel
           ? YoutubeVideoRawData.channel.url
           : undefined) ?? undefined,
+      lyrics:
+        ExtraValue.title || YoutubeVideoRawData.title
+          ? (await GetLyrics(ExtraValue.title ?? YoutubeVideoRawData.title))
+          : undefined,
       likes: ExtraValue.likes ?? YoutubeVideoRawData.likes ?? 0,
       is_live: ExtraValue.is_live ?? YoutubeVideoRawData.live ?? false,
       dislikes: ExtraValue.dislikes ?? YoutubeVideoRawData.dislikes ?? 0,

@@ -11,6 +11,7 @@ export type YoutubeTrack = {
   human_duration: String
   preview_stream_url: String
   stream: String
+  stream_url: String
   stream_type: String
   stream_duration: Number
   stream_video_Id: String
@@ -19,6 +20,7 @@ export type YoutubeTrack = {
   thumbnail: String
   channelId: String | Number
   channel_url: String
+  lyrics: String | Array<String> | undefined
   likes: Number
   is_live: Boolean
   dislikes: Number

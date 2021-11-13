@@ -10,6 +10,7 @@ var YoutubeTrack = {
   human_duration: undefined,
   preview_stream_url: null,
   stream: null,
+  stream_url: ' ', //Audio Filters Usage -> FFmpeg Workflow
   stream_type: undefined,
   stream_duration: 0,
   stream_video_Id: undefined,
@@ -18,6 +19,7 @@ var YoutubeTrack = {
   thumbnail: null,
   channelId: 'none' | 0,
   channel_url: null,
+  lyrics: '',
   likes: 0,
   is_live: false,
   dislikes: 0,
