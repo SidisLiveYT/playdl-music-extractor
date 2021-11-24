@@ -96,6 +96,9 @@ async function StreamDownloader(
 }
 
 function Filteration(DataStructure) {
+  DataStructure.tracks = DataStructure.tracks[0] || DataStructure.tracks === []
+    ? DataStructure.tracks
+    : [DataStructure.tracks];
   DataStructure.tracks = DataStructure.tracks.map((track) => {
     if (track.track) return track.track;
     return track;
@@ -119,5 +122,8 @@ function Filteration(DataStructure) {
 }
 
 module.exports = {
-  Extractor, StreamDownloader, HumanTimeConversion, GetLyrics,
+  Extractor,
+  StreamDownloader,
+  HumanTimeConversion,
+  GetLyrics,
 };
