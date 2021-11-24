@@ -96,7 +96,7 @@ async function StreamDownloader(
 }
 
 function Filteration(DataStructure) {
-  DataStructure.tracks = DataStructure.tracks[0] || DataStructure.tracks === []
+  DataStructure.tracks = Array.isArray(DataStructure.tracks)
     ? DataStructure.tracks
     : [DataStructure.tracks];
   DataStructure.tracks = DataStructure.tracks.map((track) => {
