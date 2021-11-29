@@ -196,8 +196,9 @@ class PlayDLExtractor {
           ? 0
           : YoutubeVideoRawData.durationInSec * 1000
         : undefined,
-      stream_video_Id:
-        YoutubeVideoRawData.id ?? ExtraValue.video_Id ?? undefined,
+      stream_video_Id: StreamDownloadBoolenRecord
+        ? YoutubeVideoRawData.id ?? ExtraValue.video_Id ?? undefined
+        : undefined,
       stream_human_duration: StreamDownloadBoolenRecord
         ? PlayDLExtractor.HumanTimeConversion(
           ExtraValue.is_live || YoutubeVideoRawData.live
@@ -222,7 +223,7 @@ class PlayDLExtractor {
           : undefined) ?? undefined,
       lyrics:
         ExtraValue.title || YoutubeVideoRawData.title
-          ? (await GetLyrics(ExtraValue.title ?? YoutubeVideoRawData.title))
+          ? await GetLyrics(ExtraValue.title ?? YoutubeVideoRawData.title)
           : undefined,
       likes: ExtraValue.likes ?? YoutubeVideoRawData.likes ?? 0,
       is_live: ExtraValue.is_live ?? YoutubeVideoRawData.live ?? false,

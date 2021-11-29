@@ -13,7 +13,11 @@ async function SpotifyScrapper(
 ) {
   try {
     const SpotifyTracksRawData = await getData(Url);
-    if (SpotifyTracksRawData.type === 'track') {
+    if (
+      SpotifyTracksRawData.type === 'track'
+      || SpotifyTracksRawData.show
+      || SpotifyTracksRawData.type === 'episode'
+    ) {
       const CacheTrack = await SpotifyTrackExtractor(
         SpotifyTracksRawData,
         YoutubeStreamOptions,
@@ -70,9 +74,12 @@ async function SpotifyScrapper(
     StreamDownloadBoolenRecord = undefined,
   ) {
     const VideoThumbnailPreview = await getPreview(
-      (SpotifyTrackRawData.id
-        ? `https://open.spotify.com/track/${SpotifyTrackRawData.id}`
+      (SpotifyTrackRawData.show && SpotifyTrackRawData.id
+        ? `https://open.spotify.com/episode/${SpotifyTrackRawData.id}`
         : undefined)
+        ?? (SpotifyTrackRawData.id
+          ? `https://open.spotify.com/track/${SpotifyTrackRawData.id}`
+          : undefined)
         ?? (SpotifyTrackRawData.track
           ? `https://open.spotify.com/track/${SpotifyTrackRawData.track.id}`
           : undefined),
