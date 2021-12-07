@@ -150,7 +150,9 @@ async function SpotifyScrapper(
       dislikes: undefined,
     };
     const CompleteTracks = await PlayDLExtractor.DataExtractorYoutube(
-      `${track.title}`,
+      track.title && track.title.length >= 10
+        ? `${track.title}`
+        : `${track.title} | ${track.author}`,
       'spotify',
       YoutubeStreamOptions,
       track,
