@@ -209,8 +209,8 @@ class PlayDLExtractor {
       orignal_extractor: extractor ?? 'youtube',
       thumbnail:
         ExtraValue.thumbnail
-        ?? (YoutubeVideoRawData.thumbnail
-          ? YoutubeVideoRawData.thumbnail.url
+        ?? (YoutubeVideoRawData.thumbnail && YoutubeVideoRawData.thumbnail[0]
+          ? YoutubeVideoRawData.thumbnail[0].url
           : undefined)
         ?? undefined,
       channelId:
