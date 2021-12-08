@@ -20,7 +20,7 @@
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "commit": "git-cz",
-    "preinstall": "npm i play-dl && npm outdated && npm update",
+    "preinstall": "npm i play-dl && npm i proxies-generator && npm i genius-lyrics && npm outdated && npm update",
     "semantic-release": "semantic-release --branches main",
     "push": "git add . && npm run commit && git push",
     "docs": "jsdoc node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
