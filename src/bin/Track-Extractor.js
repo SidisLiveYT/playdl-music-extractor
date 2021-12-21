@@ -37,11 +37,8 @@ class PlayDLExtractor {
       YoutubeStreamOptions
       && YoutubeStreamOptions.UserAgents
       && YoutubeStreamOptions.UserAgents.length > 0
-      && PlayDLExtractor.#UserAgents !== YoutubeStreamOptions.UserAgents[0]
     ) {
-      PlayDLExtractor.#UserAgents = YoutubeStreamOptions.UserAgents[
-        Math.floor(Math.random() * YoutubeStreamOptions.UserAgents.length)
-      ];
+      PlayDLExtractor.#UserAgents = YoutubeStreamOptions.UserAgents;
       setToken({
         useragent: PlayDLExtractor.#UserAgents,
       });
@@ -121,7 +118,7 @@ class PlayDLExtractor {
       ) { throw Error(`${error.message ?? error}`); }
 
       const UserAgent = new UserAgents();
-      PlayDLExtractor.#UserAgents = UserAgent.toString();
+      PlayDLExtractor.#UserAgents = [UserAgent.toString()];
       setToken({
         useragent: PlayDLExtractor.#UserAgents,
       });
