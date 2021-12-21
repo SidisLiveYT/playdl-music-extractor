@@ -40,7 +40,7 @@ var Data = await Extractor(Url || Query, {
   Limit: 1,
   Quality: 'highest',
   Cookies: undefined, //YT Cookies Headers in String form
-  UserAgents: undefined, //[{"Ip-Address:Port-Number"}] Format(UserAgents)
+  UserAgents: undefined, //[{"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ....."}] Format(UserAgents)
   IgnoreError: true,
 })
 
@@ -51,7 +51,7 @@ var StreamData = await StreamDownloader(Url || Query, {
   Limit: 1,
   Quality: 'highest',
   Cookies: undefined, //YT Cookies Headers in String form
-  UserAgents: undefined, //[{"Ip-Address:Port-Number"}] Format(UserAgents)
+  UserAgents: undefined, //[{"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ....."}] Format(UserAgents)
   IgnoreError: true,
 })
 
@@ -112,7 +112,7 @@ const Data = await StreamDownloader('Despacito', {
   Limit: 1,
   Quality: 'highest',
   Cookies: undefined, //YT Cookies Headers in String form
-  UserAgents: undefined, //[{"Ip-Address:Port-Number"}] Format(UserAgents)
+  UserAgents: undefined, //[{"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ....."}] Format(UserAgents)
   IgnoreError: true,
 })
 
