@@ -30,7 +30,7 @@ export type YoutubeStreamOptions = {
   Limit: number
   Quality: String
   Cookies: String
-  Proxy: Array<String>
+  UserAgents: Array<String>
   IgnoreError: Boolean
 }
 

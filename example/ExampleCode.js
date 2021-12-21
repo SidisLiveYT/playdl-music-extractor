@@ -7,7 +7,7 @@ import {
 const TracksData = await Extractor('Despacito', {
   Limit: 1,
   Quality: 'highest',
-  Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
+  UserAgents: undefined, //[{"Ip-Address:Port-Number"}] Format(UserAgents)
   IgnoreError: true,
 })
 
@@ -21,7 +21,7 @@ console.log(TracksData.tracks[0].url)
 const TracksData = await StreamDownloader('Despacito', {
   Limit: 1,
   Quality: 'highest',
-  Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
+  UserAgents: undefined, //[{"Ip-Address:Port-Number"}] Format(UserAgents)
   IgnoreError: true,
 })
 

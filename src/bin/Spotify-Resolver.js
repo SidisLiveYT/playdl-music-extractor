@@ -7,7 +7,7 @@ async function SpotifyScrapper(
     Limit: 1,
     Quality: undefined,
     Cookies: undefined,
-    Proxy: undefined,
+    UserAgents: undefined,
   } || undefined,
   StreamDownloadBoolenRecord = undefined,
 ) {
@@ -69,7 +69,7 @@ async function SpotifyScrapper(
       Limit: 1,
       Quality: undefined,
       Cookies: undefined,
-      Proxy: undefined,
+      UserAgents: undefined,
     } || undefined,
     StreamDownloadBoolenRecord = undefined,
   ) {

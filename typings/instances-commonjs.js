@@ -34,7 +34,7 @@ var YoutubeData = {
 YoutubeStreamOptions = {
   Limit: 1,
   Quality: undefined,
-  Proxy: undefined,
+  UserAgents: undefined,
   Cookies: undefined,
   IgnoreError: false,
 }

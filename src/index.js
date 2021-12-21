@@ -22,7 +22,7 @@ async function Extractor(
   YoutubeStreamOptions = {
     Limit: 1,
     Quality: undefined,
-    Proxy: undefined,
+    UserAgents: undefined,
     Cookies: undefined,
     IgnoreError: false,
   } || undefined,
@@ -58,7 +58,7 @@ async function StreamDownloader(
   YoutubeStreamOptions = {
     Limit: 1,
     Quality: undefined,
-    Proxy: undefined,
+    UserAgents: undefined,
     Cookies: undefined,
     IgnoreError: false,
   } || undefined,
