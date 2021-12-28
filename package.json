@@ -1,6 +1,6 @@
 {
   "name": "playdl-music-extractor",
-  "version": "2.5.5",
+  "version": "2.5.6",
   "description": "PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials",
   "main": "./src/index.js",
   "module": "./src/index.mjs",
@@ -72,7 +72,7 @@
     "proxies-generator": "^1.0.6",
     "reverbnation-scraper": "^2.0.0",
     "spotify-url-info": "^2.2.3",
-    "user-agents": "^1.0.872"
+    "user-agents": "^1.0.879"
   },
   "directories": {
     "example": "example"
