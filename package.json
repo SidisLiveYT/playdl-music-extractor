@@ -1,6 +1,6 @@
 {
   "name": "playdl-music-extractor",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "description": "PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials",
   "main": "./src/index.js",
   "module": "./src/index.mjs",
@@ -26,10 +26,10 @@
     "docs": "jsdoc node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.16.3",
-    "@babel/preset-env": "^7.16.4",
+    "@babel/eslint-parser": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.4.1",
+    "eslint": "^8.5.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
     "jsdoc": "^3.6.7",
@@ -66,10 +66,10 @@
   "dependencies": {
     "@sidislive/soundcloud-scraper": "^1.0.0",
     "facebook-video-link": "^1.0.2",
-    "genius-lyrics": "^4.3.4",
+    "genius-lyrics": "^4.3.5",
     "is-url": "^1.2.4",
-    "play-dl": "^1.5.0",
-    "proxies-generator": "^1.0.5",
+    "play-dl": "^1.6.8",
+    "proxies-generator": "^1.0.6",
     "reverbnation-scraper": "^2.0.0",
     "spotify-url-info": "^2.2.3"
   },
