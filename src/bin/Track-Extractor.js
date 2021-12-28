@@ -1,11 +1,13 @@
 const {
   search, validate, stream, setToken,
 } = require('play-dl');
-const { randomOne } = require('proxies-generator');
+const UserAgents = require('user-agents');
 const { GetLyrics } = require('./Lyrics-Extractor');
 
 class PlayDLExtractor {
   static #YoutubeCookies = undefined;
+
+  static #UserAgents = undefined;
 
   static async DataExtractorYoutube(
     Query,
@@ -14,7 +16,7 @@ class PlayDLExtractor {
       Limit: 1,
       Quality: undefined,
       Cookies: undefined,
-      Proxy: undefined,
+      UserAgents: undefined,
     },
     ExtraValue = {},
     StreamDownloadBoolenRecord = undefined,
@@ -29,6 +31,16 @@ class PlayDLExtractor {
         youtube: {
           cookie: PlayDLExtractor.#YoutubeCookies,
         },
+      });
+    }
+    if (
+      YoutubeStreamOptions
+      && YoutubeStreamOptions.UserAgents
+      && YoutubeStreamOptions.UserAgents.length > 0
+    ) {
+      PlayDLExtractor.#UserAgents = YoutubeStreamOptions.UserAgents;
+      setToken({
+        useragent: PlayDLExtractor.#UserAgents,
       });
     }
     let PlayDLSearchResults = await search(Query, {
@@ -61,7 +73,7 @@ class PlayDLExtractor {
     YoutubeStreamOptions = {
       Limit: 1,
       Quality: undefined,
-      Proxy: undefined,
+      UserAgents: undefined,
     },
     Loop = 0,
   ) {
@@ -80,15 +92,6 @@ class PlayDLExtractor {
                 && YoutubeStreamOptions.Quality
                 && YoutubeStreamOptions.Quality.includes('medium')
                   ? 1
-                  : undefined)
-                ?? undefined,
-            proxy:
-                (YoutubeStreamOptions.Proxy && YoutubeStreamOptions.Proxy[0]
-                  ? YoutubeStreamOptions.Proxy
-                  : undefined)
-                ?? (YoutubeStreamOptions.Proxy
-                && typeof YoutubeStreamOptions.Proxy === 'string'
-                  ? [YoutubeStreamOptions.Proxy]
                   : undefined)
                 ?? undefined,
           }
@@ -112,8 +115,14 @@ class PlayDLExtractor {
           || `${error}`.includes('unavailable')
           || `${error}`.includes('Unavailable')
         )
-      ) throw Error(`${error.message ?? error}`);
-      YoutubeStreamOptions.Proxy = [(await randomOne(true)).url];
+      ) { throw Error(`${error.message ?? error}`); }
+
+      const UserAgent = new UserAgents();
+      PlayDLExtractor.#UserAgents = [UserAgent.toString()];
+      setToken({
+        useragent: PlayDLExtractor.#UserAgents,
+      });
+
       const StreamData = await PlayDLExtractor.#streamdownloader(
         url,
         YoutubeStreamOptions,
@@ -134,7 +143,7 @@ class PlayDLExtractor {
     YoutubeStreamOptions = {
       Limit: 1,
       Quality: undefined,
-      Proxy: undefined,
+      UserAgents: undefined,
     },
     ExtraValue = {},
     StreamDownloadBoolenRecord = undefined,

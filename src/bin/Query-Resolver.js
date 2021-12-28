@@ -8,7 +8,7 @@ async function QueryResolver(
     Limit: 1,
     Quality: undefined,
     Cookies: undefined,
-    Proxy: undefined,
+    UserAgents: undefined,
     IgnoreError: false,
   },
   StreamDownloadBoolenRecord = undefined,

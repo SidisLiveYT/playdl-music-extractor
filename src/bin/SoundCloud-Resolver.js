@@ -13,7 +13,7 @@ class SoundCloudExtractor {
       Limit: 1,
       Quality: undefined,
       Cookies: undefined,
-      Proxy: undefined,
+      UserAgents: undefined,
     } || undefined,
     StreamDownloadBoolenRecord = undefined,
   ) {
@@ -80,7 +80,7 @@ class SoundCloudExtractor {
       Limit: 1,
       Quality: undefined,
       Cookies: undefined,
-      Proxy: undefined,
+      UserAgents: undefined,
     } || undefined,
     StreamDownloadBoolenRecord = undefined,
   ) {

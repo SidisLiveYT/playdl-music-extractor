@@ -10,7 +10,7 @@
 
 PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.
 
-- Auto - Proxy Method for Ratelimit Issue ( Fixed Youtube [ 429 ] Error )
+- Auto - UserAgents Method for Ratelimit Issue ( Fixed Youtube [ 429 ] Error )
 - Object-oriented , means Value returned in a structure format
 - Supports Youtube , Spotify , Reverbnation , SoundCloud , Facebook Urls and Even Youtube Search
 - Delay/Buffer Timeout is max 3 seconds on tracks and 7 sec for Playlists
@@ -40,7 +40,7 @@ var Data = await Extractor(Url || Query, {
   Limit: 1,
   Quality: 'highest',
   Cookies: undefined, //YT Cookies Headers in String form
-  Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
+  UserAgents: undefined, //[{"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ....."}] Format(UserAgents)
   IgnoreError: true,
 })
 
@@ -51,7 +51,7 @@ var StreamData = await StreamDownloader(Url || Query, {
   Limit: 1,
   Quality: 'highest',
   Cookies: undefined, //YT Cookies Headers in String form
-  Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
+  UserAgents: undefined, //[{"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ....."}] Format(UserAgents)
   IgnoreError: true,
 })
 
@@ -112,7 +112,7 @@ const Data = await StreamDownloader('Despacito', {
   Limit: 1,
   Quality: 'highest',
   Cookies: undefined, //YT Cookies Headers in String form
-  Proxy: undefined, //[{"Ip-Address:Port-Number"}] Format(Proxy)
+  UserAgents: undefined, //[{"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ....."}] Format(UserAgents)
   IgnoreError: true,
 })
 

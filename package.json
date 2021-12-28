@@ -1,6 +1,6 @@
 {
   "name": "playdl-music-extractor",
-  "version": "2.5.4",
+  "version": "2.5.5",
   "description": "PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials",
   "main": "./src/index.js",
   "module": "./src/index.mjs",
@@ -20,7 +20,7 @@
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
     "commit": "git-cz",
-    "postinstall": "npm i play-dl && npm i proxies-generator && npm i genius-lyrics && npm outdated && npm update",
+    "preinstall": "npm i user-agents",
     "semantic-release": "semantic-release --branches main",
     "push": "git add . && npm run commit && git push",
     "docs": "jsdoc node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
@@ -71,7 +71,8 @@
     "play-dl": "^1.6.8",
     "proxies-generator": "^1.0.6",
     "reverbnation-scraper": "^2.0.0",
-    "spotify-url-info": "^2.2.3"
+    "spotify-url-info": "^2.2.3",
+    "user-agents": "^1.0.872"
   },
   "directories": {
     "example": "example"
