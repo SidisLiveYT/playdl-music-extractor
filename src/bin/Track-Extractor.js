@@ -1,5 +1,5 @@
 const {
-  search, validate, stream, setToken,
+  search, validate, stream, setToken, playlist_info,
 } = require('play-dl');
 const UserAgents = require('user-agents');
 const { GetLyrics } = require('./Lyrics-Extractor');
@@ -21,6 +21,7 @@ class PlayDLExtractor {
     ExtraValue = {},
     StreamDownloadBoolenRecord = undefined,
   ) {
+    let PlayDLSearchResults;
     if (
       YoutubeStreamOptions
       && YoutubeStreamOptions.Cookies
@@ -43,16 +44,21 @@ class PlayDLExtractor {
         useragent: PlayDLExtractor.#UserAgents,
       });
     }
-    let PlayDLSearchResults = await search(Query, {
-      limit:
-        validate(Query) === 'yt_playlist' ? 100 : YoutubeStreamOptions.Limit,
-      source:
-        (validate(Query) === 'yt_playlist'
-          ? { youtube: 'playlist' }
-          : undefined)
-        ?? (validate(Query) === 'yt_video' ? { youtube: 'video' } : undefined)
-        ?? undefined,
-    });
+    PlayDLSearchResults = (await validate(Query)) === 'yt_playlist'
+      ? (
+        await playlist_info(
+          'https://www.youtube.com/watch?v=JGwWNGJdvx8&list=PLhsz9CILh357zA1yMT-K5T9ZTNEU6Fl6n',
+        )
+      ).videos
+      : undefined;
+    PlayDLSearchResults = PlayDLSearchResults
+      ?? (await search(Query, {
+        limit: YoutubeStreamOptions.Limit ?? undefined,
+        source:
+          ((await validate(Query)) === 'yt_video'
+            ? { youtube: 'video' }
+            : undefined) ?? undefined,
+      }));
     PlayDLSearchResults = PlayDLSearchResults.filter(Boolean);
     const CacheData = await Promise.all(
       PlayDLSearchResults.map(
@@ -115,7 +121,9 @@ class PlayDLExtractor {
           || `${error}`.includes('unavailable')
           || `${error}`.includes('Unavailable')
         )
-      ) { throw Error(`${error.message ?? error}`); }
+      ) {
+        throw Error(`${error.message ?? error}`);
+      }
 
       const UserAgent = new UserAgents();
       PlayDLExtractor.#UserAgents = [UserAgent.toString()];
