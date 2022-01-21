@@ -100,6 +100,7 @@ class PlayDLExtractor {
                   ? 1
                   : undefined)
                 ?? undefined,
+            discordPlayerCompatibility: true,
           }
           : undefined,
       );
