@@ -18,8 +18,7 @@ async function QueryResolver(
     if (
       UriCheck(Query)
       && YoutubeStreamOptions.IgnoreError
-      && (!ValidateUrlResult
-        || (ValidateUrlResult && ValidateUrlResult.includes('search')))
+      && (!ValidateUrlResult || ValidateUrlResult?.includes('search'))
     ) {
       return {
         playlist: false,
@@ -27,17 +26,15 @@ async function QueryResolver(
         error: 'No Supported URL',
       };
     }
+
     if (
       UriCheck(Query)
-      && (!ValidateUrlResult
-        || (ValidateUrlResult && ValidateUrlResult.includes('search')))
-    ) {
-      throw Error('Invalid Query or Url for package is Detected');
-    }
+      && (!ValidateUrlResult || ValidateUrlResult?.includes('search'))
+    ) { throw Error('Invalid Query or Url for package is Detected'); }
+
     const YoutubeTracks = {
       playlist:
-        (!ValidateUrlResult
-        || (ValidateUrlResult && ValidateUrlResult.includes('search'))
+        (!ValidateUrlResult || ValidateUrlResult?.includes('search')
           ? false
           : undefined)
         ?? ValidateUrlResult.includes('playlist')
@@ -56,7 +53,7 @@ async function QueryResolver(
     return {
       playlist: false,
       tracks: [],
-      error,
+      error: error?.message ?? error,
     };
   }
 }

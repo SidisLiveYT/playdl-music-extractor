@@ -1,5 +1,10 @@
 const {
-  search, validate, stream, setToken, playlist_info,
+  search,
+  validate,
+  stream,
+  setToken,
+  playlist_info,
+  video_info,
 } = require('play-dl');
 const UserAgents = require('user-agents');
 const { GetLyrics } = require('./Lyrics-Extractor');
@@ -22,13 +27,14 @@ class PlayDLExtractor {
     StreamDownloadBoolenRecord = undefined,
   ) {
     let PlayDLSearchResults;
+    const _rawValidationData = await validate(Query);
     if (
       YoutubeStreamOptions
       && YoutubeStreamOptions.Cookies
       && PlayDLExtractor.#YoutubeCookies !== YoutubeStreamOptions.Cookies
     ) {
       PlayDLExtractor.#YoutubeCookies = YoutubeStreamOptions.Cookies;
-      setToken({
+      await setToken({
         youtube: {
           cookie: PlayDLExtractor.#YoutubeCookies,
         },
@@ -40,26 +46,27 @@ class PlayDLExtractor {
       && YoutubeStreamOptions.UserAgents.length > 0
     ) {
       PlayDLExtractor.#UserAgents = YoutubeStreamOptions.UserAgents;
-      setToken({
+      await setToken({
         useragent: PlayDLExtractor.#UserAgents,
       });
     }
-    PlayDLSearchResults = (await validate(Query)) === 'yt_playlist'
-      ? (
+    PlayDLSearchResults = (_rawValidationData === 'yt_playlist'
+      ? await (
         await playlist_info(
           'https://www.youtube.com/watch?v=JGwWNGJdvx8&list=PLhsz9CILh357zA1yMT-K5T9ZTNEU6Fl6n',
         )
-      ).videos
-      : undefined;
-    PlayDLSearchResults = PlayDLSearchResults
-      ?? (await search(Query, {
-        limit: YoutubeStreamOptions.Limit ?? undefined,
-        source:
-          ((await validate(Query)) === 'yt_video'
-            ? { youtube: 'video' }
-            : undefined) ?? undefined,
-      }));
-    PlayDLSearchResults = PlayDLSearchResults.filter(Boolean);
+      ).all_videos()
+      : undefined)
+      ?? (_rawValidationData === 'yt_video'
+        ? (await video_info(Query)).video_details
+        : await search(Query, {
+          limit: YoutubeStreamOptions.Limit ?? undefined,
+        }));
+
+    PlayDLSearchResults = PlayDLSearchResults && Array.isArray(PlayDLSearchResults)
+      ? PlayDLSearchResults.filter(Boolean)
+      : [PlayDLSearchResults];
+
     const CacheData = await Promise.all(
       PlayDLSearchResults.map(
         async (Video) => await PlayDLExtractor.#YoutubeTrackModel(
@@ -128,7 +135,7 @@ class PlayDLExtractor {
 
       const UserAgent = new UserAgents();
       PlayDLExtractor.#UserAgents = [UserAgent.toString()];
-      setToken({
+      await setToken({
         useragent: PlayDLExtractor.#UserAgents,
       });
 
@@ -141,7 +148,7 @@ class PlayDLExtractor {
 
       return {
         streamdatas: StreamData,
-        error: `${error.message}` ?? `${error}`,
+        error: error.message ?? `${error}`,
       };
     }
   }
@@ -163,26 +170,18 @@ class PlayDLExtractor {
         YoutubeStreamOptions,
       )
       : undefined;
-    const ErrorData = SourceStream && SourceStream.error ? SourceStream.error : undefined;
-    SourceStream = SourceStream && SourceStream.streamdatas
-      ? SourceStream.streamdatas
-      : SourceStream;
+    const ErrorData = SourceStream?.error ?? undefined;
+    SourceStream = SourceStream?.streamdatas ?? SourceStream;
     const track = {
       Id: 0,
       url: ExtraValue.url ?? YoutubeVideoRawData.url ?? undefined,
       video_Id: ExtraValue.video_Id ?? YoutubeVideoRawData.id ?? undefined,
       title: ExtraValue.title ?? YoutubeVideoRawData.title ?? undefined,
       author:
-        ExtraValue.author
-        ?? (YoutubeVideoRawData.channel
-          ? YoutubeVideoRawData.channel.name
-          : undefined)
-        ?? undefined,
+        ExtraValue.author ?? YoutubeVideoRawData?.channel?.name ?? undefined,
       author_link:
         ExtraValue.author_link
-        ?? (YoutubeVideoRawData.channel
-          ? YoutubeVideoRawData.channel.url
-          : undefined)
+        ?? YoutubeVideoRawData?.channel?.url
         ?? undefined,
       description:
         ExtraValue.description ?? YoutubeVideoRawData.description ?? undefined,
@@ -193,9 +192,9 @@ class PlayDLExtractor {
           : ExtraValue.duration)
         ?? (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
       human_duration: PlayDLExtractor.HumanTimeConversion(
-        (ExtraValue.is_live || YoutubeVideoRawData.live
+        (ExtraValue?.is_live || YoutubeVideoRawData?.live
           ? 0
-          : ExtraValue.duration)
+          : ExtraValue?.duration)
           ?? (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
       ),
       stream: StreamDownloadBoolenRecord
@@ -203,49 +202,41 @@ class PlayDLExtractor {
           ?? (SourceStream ? SourceStream.stream : undefined)
           ?? undefined
         : undefined,
-      stream_url: StreamDownloadBoolenRecord
-        ? (SourceStream ? SourceStream.url : undefined) ?? undefined
-        : undefined,
-      stream_type: StreamDownloadBoolenRecord
-        ? (SourceStream ? SourceStream.type : undefined) ?? undefined
-        : undefined,
+      stream_url: StreamDownloadBoolenRecord ? SourceStream?.url : undefined,
+      stream_type: StreamDownloadBoolenRecord ? SourceStream?.type : undefined,
       stream_duration: StreamDownloadBoolenRecord
-        ? ExtraValue.is_live || YoutubeVideoRawData.live
+        ? ExtraValue?.is_live || YoutubeVideoRawData?.live
           ? 0
           : YoutubeVideoRawData.durationInSec * 1000
         : undefined,
       stream_video_Id: StreamDownloadBoolenRecord
-        ? YoutubeVideoRawData.id ?? ExtraValue.video_Id ?? undefined
+        ? YoutubeVideoRawData?.id ?? ExtraValue?.video_Id ?? undefined
         : undefined,
       stream_human_duration: StreamDownloadBoolenRecord
         ? PlayDLExtractor.HumanTimeConversion(
-          ExtraValue.is_live || YoutubeVideoRawData.live
+          ExtraValue?.is_live || YoutubeVideoRawData?.live
             ? 0
             : (YoutubeVideoRawData.durationInSec ?? 0) * 1000,
         )
         : undefined,
       orignal_extractor: extractor ?? 'youtube',
       thumbnail:
-        ExtraValue.thumbnail
-        ?? (YoutubeVideoRawData.thumbnails && YoutubeVideoRawData.thumbnails[0]
-          ? YoutubeVideoRawData.thumbnails[0].url
-          : undefined)
+        ExtraValue?.thumbnail
+        ?? YoutubeVideoRawData?.thumbnails?.[0]?.url
         ?? undefined,
       channelId:
-        (ExtraValue.author ?? YoutubeVideoRawData.channel
-          ? YoutubeVideoRawData.channel.id
-          : undefined) ?? undefined,
+        ExtraValue?.author ?? YoutubeVideoRawData?.channel?.id ?? undefined,
       channel_url:
-        (ExtraValue.author_link ?? YoutubeVideoRawData.channel
-          ? YoutubeVideoRawData.channel.url
-          : undefined) ?? undefined,
+        ExtraValue?.author_link
+        ?? YoutubeVideoRawData?.channel?.url
+        ?? undefined,
       lyrics:
-        ExtraValue.title || YoutubeVideoRawData.title
-          ? await GetLyrics(ExtraValue.title ?? YoutubeVideoRawData.title)
+        ExtraValue?.title || YoutubeVideoRawData?.title
+          ? await GetLyrics(ExtraValue.title ?? YoutubeVideoRawData?.title)
           : undefined,
-      likes: ExtraValue.likes ?? YoutubeVideoRawData.likes ?? 0,
-      is_live: ExtraValue.is_live ?? YoutubeVideoRawData.live ?? false,
-      dislikes: ExtraValue.dislikes ?? YoutubeVideoRawData.dislikes ?? 0,
+      likes: ExtraValue.likes ?? YoutubeVideoRawData?.likes ?? 0,
+      is_live: ExtraValue.is_live ?? YoutubeVideoRawData?.live ?? false,
+      dislikes: ExtraValue.dislikes ?? YoutubeVideoRawData?.dislikes ?? 0,
     };
     if (ErrorData) {
       return {
