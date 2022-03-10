@@ -61,9 +61,10 @@
   </p>
 </div>
 <h2>About</h2>
-<p>PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.</p>
+<p><em>PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.</em></p>
 <ul>
 <li>Auto - UserAgents Method for Ratelimit Issue ( Fixed Youtube [ 429 ] Error )</li>
+<li>Supports User-Agents and Youtube Cookies for Stream and Extractor Method</li>
 <li>Object-oriented , means Value returned in a structure format or Class</li>
 <li>Supports Youtube , Spotify , Reverbnation , SoundCloud , Facebook Urls and Even Youtube Search</li>
 <li>Delay/Buffer Timeout is max 3 seconds on tracks and 7 sec for Playlists</li>
@@ -75,8 +76,7 @@
 <p><strong>Node.js 16 or newer is required.</strong></p>
 <pre class="prettyprint source"><code>npm install playdl-music-extractor
 </code></pre>
-<h3>Example :</h3>
-<h4>Fetched Data</h4>
+<h4>Example : Fetched Data with Stream and Lyrics</h4>
 <pre class="prettyprint source lang-js"><code>  Track {
     trackId: 1,
     url: 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
@@ -116,7 +116,77 @@
       url: 'https://www.youtube.com/channel/UCLp8RBhQHu9wSsq62j_Md6A'
     },
     isLive: false,
-    ratings: { likes: 47756817, dislikes: 0 }
+    ratings: { likes: 47759879, dislikes: 0 },
+    stream: {
+      buffer: [Readable],
+      videoUrl: 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
+      type: 'webm/opus',
+      duration: [Object],
+      videoId: 'kJQP7kiw5Fk'
+    },
+    lyrics: 'Come and move that in my direction\n' +
+      &quot;So thankful for that, it's such a blessin', yeah\n&quot; +
+      'Turn every situation into heaven, yeah\n' +
+      'Oh-oh, you are\n' +
+      'My sunrise on the darkest day\n' +
+      &quot;Got me feelin' some kind of way\n&quot; +
+      'Make me wanna savor every moment slowly\n' +
+      'You fit me tailor-made, love how you put it on\n' +
+      'Got the only key, know how to turn it on\n' +
+      'The way you nibble on my ear, the only words I wanna hear\n' +
+      'Baby, take it slow so we can last long\n' +
+      '\n' +
+      'Tú, tú eres el imán y yo soy el metal\n' +
+      'Me voy acercando y voy armando el plan\n' +
+      'Sólo con pensarlo se acelera el pulso\n' +
+      'Ya, ya me está gustando más de lo normal\n' +
+      'Todos mis sentidos van pidiendo más\n' +
+      'Esto hay que tomarlo sin ningún apuro\n' +
+      '\n' +
+      'Despacito\n' +
+      'Quiero respirar tu cuello despacito\n' +
+      'Deja que te diga cosas al oído\n' +
+      'Para que te acuerdes si no estás conmigo\n' +
+      '\n' +
+      'Despacito\n' +
+      'Quiero desnudarte a besos despacito\n' +
+      'Firmo en las paredes de tu laberinto\n' +
+      'Y hacer de tu cuerpo todo un manuscrito\n' +
+      '\n' +
+      'Quiero ver bailar tu pelo, quiero ser tu ritmo\n' +
+      'Que le enseñes a mi boca\n' +
+      'Tus lugares favoritos\n' +
+      'Déjame sobrepasar tus zonas de peligro\n' +
+      'Hasta provocar tus gritos\n' +
+      'Y que olvides tu apellido\n' +
+      'Pasito a pasito, suave suavecito\n' +
+      'Nos vamos pegando, poquito a poquito\n' +
+      'Cuando tú me besas con esa destreza\n' +
+      'Veo que eres malicia con delicadeza\n' +
+      'Pasito a pasito, suave suavecito\n' +
+      'Nos vamos pegando, poquito a poquito\n' +
+      'Y es que esa belleza es un rompecabezas\n' +
+      &quot;Pero pa' montarlo aquí tengo la pieza\n&quot; +
+      '\n' +
+      'Despacito\n' +
+      'Quiero respirar tu cuello despacito\n' +
+      'Deja que te diga cosas al oído\n' +
+      'Para que te acuerdes si no estás conmigo\n' +
+      '\n' +
+      'Despacito\n' +
+      'Quiero desnudarte a besos despacito\n' +
+      'Firmo en las paredes de tu laberinto\n' +
+      'Y hacer de tu cuerpo todo un manuscrito\n' +
+      '\n' +
+      'Pasito a pasito, suave suavecito\n' +
+      'Nos vamos pegando, poquito a poquito\n' +
+      'Que le enseñes a mi boca\n' +
+      'Tus lugares favoritos\n' +
+      'Pasito a pasito, suave suavecito\n' +
+      'Nos vamos pegando, poquito a poquito\n' +
+      'Hasta provocar tus gritos\n' +
+      'Y que olvides tu apellido\n' +
+      'Despacito'
   },
 </code></pre>
 <h4>Tips/Base Information :</h4>
@@ -125,20 +195,107 @@
 <li><em>Stream will be Processed through Official &quot;play-dl&quot; Npm Package</em></li>
 <li><em>Besides Official Use of play-dl Package , You can retrieve data from facebook,deezer,reverbnation and vimeo (soon)</em></li>
 </ul>
-<h4>Code Snippet :</h4>
+<h4>Methods :</h4>
+<ul>
+<li><strong>new playdl.streamExtractor()</strong> | <strong>playdlQuick.streamExtractor()</strong></li>
+<li><strong>new playdl.softExtractor()</strong> | <strong>playdlQuick.softExtractor()</strong></li>
+<li><strong>new playdl.exec()</strong> | <strong>playdlQuick.exec()</strong></li>
+</ul>
+<h5>Option's Scheme :</h5>
+<pre class="prettyprint source lang-ts"><code>declare type secretTokens = {
+  spotify: {
+    client_id: string | number;
+    client_secret: string | number;
+    refresh_token: string | number;
+    market: string | &quot;US&quot;;
+  };
+  soundcloud: { client_id: string | number };
+};
+
+declare type fetchOptions = {
+  tokens: secretTokens;
+  fetchLimit: number;
+  streamQuality: string;
+  rawCookies: string;
+  userAgents: string[];
+};
+
+declare type __scrapperOptions = {
+  fetchLyrics: boolean | &quot;true&quot;;
+  eventReturn: { metadata: any };
+  ratelimit: number;
+  ignoreInternalError: boolean | &quot;true&quot;;
+  fetchOptions: fetchOptions;
+  streamDownload: boolean | &quot;false&quot;;
+};
+
+declare type extractorData = {
+  playlist: boolean;
+  tracks: Array&lt;Track>;
+};
+</code></pre>
+<h4>Code Examples :</h4>
 <ul>
 <li><a href="example/exampleTest.js">Common JS</a></li>
-<li><a href="example/esModernExample.js">ES Modern</a></li>
+<li><a href="example/esModernExample.mjs">ES Modern</a></li>
 </ul>
-<h4>Supportable Websites :</h4>
+<h4>Code Snippet :</h4>
+<pre class="prettyprint source lang-js"><code>const { playdl } = require(&quot;playdl-music-extractor&quot;);
+
+const quickHandler = new playdl();
+
+quickHandler.on(&quot;tracks&quot;, (...eventData) => console.log(eventData));
+
+new Promise(async (resolve, reject) => {
+  resolve(
+    quickHandler.softExtractor(&quot;Despacito&quot;, {
+      fetchOptions: { fetchLimit: 1 },
+    })
+  );
+  resolve(
+    quickHandler.streamExtractor(
+      &quot;https://open.spotify.com/track/1SOClUWhOi8vHZYMz3GluK?si=3c010c9df65a4552&quot;,
+      {
+        fetchOptions: { fetchLimit: 1 },
+      },
+      &quot;tracks&quot;
+    )
+  );
+  resolve(
+    quickHandler.exec(&quot;Despacito&quot;, {
+      fetchOptions: { fetchLimit: 1 },
+    })
+  );
+});
+</code></pre>
+<h4>Some Minor Usages :</h4>
+<h6>Raw Cookies option :</h6>
+<pre class="prettyprint source lang-js"><code>playdl.exec(&quot;Despacito&quot;, {
+  fetchOptions: {
+    rawCookies:
+      &quot;xxx-youtubeCookies-from-network-inspect-of-youtubeHomePage-xxx&quot;,
+  },
+});
+</code></pre>
+<h6>User Agents option :</h6>
+<pre class="prettyprint source lang-js"><code>playdl.exec(&quot;Despacito&quot;, {
+  fetchOptions: {
+    userAgents: [
+      &quot;Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion&quot;,
+    ],
+  },
+});
+</code></pre>
+<h4>Supportable Websites Links :</h4>
 <ul>
-<li><a href="example/exampleTest.js">Youtube Example</a></li>
-<li><a href="example/exampleTest.js">Spotify Example</a></li>
-<li><a href="example/exampleTest.js">SoundCloud Example</a></li>
-<li><a href="example/exampleTest.js">Deezer Example</a></li>
-<li><a href="example/exampleTest.js">Reverbnation Example</a></li>
-<li><a href="example/exampleTest.js">Facebook Example</a></li>
-<li><a href="example/exampleTest.js">Vimeo Example (Soon)</a></li>
+<li><a href="https://www.youtube.com/watch?v=kJQP7kiw5Fk">Youtube Example</a></li>
+<li><a href="https://open.spotify.com/track/1SOClUWhOi8vHZYMz3GluK?si=a9e9d82a9a584f48">Spotify Example</a></li>
+<li><a href="https://soundcloud.com/rd-urbansmusic/despacito-luis-fonsi-daddy-yankee">SoundCloud Example</a></li>
+<li><a href="https://deezer.page.link/cHcZ5zc6u6Rzszq66">Deezer Example</a></li>
+<li><a href="https://www.reverbnation.com/%E2%99%ABmp3download/song/12423967-tara-missing-you">Reverbnation Example</a></li>
+<li><a href="https://www.facebook.com/EpochTimesTrending/videos/310155606660409">Facebook Example</a></li>
+<li><a href="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Arbitary Example</a></li>
+<li><a href="https://vimeo.com/684302493">Vimeo Example (Soon)</a></li>
 </ul>
 <h3>Links</h3>
 <ul>
@@ -166,7 +323,7 @@ nudge in the right direction, please don't hesitate to join our official <a href
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Mar 10 2022 07:41:00 GMT+0000 (Coordinated Universal Time) using <a href="https://github.com/zyrouge/jsdoc-skyceil">Skyceil Theme</a>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Mar 10 2022 15:15:46 GMT+0000 (Coordinated Universal Time) using <a href="https://github.com/zyrouge/jsdoc-skyceil">Skyceil Theme</a>
 </footer>
 
 <script>prettyPrint();</script>
