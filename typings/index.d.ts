@@ -30,5 +30,3 @@ export class playdl extends EventEmitter {
     listener: (...args: any[]) => Awaitable<void>,
   ): this
 }
-
-export = { playdlQuick: new playdl() }

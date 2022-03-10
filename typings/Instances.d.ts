@@ -1,4 +1,4 @@
-declare type secretTokens = {
+declare interface secretTokens  {
   spotify: {
     client_id: string | number
     client_secret: string | number
@@ -8,7 +8,7 @@ declare type secretTokens = {
   soundcloud: { client_id: string | number }
 }
 
-declare type fetchOptions = {
+declare interface fetchOptions  {
   tokens: secretTokens
   fetchLimit: number
   streamQuality: string
@@ -16,7 +16,7 @@ declare type fetchOptions = {
   userAgents: string[]
 }
 
-declare type scrapperOptions = {
+declare interface scrapperOptions  {
   fetchLyrics: true
   eventReturn: { metadata: any }
   ratelimit: number
@@ -25,7 +25,7 @@ declare type scrapperOptions = {
   streamDownload: false
 }
 
-declare type extractorData = {
+declare interface extractorData  {
   playlist: boolean
   tracks: Array<Track>
 }

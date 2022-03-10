@@ -107,7 +107,7 @@ class playdl extends EventEmitter {
    * @param {string} rawQuery -> A String Value for Song Name or Url to be Parsed and Fetch Data about it
    * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
    * @param {string | "tracks" | "streams"} returnType Return Type for method , And Optional choice and By Default its -> "tracks"
-   * @returns {Promise<Track[] | []>} playlist and Tracks from play-dl
+   * @returns {Promise<Track[] | Object[]>} playlist and Tracks from play-dl
    */
   async streamExtractor(
     rawQuery,

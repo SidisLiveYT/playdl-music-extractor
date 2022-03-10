@@ -19,4 +19,9 @@ new Promise(async (resolve, reject) => {
       'tracks',
     ),
   )
+  resolve(
+    quickHandler.exec('Despacito', {
+      fetchOptions: { fetchLimit: 1 },
+    }),
+  )
 })
