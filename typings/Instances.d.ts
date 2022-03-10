@@ -1,4 +1,4 @@
-declare interface secretTokens  {
+declare type secretTokens = {
   spotify: {
     client_id: string | number
     client_secret: string | number
@@ -8,7 +8,7 @@ declare interface secretTokens  {
   soundcloud: { client_id: string | number }
 }
 
-declare interface fetchOptions  {
+declare type fetchOptions = {
   tokens: secretTokens
   fetchLimit: number
   streamQuality: string
@@ -16,7 +16,7 @@ declare interface fetchOptions  {
   userAgents: string[]
 }
 
-declare interface scrapperOptions  {
+export type scrapperOptions = {
   fetchLyrics: true
   eventReturn: { metadata: any }
   ratelimit: number
@@ -25,12 +25,12 @@ declare interface scrapperOptions  {
   streamDownload: false
 }
 
-declare interface extractorData  {
+export type extractorData = {
   playlist: boolean
   tracks: Array<Track>
 }
 
-declare class Track {
+export class Track {
   public constructor(__scrapperOptions: scrapperOptions)
   public readonly __scrapperOptions: scrapperOptions
   public getStream(
@@ -96,9 +96,9 @@ declare class Track {
   readonly raw: {} | 'Unparsed and fetched Track Data from play-dl'
 }
 
-declare type Awaitable<T> = T | PromiseLike<T>
+export type Awaitable<T> = T | PromiseLike<T>
 
-declare interface trackEvents {
+export interface trackEvents {
   tracks: [
     orignal_extractor: string | 'deezer' | 'youtube' | 'spotify' | 'facebook' | 'reverbnation' | 'soundcloud',
     track: Track,

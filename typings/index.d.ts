@@ -1,4 +1,11 @@
 import { EventEmitter } from 'events'
+import {
+  Track,
+  Awaitable,
+  trackEvents,
+  scrapperOptions,
+  extractorData,
+} from './instances'
 
 export class playdl extends EventEmitter {
   public constructor(__scrapperOptions: scrapperOptions)

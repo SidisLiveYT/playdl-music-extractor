@@ -8,7 +8,7 @@ const facebook = require('./bin/__facebook');
 const reverbnation = require('./bin/__reverbnation');
 const deezer = require('./bin/__deezer');
 const Track = require('./bin/__trackModeler');
-
+const { extractorData, scrapperOptions } = require('../typings/instances');
 /**
  * @class playdl -> Main Handler to Fetch and Parse Songs from Youtube and SoundCloud and many Others from play-dl as its base source
  */
