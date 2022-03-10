@@ -11,7 +11,7 @@
 PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.
 
 - Auto - UserAgents Method for Ratelimit Issue ( Fixed Youtube [ 429 ] Error )
-- Object-oriented , means Value returned in a structure format
+- Object-oriented , means Value returned in a structure format or Class
 - Supports Youtube , Spotify , Reverbnation , SoundCloud , Facebook Urls and Even Youtube Search
 - Delay/Buffer Timeout is max 3 seconds on tracks and 7 sec for Playlists
 - Customisable Extractors
@@ -28,109 +28,7 @@ npm install playdl-music-extractor
 
 ## Example usage
 
-Extractor Video/Playlist/Album Data from any Platform :-
-
-```
-const { Extractor, StreamDownloader , HumanTimeConversion } = require('playdl-music-extractor') //For CommonJS
-                            OR
-import { Extractor, StreamDownloader , HumanTimeConversion } from 'playdl-music-extractor' //for ES6
-
-
-var Data = await Extractor(Url || Query, {
-  Limit: 1,
-  Quality: 'highest',
-  Cookies: undefined, //YT Cookies Headers in String form
-  UserAgents: undefined, //[{"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ....."}] Format(UserAgents)
-  IgnoreError: true,
-})
-
-if(Data.error) throw Data.error;
-
-
-var StreamData = await StreamDownloader(Url || Query, {
-  Limit: 1,
-  Quality: 'highest',
-  Cookies: undefined, //YT Cookies Headers in String form
-  UserAgents: undefined, //[{"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ....."}] Format(UserAgents)
-  IgnoreError: true,
-})
-
-if(StreamData.error) throw StreamData.error;
-
-
-var HumanTime = HumanTimeConversion(Milliseconds)
-```
-
-## Strucutre of Data/Track
-
-```
-Data : {
-  playlist : Boolean,
-  tracks : [
-    {
-      Id: 0,
-      url: null,
-      title: null,
-      author: null,
-      author_link: null,
-      description: null,
-      custom_extractor: `youtube-dl`,
-      duration: 0,
-      human_duration: undefined,
-      preview_stream_url: null,
-      stream: null,
-      stream_url: " ",  // Audio Filters -> FFmpeg usage
-      stream_type: undefined,
-      stream_duration: 0,
-      stream_video_Id: undefined,
-      stream_human_duration: undefined,
-      orignal_extractor: null | 'youtube' | 'spotify' | 'facebook' | 'arbitrary',
-      thumbnail: null,
-      channelId: 'none' | 0,
-      channel_url: null,
-      lyrics: " ",
-      likes: 0,
-      is_live: false,
-      dislikes: 0,
-    }
-  ],
-  error : Error | undefined
-}
-```
-
-- `Extractor() is same as StreamDownloader() but it will not download info related to Streams like - "stream","stream_type" and e.t.c , just the info about the Query`
-- `"<Track>.stream_duration" is Stream Duration in Milliseconds as Stream is from Youtube`
-- `Data.tracks[0].stream can be used in terms of stream value in @discordjs/voice or any other Audio package After using - StreamDownloader() .`
-
-## Use-Case for @discordjs/voice Package
-
-```
-const { StreamDownloader } = require('playdl-music-extractor')
-const { createAudioResource } = require('@discordjs/voice')
-
-const Data = await StreamDownloader('Despacito', {
-  Limit: 1,
-  Quality: 'highest',
-  Cookies: undefined, //YT Cookies Headers in String form
-  UserAgents: undefined, //[{"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ....."}] Format(UserAgents)
-  IgnoreError: true,
-})
-
-if(Data.error) throw Data.error;
-
-var Audio_Resource = createAudioResource(Data.tracks[0].stream ,{
-  inputType: Data.tracks[0].stream_type
-})
-
-
-/*
-
-- Rest is mentioned in @discordjs/voice examples , from here "Audio_Resource" is important
-- Extractor() is same as StreamDownloader() but it will not download info related to Streams like - "stream","stream_type" and e.t.c , just the info about the Query
-
-*/
-
-```
+**Waiting to Input some Info About Revised Package**
 
 ## Links
 

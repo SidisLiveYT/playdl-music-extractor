@@ -1,7 +1,4 @@
-import YoutubeDownloader from './index.js'
+import playdl from './index.js'
 
-export default YoutubeDownloader
-export const StreamDownloader = YoutubeDownloader.StreamDownloader
-export const Extractor = YoutubeDownloader.Extractor
-export const HumanTimeConversion = YoutubeDownloader.HumanTimeConversion
-export const GetLyrics = YoutubeDownloader.GetLyrics
+export default playdl
+export const playdlQuick = new playdl()

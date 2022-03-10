@@ -1,129 +1,201 @@
-const SpotifyExtractor = require('./bin/Spotify-Resolver');
-const QueryResolver = require('./bin/Query-Resolver');
-const SoundCloudExtractor = require('./bin/SoundCloud-Resolver');
-const {
-  YoutubeData,
-  YoutubeStreamOptions,
-} = require('../typings/instances-commonjs');
-const FacebookResolver = require('./bin/Facebook-Resolver');
-const ReverbnationResolver = require('./bin/Reverbnation-Resolver');
-const { HumanTimeConversion } = require('./bin/Track-Extractor');
-const { GetLyrics } = require('./bin/Lyrics-Extractor');
+const path = require('path');
+const EventEmitter = require('events');
+const fileSystem = require('fs');
+const spotify = require('./bin/__spotify');
+const youtube = require('./bin/__youtube');
+const soundcloud = require('./bin/__soundCloud');
+const facebook = require('./bin/__facebook');
+const reverbnation = require('./bin/__reverbnation');
+const deezer = require('./bin/__deezer');
+const Track = require('./bin/__trackModeler');
 
 /**
- * @function Extractor play-dl Extractor for Music Players Node.jsv16
- * @param {String} Query Query for Searching Data as Tracks , Playlist or albums
- * @param {Object<YoutubeStreamOptions>} YoutubeStreamOptions Youtube Stream Options for play-dl
- * @returns {Promise<YoutubeData>} play-dlTracks
+ * @class playdl -> Main Handler to Fetch and Parse Songs from Youtube and SoundCloud and many Others from play-dl as its base source
  */
 
-async function Extractor(
-  Query,
-  YoutubeStreamOptions = {
-    Limit: 1,
-    Quality: undefined,
-    UserAgents: undefined,
-    Cookies: undefined,
-    IgnoreError: false,
-  } || undefined,
-) {
-  const SpotifyUrlRegex = /^(?:spotify:|(?:https?:\/\/(?:open|play)\.spotify\.com\/))(?:embed)?\/?(album|track|playlist|episode|show)(?::|\/)((?:[0-9a-zA-Z]){22})/;
-  const SoundCloundUrlRegex = /^(?:(https?):\/\/)?(?:(?:www|m)\.)?(soundcloud\.com|snd\.sc|soundcloud\.app\.goo\.gl)\/(.*)$/;
-  const FacebookVideoUrlRegex = /(?:https?:\/{2})?(?:w{3}\.)?(facebook|fb).com\/.*\/videos\/.*/;
-  if (!Query || (Query && typeof Query !== 'string')) throw TypeError('Query is invalid or is not String');
-  if (Query.match(SpotifyUrlRegex)) return Filteration(await SpotifyExtractor(Query, YoutubeStreamOptions));
-  if (Query.match(FacebookVideoUrlRegex)) return Filteration(await FacebookResolver(Query, YoutubeStreamOptions));
-  if (Query.match(SoundCloundUrlRegex)) {
-    return Filteration(
-      await SoundCloudExtractor.SoundCloudResolver(
-        Query,
-        Query.match(SoundCloundUrlRegex),
-        YoutubeStreamOptions,
-      ),
-    );
+class playdl extends EventEmitter {
+  /**
+   * @constructor
+   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
+   */
+  constructor(__scrapperOptions = playdl.#__privateCaches.__scrapperOptions) {
+    super();
+    this.__scrapperOptions = {
+      ...playdl.#__privateCaches.__scrapperOptions,
+      ...__scrapperOptions,
+      fetchOptions: {
+        ...playdl.#__privateCaches?.fetchOptions,
+        ...__scrapperOptions?.fetchOptions,
+      },
+    };
   }
-  if (Query.toLowerCase().includes('www.reverbnation.com')) return Filteration(await ReverbnationResolver(Query, YoutubeStreamOptions));
-  return Filteration(await QueryResolver(Query, YoutubeStreamOptions));
+
+  /**
+   * @static
+   * @private
+   * @property {Object} #__privateCaches -> Private Caches for functions to Store basic Options and Queue Data for Ratelimit
+   */
+  static #__privateCaches = {
+    __ratelimitQueue: undefined,
+    fetchOptions: {
+      tokens: {},
+      fetchLimit: Infinity,
+      streamQuality: undefined,
+      rawCookies: undefined,
+      userAgents: undefined,
+    },
+    __scrapperOptions: {
+      fetchLyrics: true,
+      eventReturn: { metadata: undefined },
+      ratelimit: 0,
+      ignoreInternalError: true,
+      fetchOptions: {
+        fetchLimit: Infinity,
+        streamQuality: undefined,
+        rawCookies: undefined,
+        userAgents: undefined,
+      },
+      streamDownload: false,
+    },
+  };
+
+  /**
+   * exec() -> Raw and in-built function for fetching Data for other methods with no exceptions
+   * @param {string} rawQuery -> A String Value for Song Name or Url to be Parsed and Fetch Data about it
+   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
+   * @returns {Promise<extractorData>} playlist and Tracks from play-dl
+   */
+  async exec(
+    rawQuery,
+    __scrapperOptions = playdl.#__privateCaches.__scrapperOptions,
+  ) {
+    try {
+      __scrapperOptions = {
+        ...this.__scrapperOptions,
+        ...__scrapperOptions,
+        fetchOptions: {
+          ...this.__scrapperOptions?.fetchOptions,
+          ...__scrapperOptions?.fetchOptions,
+        },
+      };
+      if (
+        !(rawQuery && typeof rawQuery === 'string' && rawQuery?.trim() !== '')
+      ) {
+        throw new Error(
+          'playdl-music-playdl Error : Invalid Query is Provided to Parse and Stream for Client',
+        );
+      }
+
+      await this.__customRatelimit(__scrapperOptions?.ratelimit);
+      if (spotify.__test(rawQuery)) return await spotify.__extractor(rawQuery, __scrapperOptions, this);
+      if (soundcloud.__test(rawQuery)) return await soundcloud.__extractor(rawQuery, __scrapperOptions, this);
+      if (facebook.__test(rawQuery)) return await facebook.__extractor(rawQuery, __scrapperOptions, this);
+      if (reverbnation.__test(rawQuery)) return await reverbnation.__extractor(rawQuery, __scrapperOptions, this);
+      if (deezer.__test(rawQuery)) return await deezer.__extractor(rawQuery, __scrapperOptions, this);
+      if (youtube.__test(rawQuery)) return await youtube.__extractor(rawQuery, __scrapperOptions, this);
+      throw new Error(
+        'playdl-music-playdl Error : Un-Supportable Query is Provided to Parse and Stream for Client',
+      );
+    } catch (rawError) {
+      if (__scrapperOptions?.ignoreInternalError) return void this.__errorHandling(rawError);
+      throw rawError;
+    }
+  }
+
+  /**
+   * streamExtractor() -> Raw and in-built function for fetching Data for other methods with no exceptions
+   * @param {string} rawQuery -> A String Value for Song Name or Url to be Parsed and Fetch Data about it
+   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
+   * @param {string | "tracks" | "streams"} returnType Return Type for method , And Optional choice and By Default its -> "tracks"
+   * @returns {Promise<Track[] | []>} playlist and Tracks from play-dl
+   */
+  async streamExtractor(
+    rawQuery,
+    __scrapperOptions = playdl.#__privateCaches.__scrapperOptions,
+    returnType = 'tracks',
+  ) {
+    const __rawResponse = await this.exec(rawQuery, {
+      ...__scrapperOptions,
+      streamDownload: true,
+    });
+    if (returnType && returnType?.toLowerCase()?.trim()?.includes('stream')) {
+      return __rawResponse?.tracks?.filter((track) => track?.stream);
+    }
+    return __rawResponse?.tracks;
+  }
+
+  /**
+   * softExtractor() -> Raw and in-built function for fetching Data for other methods with no exceptions
+   * @param {string} rawQuery -> A String Value for Song Name or Url to be Parsed and Fetch Data about it
+   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
+   * @returns {Promise<Track[]>} playlist and Tracks from play-dl
+   */
+  async softExtractor(
+    rawQuery,
+    __scrapperOptions = playdl.#__privateCaches.__scrapperOptions,
+  ) {
+    const __rawResponse = await this.exec(rawQuery, {
+      ...__scrapperOptions,
+      fetchLyrics: false,
+      streamDownload: false,
+    });
+    return __rawResponse?.tracks;
+  }
+
+  __errorHandling(error = new Error()) {
+    if (!error?.message) return undefined;
+    if (!fileSystem.existsSync(path.join(__dirname, '/cache'))) fileSystem.mkdirSync(path.join(__dirname, '/cache'));
+    const __cacheLocation = path.join(__dirname, '/cache', '/__errorLogs.txt');
+    if (!__cacheLocation) return undefined;
+    if (!fileSystem.existsSync(__cacheLocation)) {
+      fileSystem.writeFileSync(
+        __cacheLocation,
+        `${new Date()} | `
+          + `\n ErrorMessage: ${error?.message ?? `${error}`}\n ErrorStack: ${
+            error?.stack ?? 'Unknown-Stack'
+          }`,
+      );
+    } else if (
+      (fileSystem.readFileSync(__cacheLocation)?.length ?? 0) < 500000
+    ) {
+      fileSystem.appendFileSync(
+        __cacheLocation,
+        `\n\n${new Date()} | `
+          + `\n ErrorMessage: ${error?.message ?? `${error}`}\n ErrorStack: ${
+            error?.stack ?? 'Unknown-Stack'
+          }`,
+        'utf8',
+      );
+    } else {
+      fileSystem.writeFileSync(
+        __cacheLocation,
+        `${new Date()} | `
+          + `\n ErrorMessage: ${error?.message ?? `${error}`}\n ErrorStack: ${
+            error?.stack ?? 'Unknown-Stack'
+          }`,
+      );
+    }
+    return true;
+  }
+
+  async __customRatelimit(waitTime = 2 * 1000, forceSkip = false) {
+    if (forceSkip) return true;
+    const __rawtimeMs = new Date().getTime();
+    playdl.#__privateCaches.__ratelimitQueue ??= __rawtimeMs;
+    if (playdl.#__privateCaches.__ratelimitQueue - __rawtimeMs > 1000) {
+      playdl.#__privateCaches.__ratelimitQueue += waitTime;
+      await this.#sleep(playdl.#__privateCaches.__ratelimitQueue - __rawtimeMs);
+      return true;
+    }
+    return true;
+  }
+
+  #sleep(waitTime = 2 * 1000) {
+    if (!(waitTime && typeof waitTime === 'number' && waitTime > 500)) return true;
+    return new Promise((resolve) => setTimeout(resolve, waitTime));
+  }
+
+  static playdlQuick = new playdl();
 }
 
-/**
- * @function StreamDownloader play-dl Stream Downloader for Music Players Node.jsv16
- * @param {String} Query Query for Searching Data as Tracks , Playlist or albums
- * @param {Object<YoutubeStreamOptions>} YoutubeStreamOptions Youtube Stream Options for play-dl
- * @returns {Promise<YoutubeData>} play-dlTracks
- */
-
-async function StreamDownloader(
-  Query,
-  YoutubeStreamOptions = {
-    Limit: 1,
-    Quality: undefined,
-    UserAgents: undefined,
-    Cookies: undefined,
-    IgnoreError: false,
-  } || undefined,
-) {
-  const SpotifyUrlRegex = /^(?:spotify:|(?:https?:\/\/(?:open|play)\.spotify\.com\/))(?:embed)?\/?(album|track|playlist|show|episode)(?::|\/)((?:[0-9a-zA-Z]){22})/;
-  const SoundCloundUrlRegex = /^(?:(https?):\/\/)?(?:(?:www|m)\.)?(soundcloud\.com|snd\.sc|soundcloud\.app\.goo\.gl)\/(.*)$/;
-  const FacebookVideoUrlRegex = /(?:https?:\/{2})?(?:w{3}\.)?(facebook|fb).com\/.*\/videos\/.*/;
-  if (!Query || (Query && typeof Query !== 'string')) throw TypeError('Query is invalid or is not String');
-  if (Query.match(SpotifyUrlRegex)) {
-    return Filteration(
-      await SpotifyExtractor(Query, YoutubeStreamOptions, true),
-    );
-  }
-  if (Query.match(FacebookVideoUrlRegex)) {
-    return Filteration(
-      await FacebookResolver(Query, YoutubeStreamOptions, true),
-    );
-  }
-  if (Query.match(SoundCloundUrlRegex)) {
-    return Filteration(
-      await SoundCloudExtractor.SoundCloudResolver(
-        Query,
-        Query.match(SoundCloundUrlRegex),
-        YoutubeStreamOptions,
-        true,
-      ),
-    );
-  }
-  if (Query.toLowerCase().includes('www.reverbnation.com')) {
-    return Filteration(
-      await ReverbnationResolver(Query, YoutubeStreamOptions, true),
-    );
-  }
-  return Filteration(await QueryResolver(Query, YoutubeStreamOptions, true));
-}
-
-function Filteration(DataStructure) {
-  DataStructure.tracks = Array.isArray(DataStructure.tracks)
-    ? DataStructure.tracks
-    : [DataStructure.tracks];
-  DataStructure.tracks = DataStructure.tracks.map((track) => {
-    if (track && track.track) return track.track;
-    return track;
-  });
-  DataStructure.error = DataStructure
-    && DataStructure.tracks
-    && DataStructure.tracks[0]
-    && DataStructure.tracks[0].error
-    ? DataStructure.tracks.map((track) => {
-      if (track.error) return track.error;
-      return undefined;
-    })
-    : DataStructure.error;
-  if (DataStructure && DataStructure.tracks && DataStructure.tracks[0]) {
-    DataStructure.tracks = DataStructure.tracks.filter(Boolean);
-    DataStructure.error = DataStructure.error && DataStructure.error[0]
-      ? DataStructure.error.filter(Boolean)
-      : DataStructure.error;
-  }
-  return DataStructure;
-}
-
-module.exports = {
-  Extractor,
-  StreamDownloader,
-  HumanTimeConversion,
-  GetLyrics,
-};
+module.exports = playdl;

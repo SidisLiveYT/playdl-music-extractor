@@ -25,6 +25,9 @@
     "no-nested-ternary": "off",
     "no-unused-expressions": "off",
     "camelcase": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "indent": "off",
+    "new-cap": "off",
+    "no-promise-executor-return": "off"
   }
 }
