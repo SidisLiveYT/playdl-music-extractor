@@ -1,6 +1,6 @@
 {
   "name": "playdl-music-extractor",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "description": "PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials",
   "main": "./src/index.js",
   "module": "./src/index.mjs",
