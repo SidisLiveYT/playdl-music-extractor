@@ -1,4 +1,4 @@
-const playdl = require('../src/index')
+const { playdl } = require('../src/index')
 
 const quickHandler = playdl.playdlQuick
 

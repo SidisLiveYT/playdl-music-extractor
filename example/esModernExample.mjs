@@ -1,6 +1,6 @@
 import { playdlQuick } from '../src/index.mjs'
 
-const quickHandler = playdl.playdlQuick
+const quickHandler = playdlQuick
 
 quickHandler.on('tracks', (...eventData) => console.log(eventData))
 

@@ -38,5 +38,5 @@ declare class playdl extends EventEmitter {
   ): this
 }
 
-declare type playdlQuick = playdl
+export const playdlQuick = new playdl()
 export { playdl, playdlQuick }
