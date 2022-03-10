@@ -7,7 +7,7 @@ import {
   extractorData,
 } from './instances'
 
-export class playdl extends EventEmitter {
+declare class playdl extends EventEmitter {
   public constructor(__scrapperOptions: scrapperOptions)
   public readonly __scrapperOptions: scrapperOptions
   public exec(
@@ -27,7 +27,7 @@ export class playdl extends EventEmitter {
       | scrapperOptions
       | 'streamDownload and fetcLyrics object key will always be false',
   ): Promise<Track[]>
-  public playdlQuick: playdl
+  public static playdlQuick: playdl
   public on<K extends keyof trackEvents>(
     event: K,
     listener: (...args: trackEvents[K]) => Awaitable<void>,
@@ -37,3 +37,6 @@ export class playdl extends EventEmitter {
     listener: (...args: any[]) => Awaitable<void>,
   ): this
 }
+
+declare type playdlQuick = playdl
+export { playdl, playdlQuick }
