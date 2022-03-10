@@ -17,7 +17,7 @@
 <body>
 
 <nav class="navbar">
-    <h4><a href="index.html">Home</a></h4>
+    <h4><a href="index.html">Home</a></h4><h5 class="no-bottom must-underline">Classes</h5><ul><li><span class="small-icon C">C</span><b><a href="playdl.html">playdl</a></b><ul class="has-class-methods"><li><span class="small-icon F">F</span><a href="playdl.html#exec">exec</a></li><li><span class="small-icon F">F</span><a href="playdl.html#softExtractor">softExtractor</a></li><li><span class="small-icon F">F</span><a href="playdl.html#streamExtractor">streamExtractor</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -36,7 +36,7 @@
     
 
 
-    <h3>playdl-music-extractor 2.5.12</h3>
+    <h3>playdl-music-extractor 2.6.0</h3>
 
 
 
@@ -64,115 +64,83 @@
 <p>PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.</p>
 <ul>
 <li>Auto - UserAgents Method for Ratelimit Issue ( Fixed Youtube [ 429 ] Error )</li>
-<li>Object-oriented , means Value returned in a structure format</li>
+<li>Object-oriented , means Value returned in a structure format or Class</li>
 <li>Supports Youtube , Spotify , Reverbnation , SoundCloud , Facebook Urls and Even Youtube Search</li>
 <li>Delay/Buffer Timeout is max 3 seconds on tracks and 7 sec for Playlists</li>
 <li>Customisable Extractors</li>
 <li>Performant</li>
 <li>100% coverage of play-dl and custom extractors</li>
 </ul>
-<h2>Installation</h2>
+<h3>Installation</h3>
 <p><strong>Node.js 16 or newer is required.</strong></p>
 <pre class="prettyprint source"><code>npm install playdl-music-extractor
 </code></pre>
-<h2>Example usage</h2>
-<p>Extractor Video/Playlist/Album Data from any Platform :-</p>
-<pre class="prettyprint source"><code>const { Extractor, StreamDownloader , HumanTimeConversion } = require('playdl-music-extractor') //For CommonJS
-                            OR
-import { Extractor, StreamDownloader , HumanTimeConversion } from 'playdl-music-extractor' //for ES6
-
-
-var Data = await Extractor(Url || Query, {
-  Limit: 1,
-  Quality: 'highest',
-  Cookies: undefined, //YT Cookies Headers in String form
-  UserAgents: undefined, //[{&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) .....&quot;}] Format(UserAgents)
-  IgnoreError: true,
-})
-
-if(Data.error) throw Data.error;
-
-
-var StreamData = await StreamDownloader(Url || Query, {
-  Limit: 1,
-  Quality: 'highest',
-  Cookies: undefined, //YT Cookies Headers in String form
-  UserAgents: undefined, //[{&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) .....&quot;}] Format(UserAgents)
-  IgnoreError: true,
-})
-
-if(StreamData.error) throw StreamData.error;
-
-
-var HumanTime = HumanTimeConversion(Milliseconds)
+<h3>Example :</h3>
+<h4>Fetched Data</h4>
+<pre class="prettyprint source lang-js"><code>  Track {
+    trackId: 1,
+    url: 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
+    videoId: 'kJQP7kiw5Fk',
+    title: 'Luis Fonsi - Despacito ft. Daddy Yankee',
+    description: '“Despacito” disponible ya en todas las plataformas digitales: https://UMLE.lnk.to/DOoUzFp \n' +
+      '“Imposible” disponible ya en todas las plataformas digitales: https://UMLE.lnk.to/IMPOSIBLEFp\n' +
+      '“Calypso” disponible ya en todas las plataformas digitales: https://UMLE.lnk.to/CLYPSFp\n' +
+      'Echame La Culpa disponible ya en todas las plataformas digitales: https://UMLE.lnk.to/ELCFp\n' +
+      '\n' +
+      '\n' +
+      'Best of Luis Fonsi / Lo mejor Luis Fonsi: https://goo.gl/KLWPSa \n' +
+      'Subscribe here: https://goo.gl/nkhcGc\n' +
+      'Sigue a Luis Fonsi: \n' +
+      'Official Site: http://www.luisfonsi.com/ \n' +
+      'Facebook: https://www.facebook.com/luisfonsi/ \n' +
+      'Twitter: https://twitter.com/LuisFonsi \n' +
+      'Instagram: https://www.instagram.com/luisfonsi\n' +
+      '\n' +
+      '#LuisFonsi #Despacito #Imposible #Calypso #EchamelaCulpa #NadaEsImposible #NothingisImpossible #LF\n' +
+      '\n' +
+      '\n' +
+      'Music video by Luis Fonsi performing Despacito. (C) 2017 Universal Music Latino',
+    author: {
+      name: 'LuisFonsiVEVO',
+      url: 'https://www.youtube.com/channel/UCLp8RBhQHu9wSsq62j_Md6A'
+    },
+    extractorModel: { orignal: 'youtube', custom: 'play-dl' },
+    duration: { ms: 282000, readable: '4 Minutes 42 Seconds' },
+    thumbnail: {
+      Id: 'kJQP7kiw5Fk',
+      url: 'https://i.ytimg.com/vi/kJQP7kiw5Fk/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLCuffhiAPaneh-5dnyfyvY_mDwxhQ'
+    },
+    channel: {
+      name: 'LuisFonsiVEVO',
+      Id: 'UCLp8RBhQHu9wSsq62j_Md6A',
+      url: 'https://www.youtube.com/channel/UCLp8RBhQHu9wSsq62j_Md6A'
+    },
+    isLive: false,
+    ratings: { likes: 47756817, dislikes: 0 }
+  },
 </code></pre>
-<h2>Strucutre of Data/Track</h2>
-<pre class="prettyprint source"><code>Data : {
-  playlist : Boolean,
-  tracks : [
-    {
-      Id: 0,
-      url: null,
-      title: null,
-      author: null,
-      author_link: null,
-      description: null,
-      custom_extractor: `youtube-dl`,
-      duration: 0,
-      human_duration: undefined,
-      preview_stream_url: null,
-      stream: null,
-      stream_url: &quot; &quot;,  // Audio Filters -> FFmpeg usage
-      stream_type: undefined,
-      stream_duration: 0,
-      stream_video_Id: undefined,
-      stream_human_duration: undefined,
-      orignal_extractor: null | 'youtube' | 'spotify' | 'facebook' | 'arbitrary',
-      thumbnail: null,
-      channelId: 'none' | 0,
-      channel_url: null,
-      lyrics: &quot; &quot;,
-      likes: 0,
-      is_live: false,
-      dislikes: 0,
-    }
-  ],
-  error : Error | undefined
-}
-</code></pre>
+<h4>Tips/Base Information :</h4>
 <ul>
-<li><code>Extractor() is same as StreamDownloader() but it will not download info related to Streams like - &quot;stream&quot;,&quot;stream_type&quot; and e.t.c , just the info about the Query</code></li>
-<li><code>&quot;&lt;Track&gt;.stream_duration&quot; is Stream Duration in Milliseconds as Stream is from Youtube</code></li>
-<li><code>Data.tracks[0].stream can be used in terms of stream value in @discordjs/voice or any other Audio package After using - StreamDownloader() .</code></li>
+<li><em>Track Data is instance of Track Class and you can also retrieve Stream Data or Lyrics by getStream(...args) and getLyrics()</em></li>
+<li><em>Stream will be Processed through Official &quot;play-dl&quot; Npm Package</em></li>
+<li><em>Besides Official Use of play-dl Package , You can retrieve data from facebook,deezer,reverbnation and vimeo (soon)</em></li>
 </ul>
-<h2>Use-Case for @discordjs/voice Package</h2>
-<pre class="prettyprint source"><code>const { StreamDownloader } = require('playdl-music-extractor')
-const { createAudioResource } = require('@discordjs/voice')
-
-const Data = await StreamDownloader('Despacito', {
-  Limit: 1,
-  Quality: 'highest',
-  Cookies: undefined, //YT Cookies Headers in String form
-  UserAgents: undefined, //[{&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) .....&quot;}] Format(UserAgents)
-  IgnoreError: true,
-})
-
-if(Data.error) throw Data.error;
-
-var Audio_Resource = createAudioResource(Data.tracks[0].stream ,{
-  inputType: Data.tracks[0].stream_type
-})
-
-
-/*
-
-- Rest is mentioned in @discordjs/voice examples , from here &quot;Audio_Resource&quot; is important
-- Extractor() is same as StreamDownloader() but it will not download info related to Streams like - &quot;stream&quot;,&quot;stream_type&quot; and e.t.c , just the info about the Query
-
-*/
-
-</code></pre>
-<h2>Links</h2>
+<h4>Code Snippet :</h4>
+<ul>
+<li><a href="example/exampleTest.js">Common JS</a></li>
+<li><a href="example/esModernExample.js">ES Modern</a></li>
+</ul>
+<h4>Supportable Websites :</h4>
+<ul>
+<li><a href="example/exampleTest.js">Youtube Example</a></li>
+<li><a href="example/exampleTest.js">Spotify Example</a></li>
+<li><a href="example/exampleTest.js">SoundCloud Example</a></li>
+<li><a href="example/exampleTest.js">Deezer Example</a></li>
+<li><a href="example/exampleTest.js">Reverbnation Example</a></li>
+<li><a href="example/exampleTest.js">Facebook Example</a></li>
+<li><a href="example/exampleTest.js">Vimeo Example (Soon)</a></li>
+</ul>
+<h3>Links</h3>
 <ul>
 <li><a href="https://www.npmjs.com/package/play-dl">play-dl</a></li>
 <li><a href="https://github.com/SidisLiveYT/playdl-music-extractor.git">Source Code</a></li>
@@ -180,9 +148,9 @@ var Audio_Resource = createAudioResource(Data.tracks[0].stream ,{
 <li><a href="https://www.npmjs.com/package/playdl-music-extractor">NPM Package</a></li>
 <li><a href="https://yarn.pm/playdl-music-extractor">Yarn Package</a></li>
 </ul>
-<h2>Contributing</h2>
+<h3>Contributing</h3>
 <p>Before creating an issue, please ensure that it hasn't already been reported/suggested, and double-check the ReadMe.md</p>
-<h2>Help</h2>
+<h3>Help</h3>
 <p>If you don't understand something in the ReadMe.md , you are experiencing problems, or you just need a gentle
 nudge in the right direction, please don't hesitate to join our official <a href="https://discord.gg/MfME24sJ2a">Support Server</a>.</p></article>
     </section>
@@ -198,7 +166,7 @@ nudge in the right direction, please don't hesitate to join our official <a href
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Feb 09 2022 10:32:10 GMT+0000 (Coordinated Universal Time) using <a href="https://github.com/zyrouge/jsdoc-skyceil">Skyceil Theme</a>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Mar 10 2022 07:28:24 GMT+0000 (Coordinated Universal Time) using <a href="https://github.com/zyrouge/jsdoc-skyceil">Skyceil Theme</a>
 </footer>
 
 <script>prettyPrint();</script>

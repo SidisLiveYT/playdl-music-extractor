@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Class: playdl</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/nav.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/skyceil.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <h4><a href="index.html">Home</a></h4><h5 class="no-bottom must-underline">Classes</h5><ul><li><span class="small-icon C">C</span><b><a href="playdl.html">playdl</a></b><ul class="has-class-methods"><li><span class="small-icon F">F</span><a href="playdl.html#exec">exec</a></li><li><span class="small-icon F">F</span><a href="playdl.html#softExtractor">softExtractor</a></li><li><span class="small-icon F">F</span><a href="playdl.html#streamExtractor">streamExtractor</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    <div class="burger">
+        <div class="burger-line-1"></div>
+        <div class="burger-line-2"></div>
+        <div class="burger-line-3"></div>
+    </div>
+
+    <h1 class="page-title">Class: playdl</h1>
+
+    
+
+
+
+
+<section>
+<header>
+    <hr>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>playdl<span class="signature">(__scrapperOptions)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>playdl -&gt; Main Handler to Fetch and Parse Songs from Youtube and SoundCloud and many Others from play-dl as its base source</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    
+    <h4 class="name" id="playdl"><span class="type-signature"></span>new playdl<span class="signature">(__scrapperOptions)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<div class="table-box">
+    <table class="params">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            <tr>
+                
+                    <td class="name"><code>__scrapperOptions</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">scrapperOptions</span>
+
+
+                
+                </td>
+
+                
+
+                
+
+                <td class="description last"><blockquote>
+<p>Scrapping Options for functions and base Source Engine</p>
+</blockquote></td>
+            </tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<hr>
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="exec"><span class="type-signature">(async) </span>exec<span class="signature">(rawQuery, __scrapperOptions)</span><span class="type-signature"> &rarr; {Promise.&lt;extractorData>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>exec() -&gt; Raw and in-built function for fetching Data for other methods with no exceptions</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<div class="table-box">
+    <table class="params">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            <tr>
+                
+                    <td class="name"><code>rawQuery</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">string</span>
+
+
+                
+                </td>
+
+                
+
+                
+
+                <td class="description last"><blockquote>
+<p>A String Value for Song Name or Url to be Parsed and Fetch Data about it</p>
+</blockquote></td>
+            </tr>
+
+        
+
+            <tr>
+                
+                    <td class="name"><code>__scrapperOptions</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">scrapperOptions</span>
+
+
+                
+                </td>
+
+                
+
+                
+
+                <td class="description last"><blockquote>
+<p>Scrapping Options for functions and base Source Engine</p>
+</blockquote></td>
+            </tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line68">line 68</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>playlist and Tracks from play-dl</p>
+</div>
+
+
+
+<ul>
+    <li>
+        Type: <span class="simple-code">
+<span class="param-type">Promise.&lt;extractorData></span>
+
+</span>
+    </li>
+</ul>
+
+    
+
+
+
+
+
+<hr>
+        
+            
+
+    
+
+    
+    <h4 class="name" id="softExtractor"><span class="type-signature">(async) </span>softExtractor<span class="signature">(rawQuery, __scrapperOptions)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Track>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>softExtractor() -&gt; Raw and in-built function for fetching Data for other methods with no exceptions</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<div class="table-box">
+    <table class="params">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            <tr>
+                
+                    <td class="name"><code>rawQuery</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">string</span>
+
+
+                
+                </td>
+
+                
+
+                
+
+                <td class="description last"><blockquote>
+<p>A String Value for Song Name or Url to be Parsed and Fetch Data about it</p>
+</blockquote></td>
+            </tr>
+
+        
+
+            <tr>
+                
+                    <td class="name"><code>__scrapperOptions</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">scrapperOptions</span>
+
+
+                
+                </td>
+
+                
+
+                
+
+                <td class="description last"><blockquote>
+<p>Scrapping Options for functions and base Source Engine</p>
+</blockquote></td>
+            </tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line133">line 133</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>playlist and Tracks from play-dl</p>
+</div>
+
+
+
+<ul>
+    <li>
+        Type: <span class="simple-code">
+<span class="param-type">Promise.&lt;Array.&lt;Track>></span>
+
+</span>
+    </li>
+</ul>
+
+    
+
+
+
+
+
+<hr>
+        
+            
+
+    
+
+    
+    <h4 class="name" id="streamExtractor"><span class="type-signature">(async) </span>streamExtractor<span class="signature">(rawQuery, __scrapperOptions, returnType)</span><span class="type-signature"> &rarr; {Promise.&lt;(Array.&lt;Track>|Array.&lt;Object>)>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>streamExtractor() -&gt; Raw and in-built function for fetching Data for other methods with no exceptions</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<div class="table-box">
+    <table class="params">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+            <th>Default</th>
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            <tr>
+                
+                    <td class="name"><code>rawQuery</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">string</span>
+
+
+                
+                </td>
+
+                
+
+                
+                    <td class="default">
+                    
+                    </td>
+                
+
+                <td class="description last"><blockquote>
+<p>A String Value for Song Name or Url to be Parsed and Fetch Data about it</p>
+</blockquote></td>
+            </tr>
+
+        
+
+            <tr>
+                
+                    <td class="name"><code>__scrapperOptions</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">scrapperOptions</span>
+
+
+                
+                </td>
+
+                
+
+                
+                    <td class="default">
+                    
+                    </td>
+                
+
+                <td class="description last"><blockquote>
+<p>Scrapping Options for functions and base Source Engine</p>
+</blockquote></td>
+            </tr>
+
+        
+
+            <tr>
+                
+                    <td class="name"><code>returnType</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">string</span>
+|
+
+<span class="param-type">"tracks"</span>
+|
+
+<span class="param-type">"streams"</span>
+
+
+                
+                </td>
+
+                
+
+                
+                    <td class="default">
+                    
+                        tracks
+                    
+                    </td>
+                
+
+                <td class="description last"><p>Return Type for method , And Optional choice and By Default its -&gt; &quot;tracks&quot;</p></td>
+            </tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line112">line 112</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>playlist and Tracks from play-dl</p>
+</div>
+
+
+
+<ul>
+    <li>
+        Type: <span class="simple-code">
+<span class="param-type">Promise.&lt;(Array.&lt;Track>|Array.&lt;Object>)></span>
+
+</span>
+    </li>
+</ul>
+
+    
+
+
+
+
+
+<hr>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Mar 10 2022 07:28:24 GMT+0000 (Coordinated Universal Time) using <a href="https://github.com/zyrouge/jsdoc-skyceil">Skyceil Theme</a>
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+</body>
+</html>
