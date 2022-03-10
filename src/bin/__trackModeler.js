@@ -47,21 +47,23 @@ class Track {
   }
 
   async getStream(
-    extraStream,
+    streamUrl,
     ignoreStreamError,
     __cacheMain,
     __streamCaches,
     reTryonRatelimit = true,
   ) {
     try {
-      let __rawStream; let __garbageResults; let
-        alterVideo;
+      let __rawStream = {};
+      let __garbageResults;
+      let alterVideo = {};
       if (!this.url) return undefined;
       if (
         !(
           soundCloud.__test(this.#__raw?.url)
           || youtube.__test(this.#__raw?.url)
         )
+        && !streamUrl
       ) {
         __garbageResults = (await search(this.title, { limit: 1 }))?.filter(
           Boolean,
@@ -71,13 +73,13 @@ class Track {
           discordPlayerCompatibility: true,
         });
       } else if (
-        extraStream
-        && typeof extraStream === 'string'
-        && extraStream !== ''
+        streamUrl
+        && typeof streamUrl === 'string'
+        && streamUrl !== ''
       ) {
         const ffmpegArgs = [
           '-i',
-          extraStream,
+          streamUrl,
           '-analyzeduration',
           '0',
           '-loglevel',
@@ -126,7 +128,9 @@ class Track {
           || `${rawError}`?.includes('429'))
         && __cacheMain
         && !reTryonRatelimit
-      ) { return void __cacheMain.__errorHandling(rawError); }
+      ) {
+        return void __cacheMain.__errorHandling(rawError);
+      }
       if (
         (ignoreStreamError
           || rawError?.message?.includes('429')
@@ -141,12 +145,13 @@ class Track {
           useragent: __rawUserAgents,
         });
         return await this.getStream(
-          extraStream,
+          streamUrl,
           ignoreStreamError,
           __cacheMain,
           false,
         );
-      } throw rawError;
+      }
+      throw rawError;
     }
   }
 
@@ -159,12 +164,14 @@ class Track {
           ?? this.#__raw?.author?.name
           ?? this.#__raw?.artist?.name)
       )
-    ) { return undefined; }
+    ) {
+      return undefined;
+    }
     this.lyrics = await getLyrics(
       this.#__raw?.title?.slice(0, 25)?.trim(),
       this.author?.name
-          ?? this.#__raw?.author?.name
-          ?? this.#__raw?.artist?.name,
+        ?? this.#__raw?.author?.name
+        ?? this.#__raw?.artist?.name,
     );
     return this.lyrics;
   }
@@ -176,7 +183,9 @@ class Track {
         && !Number.isNaN(__durationMs)
         && parseInt(__durationMs) > 0
       )
-    ) { return undefined; }
+    ) {
+      return undefined;
+    }
     __durationMs /= 1000;
     let __string = '';
     for (
@@ -202,9 +211,9 @@ class Track {
         && (__string += ` ${__cacheArray[__alterArray][0]} ${
           __cacheArray[__alterArray][0] === 1
             ? __cacheArray[__alterArray][1].substr(
-              0,
-              __cacheArray[__alterArray][1].length - 1,
-            )
+                0,
+                __cacheArray[__alterArray][1].length - 1,
+              )
             : __cacheArray[__alterArray][1]
         }`);
     }

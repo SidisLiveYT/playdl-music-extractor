@@ -23,6 +23,7 @@ class playdlEngine {
     __cacheMain,
     __preCached,
   ) {
+    if (!(rawQuery && typeof rawQuery === 'string' && rawQuery !== '')) return undefined;
     let __searchResults;
     let __cacheGarbage;
     let __indexCount = 0;
@@ -63,7 +64,11 @@ class playdlEngine {
       });
     }
     __searchResults = (
-      await playdlEngine.#__customSearch(rawQuery, __scrapperOptions)
+      await playdlEngine.#__customSearch(
+        rawQuery,
+        __scrapperOptions,
+        __trackBlueprint?.orignal_extractor,
+      )
     )?.filter(Boolean);
     if (
       !(
@@ -85,7 +90,6 @@ class playdlEngine {
     return (
       await Promise.all(
         __searchResults?.map(async (__rawTrack) => {
-          if (__cacheMain?.__destroyed) return undefined;
           __cacheGarbage = await playdlEngine.__trackModelling(
             __rawTrack,
             {
@@ -111,7 +115,12 @@ class playdlEngine {
     )?.filter(Boolean);
   }
 
-  static async #__customSearch(rawQuery, __scrapperOptions) {
+  static async #__customSearch(
+    rawQuery,
+    __scrapperOptions,
+    extractor = 'arbitary',
+  ) {
+    if (extractor && extractor?.toLowerCase()?.trim() === 'arbitary') return [{ url: rawQuery }];
     let __rawResults;
     let __videoDetails;
     const __validate = await validate(rawQuery);

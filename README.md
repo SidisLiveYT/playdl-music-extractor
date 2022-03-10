@@ -8,9 +8,10 @@
 
 ## About
 
-PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials.
+_PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials._
 
 - Auto - UserAgents Method for Ratelimit Issue ( Fixed Youtube [ 429 ] Error )
+- Supports User-Agents and Youtube Cookies for Stream and Extractor Method
 - Object-oriented , means Value returned in a structure format or Class
 - Supports Youtube , Spotify , Reverbnation , SoundCloud , Facebook Urls and Even Youtube Search
 - Delay/Buffer Timeout is max 3 seconds on tracks and 7 sec for Playlists
@@ -26,9 +27,7 @@ PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data f
 npm install playdl-music-extractor
 ```
 
-### Example :
-
-#### Fetched Data
+#### Example : Fetched Data with Stream and Lyrics
 
 ```js
   Track {
@@ -70,7 +69,77 @@ npm install playdl-music-extractor
       url: 'https://www.youtube.com/channel/UCLp8RBhQHu9wSsq62j_Md6A'
     },
     isLive: false,
-    ratings: { likes: 47756817, dislikes: 0 }
+    ratings: { likes: 47759879, dislikes: 0 },
+    stream: {
+      buffer: [Readable],
+      videoUrl: 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
+      type: 'webm/opus',
+      duration: [Object],
+      videoId: 'kJQP7kiw5Fk'
+    },
+    lyrics: 'Come and move that in my direction\n' +
+      "So thankful for that, it's such a blessin', yeah\n" +
+      'Turn every situation into heaven, yeah\n' +
+      'Oh-oh, you are\n' +
+      'My sunrise on the darkest day\n' +
+      "Got me feelin' some kind of way\n" +
+      'Make me wanna savor every moment slowly\n' +
+      'You fit me tailor-made, love how you put it on\n' +
+      'Got the only key, know how to turn it on\n' +
+      'The way you nibble on my ear, the only words I wanna hear\n' +
+      'Baby, take it slow so we can last long\n' +
+      '\n' +
+      'Tú, tú eres el imán y yo soy el metal\n' +
+      'Me voy acercando y voy armando el plan\n' +
+      'Sólo con pensarlo se acelera el pulso\n' +
+      'Ya, ya me está gustando más de lo normal\n' +
+      'Todos mis sentidos van pidiendo más\n' +
+      'Esto hay que tomarlo sin ningún apuro\n' +
+      '\n' +
+      'Despacito\n' +
+      'Quiero respirar tu cuello despacito\n' +
+      'Deja que te diga cosas al oído\n' +
+      'Para que te acuerdes si no estás conmigo\n' +
+      '\n' +
+      'Despacito\n' +
+      'Quiero desnudarte a besos despacito\n' +
+      'Firmo en las paredes de tu laberinto\n' +
+      'Y hacer de tu cuerpo todo un manuscrito\n' +
+      '\n' +
+      'Quiero ver bailar tu pelo, quiero ser tu ritmo\n' +
+      'Que le enseñes a mi boca\n' +
+      'Tus lugares favoritos\n' +
+      'Déjame sobrepasar tus zonas de peligro\n' +
+      'Hasta provocar tus gritos\n' +
+      'Y que olvides tu apellido\n' +
+      'Pasito a pasito, suave suavecito\n' +
+      'Nos vamos pegando, poquito a poquito\n' +
+      'Cuando tú me besas con esa destreza\n' +
+      'Veo que eres malicia con delicadeza\n' +
+      'Pasito a pasito, suave suavecito\n' +
+      'Nos vamos pegando, poquito a poquito\n' +
+      'Y es que esa belleza es un rompecabezas\n' +
+      "Pero pa' montarlo aquí tengo la pieza\n" +
+      '\n' +
+      'Despacito\n' +
+      'Quiero respirar tu cuello despacito\n' +
+      'Deja que te diga cosas al oído\n' +
+      'Para que te acuerdes si no estás conmigo\n' +
+      '\n' +
+      'Despacito\n' +
+      'Quiero desnudarte a besos despacito\n' +
+      'Firmo en las paredes de tu laberinto\n' +
+      'Y hacer de tu cuerpo todo un manuscrito\n' +
+      '\n' +
+      'Pasito a pasito, suave suavecito\n' +
+      'Nos vamos pegando, poquito a poquito\n' +
+      'Que le enseñes a mi boca\n' +
+      'Tus lugares favoritos\n' +
+      'Pasito a pasito, suave suavecito\n' +
+      'Nos vamos pegando, poquito a poquito\n' +
+      'Hasta provocar tus gritos\n' +
+      'Y que olvides tu apellido\n' +
+      'Despacito'
   },
 ```
 
@@ -80,20 +149,120 @@ npm install playdl-music-extractor
 - _Stream will be Processed through Official "play-dl" Npm Package_
 - _Besides Official Use of play-dl Package , You can retrieve data from facebook,deezer,reverbnation and vimeo (soon)_
 
-#### Code Snippet :
+#### Methods :
+
+- **new playdl.streamExtractor()** | **playdlQuick.streamExtractor()**
+- **new playdl.softExtractor()** | **playdlQuick.softExtractor()**
+- **new playdl.exec()** | **playdlQuick.exec()**
+
+##### Option's Scheme :
+
+```ts
+declare type secretTokens = {
+  spotify: {
+    client_id: string | number;
+    client_secret: string | number;
+    refresh_token: string | number;
+    market: string | "US";
+  };
+  soundcloud: { client_id: string | number };
+};
+
+declare type fetchOptions = {
+  tokens: secretTokens;
+  fetchLimit: number;
+  streamQuality: string;
+  rawCookies: string;
+  userAgents: string[];
+};
+
+declare type __scrapperOptions = {
+  fetchLyrics: boolean | "true";
+  eventReturn: { metadata: any };
+  ratelimit: number;
+  ignoreInternalError: boolean | "true";
+  fetchOptions: fetchOptions;
+  streamDownload: boolean | "false";
+};
+
+declare type extractorData = {
+  playlist: boolean;
+  tracks: Array<Track>;
+};
+```
+
+#### Code Examples :
 
 - [Common JS](example/exampleTest.js)
-- [ES Modern](example/esModernExample.js)
+- [ES Modern](example/esModernExample.mjs)
 
-#### Supportable Websites :
+#### Code Snippet :
 
-- [Youtube Example](example/exampleTest.js)
-- [Spotify Example](example/exampleTest.js)
-- [SoundCloud Example](example/exampleTest.js)
-- [Deezer Example](example/exampleTest.js)
-- [Reverbnation Example](example/exampleTest.js)
-- [Facebook Example](example/exampleTest.js)
-- [Vimeo Example (Soon)](example/exampleTest.js)
+```js
+const { playdl } = require("playdl-music-extractor");
+
+const quickHandler = new playdl();
+
+quickHandler.on("tracks", (...eventData) => console.log(eventData));
+
+new Promise(async (resolve, reject) => {
+  resolve(
+    quickHandler.softExtractor("Despacito", {
+      fetchOptions: { fetchLimit: 1 },
+    })
+  );
+  resolve(
+    quickHandler.streamExtractor(
+      "https://open.spotify.com/track/1SOClUWhOi8vHZYMz3GluK?si=3c010c9df65a4552",
+      {
+        fetchOptions: { fetchLimit: 1 },
+      },
+      "tracks"
+    )
+  );
+  resolve(
+    quickHandler.exec("Despacito", {
+      fetchOptions: { fetchLimit: 1 },
+    })
+  );
+});
+```
+
+#### Some Minor Usages :
+
+###### Raw Cookies option :
+
+```js
+playdl.exec("Despacito", {
+  fetchOptions: {
+    rawCookies:
+      "xxx-youtubeCookies-from-network-inspect-of-youtubeHomePage-xxx",
+  },
+});
+```
+
+###### User Agents option :
+
+```js
+playdl.exec("Despacito", {
+  fetchOptions: {
+    userAgents: [
+      "Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion",
+    ],
+  },
+});
+```
+
+#### Supportable Websites Links :
+
+- [Youtube Example](https://www.youtube.com/watch?v=kJQP7kiw5Fk)
+- [Spotify Example](https://open.spotify.com/track/1SOClUWhOi8vHZYMz3GluK?si=a9e9d82a9a584f48)
+- [SoundCloud Example](https://soundcloud.com/rd-urbansmusic/despacito-luis-fonsi-daddy-yankee)
+- [Deezer Example](https://deezer.page.link/cHcZ5zc6u6Rzszq66)
+- [Reverbnation Example](https://www.reverbnation.com/♫mp3download/song/12423967-tara-missing-you)
+- [Facebook Example](https://www.facebook.com/EpochTimesTrending/videos/310155606660409)
+- [Arbitary Example](https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3)
+- [Vimeo Example (Soon)](https://vimeo.com/684302493)
 
 ### Links
 

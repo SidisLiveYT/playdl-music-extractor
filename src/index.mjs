@@ -1,5 +1,5 @@
-import playdl from './index.js'
+import Handlers from './index.js'
 
-export default playdl
-export const playdlQuick = new playdl()
-export const playdl = playdl
+export default Handlers
+export const playdlQuick = Handlers.playdlQuick
+export const playdl = Handlers.playdl

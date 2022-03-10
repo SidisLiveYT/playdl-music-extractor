@@ -7,6 +7,7 @@ const soundcloud = require('./bin/__soundCloud');
 const facebook = require('./bin/__facebook');
 const reverbnation = require('./bin/__reverbnation');
 const deezer = require('./bin/__deezer');
+const arbitary = require('./bin/__arbitary');
 const Track = require('./bin/__trackModeler');
 
 /**
@@ -93,6 +94,7 @@ class playdl extends EventEmitter {
       if (reverbnation.__test(rawQuery)) return await reverbnation.__extractor(rawQuery, __scrapperOptions, this);
       if (deezer.__test(rawQuery)) return await deezer.__extractor(rawQuery, __scrapperOptions, this);
       if (youtube.__test(rawQuery)) return await youtube.__extractor(rawQuery, __scrapperOptions, this);
+      if (arbitary.__test(rawQuery)) return await arbitary.__extractor(rawQuery, __scrapperOptions, this);
       throw new Error(
         'playdl-music-playdl Error : Un-Supportable Query is Provided to Parse and Stream for Client',
       );

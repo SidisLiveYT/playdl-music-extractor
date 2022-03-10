@@ -17,12 +17,12 @@ declare type fetchOptions = {
 }
 
 export type scrapperOptions = {
-  fetchLyrics: true
+  fetchLyrics: boolean | 'true'
   eventReturn: { metadata: any }
   ratelimit: number
-  ignoreInternalError: true
+  ignoreInternalError: boolean | 'true'
   fetchOptions: fetchOptions
-  streamDownload: false
+  streamDownload: boolean | 'false'
 }
 
 export type extractorData = {
@@ -55,7 +55,8 @@ export class Track {
       | 'spotify'
       | 'facebook'
       | 'reverbnation'
-      | 'soundcloud'
+      | 'soundcloud' 
+      | 'arbitary'
     custom: string | 'play-dl'
   }
   readonly duration: {
@@ -100,7 +101,7 @@ export type Awaitable<T> = T | PromiseLike<T>
 
 export interface trackEvents {
   tracks: [
-    orignal_extractor: string | 'deezer' | 'youtube' | 'spotify' | 'facebook' | 'reverbnation' | 'soundcloud',
+    orignal_extractor: string | 'deezer' | 'youtube' | 'spotify' | 'facebook' | 'reverbnation' | 'soundcloud' | 'arbitary',
     track: Track,
     metadata: any
   ]

@@ -66,7 +66,7 @@
   },
   "dependencies": {
     "@sidislive/soundcloud-scraper": "^1.0.1",
-    "facebook-video-link": "^1.0.2",
+    "axios": "^0.26.1",
     "ffmpeg-static": "^5.0.0",
     "is-url": "^1.2.4",
     "lyrics-finder": "^21.7.0",

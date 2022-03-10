@@ -11,16 +11,16 @@ class youtube {
     try {
       if (!(rawUrl && typeof rawUrl === 'string' && rawUrl !== '')) return false;
       return returnRegexValue
-          && Boolean(youtube.__youtubeRegex.find((regExp) => regExp.test(rawUrl)))
+        && Boolean(youtube.__youtubeRegex.find((regExp) => regExp.test(rawUrl)))
         ? rawUrl?.match(
-          youtube.__youtubeRegex.find((regExp) => rawUrl.match(regExp)),
-        )
-              ?? false
-              ?? (!uriCheck(rawUrl) ? rawUrl : false)
+            youtube.__youtubeRegex.find((regExp) => rawUrl.match(regExp)),
+          )
+            ?? false
+            ?? (!uriCheck(rawUrl) ? rawUrl : false)
         : !uriCheck(rawUrl)
-              ?? Boolean(
-                youtube.__youtubeRegex.find((regExp) => regExp.test(rawUrl)),
-              );
+            ?? Boolean(
+              youtube.__youtubeRegex.find((regExp) => regExp.test(rawUrl)),
+            );
     } catch {
       return false;
     }
