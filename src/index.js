@@ -91,7 +91,13 @@ class playdl extends EventEmitter {
       if (spotify.__test(rawQuery)) return await spotify.__extractor(rawQuery, __scrapperOptions, this);
       if (soundcloud.__test(rawQuery)) return await soundcloud.__extractor(rawQuery, __scrapperOptions, this);
       if (facebook.__test(rawQuery)) return await facebook.__extractor(rawQuery, __scrapperOptions, this);
-      if (reverbnation.__test(rawQuery)) return await reverbnation.__extractor(rawQuery, __scrapperOptions, this);
+      if (reverbnation.__test(rawQuery)) {
+ return await reverbnation.__extractor(
+          rawQuery,
+          __scrapperOptions,
+          this,
+        );
+}
       if (deezer.__test(rawQuery)) return await deezer.__extractor(rawQuery, __scrapperOptions, this);
       if (youtube.__test(rawQuery)) return await youtube.__extractor(rawQuery, __scrapperOptions, this);
       if (arbitary.__test(rawQuery)) return await arbitary.__extractor(rawQuery, __scrapperOptions, this);

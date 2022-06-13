@@ -1,27 +1,27 @@
-const { playdl } = require('../src/index')
+const { playdl } = require("../src/index");
 
-const quickHandler = playdl.playdlQuick
+const quickHandler = playdl.playdlQuick;
 
-quickHandler.on('tracks', (...eventData) => console.log(eventData))
+quickHandler.on("tracks", (...eventData) => console.log(eventData));
 
 new Promise(async (resolve, reject) => {
   resolve(
-    quickHandler.softExtractor('Despacito', {
+    quickHandler.softExtractor("Despacito", {
       fetchOptions: { fetchLimit: 1 },
-    }),
-  )
+    })
+  );
   resolve(
     quickHandler.streamExtractor(
-      'https://open.spotify.com/track/1SOClUWhOi8vHZYMz3GluK?si=3c010c9df65a4552',
+      "https://open.spotify.com/track/09gysnJpfQ3ublBmJDfcEC?si=fe59e6de5968420d",
       {
         fetchOptions: { fetchLimit: 1 },
       },
-      'tracks',
-    ),
-  )
+      "tracks"
+    )
+  );
   resolve(
-    quickHandler.exec('Despacito', {
+    quickHandler.exec("Despacito", {
       fetchOptions: { fetchLimit: 1 },
-    }),
-  )
-})
+    })
+  );
+});

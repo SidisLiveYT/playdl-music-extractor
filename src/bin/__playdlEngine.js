@@ -63,6 +63,7 @@ class playdlEngine {
         useragent: playdlEngine.__userAgents,
       });
     }
+
     __searchResults = (
       await playdlEngine.#__customSearch(
         rawQuery,
@@ -130,9 +131,7 @@ class playdlEngine {
     else if (__validate && __validate?.includes('so')) __validateResults[0] = 'soundcloud';
     else if (__validate && __validate?.includes('yt')) __validateResults[0] = 'youtube';
 
-    __validateResults[1] = __validate
-      ? __validate?.slice(3, __validate?.length)
-      : undefined;
+    __validateResults[1] = __validate ? __validate?.split('_')?.[1] : undefined;
     switch (__validateResults[0]) {
       case 'youtube':
         if (
@@ -183,7 +182,8 @@ class playdlEngine {
         ) return __rawResults;
         if (!__rawResults[0]?.url) return undefined;
 
-        __videoDetails = (await video_info(__rawResults[0]?.url))?.video_details;
+        __videoDetails = (await video_info(__rawResults[0]?.url))
+          ?.video_details;
         return __videoDetails ? [__videoDetails] : __rawResults[0];
     }
   }

@@ -1,4 +1,5 @@
-const { getData, getPreview } = require('spotify-url-info');
+const fetch = require('isomorphic-unfetch');
+const { getData, getPreview } = require('spotify-url-info')(fetch);
 const { setToken } = require('play-dl');
 const playdlEngine = require('./__playdlEngine');
 
@@ -15,13 +16,11 @@ class spotify {
     try {
       if (!(rawUrl && typeof rawUrl === 'string' && rawUrl !== '')) return false;
       return returnRegexValue
-          && Boolean(spotify.__spotifyRegex.find((regExp) => regExp.test(rawUrl)))
+        && Boolean(spotify.__spotifyRegex.find((regExp) => regExp.test(rawUrl)))
         ? rawUrl?.match(
-          spotify.__spotifyRegex.find((regExp) => rawUrl.match(regExp)),
-        ) ?? false
-        : Boolean(
-          spotify.__spotifyRegex.find((regExp) => regExp.test(rawUrl)),
-        );
+            spotify.__spotifyRegex.find((regExp) => rawUrl.match(regExp)),
+          ) ?? false
+        : Boolean(spotify.__spotifyRegex.find((regExp) => regExp.test(rawUrl)));
     } catch {
       return false;
     }
@@ -75,28 +74,28 @@ class spotify {
       }
 
       const __processedTracks = (
-        await Promise.all(
-          __arryData?.map(async (rawTrack) => {
-            if (
-              !rawTrack
-                  || (__cacheCount
-                    && __cacheCount >= __scrapperOptions?.fetchOptions?.fetchLimit)
-            ) return undefined;
-            __cacheGarbage = await spotify.__trackParser(
-              rawTrack,
-              ++__cacheCount,
-              __scrapperOptions,
-              __cacheMain,
-            );
-            return __cacheGarbage?.[0];
-          }),
-        )
-      )?.filter(Boolean) ?? [];
+          await Promise.all(
+            __arryData?.map(async (rawTrack) => {
+              if (
+                !rawTrack
+                || (__cacheCount
+                  && __cacheCount >= __scrapperOptions?.fetchOptions?.fetchLimit)
+              ) return undefined;
+              __cacheGarbage = await spotify.__trackParser(
+                rawTrack,
+                ++__cacheCount,
+                __scrapperOptions,
+                __cacheMain,
+              );
+              return __cacheGarbage?.[0];
+            }),
+          )
+        )?.filter(Boolean) ?? [];
       return {
         playlist: Boolean(
           __rawData?.tracks?.items
-              && Array.isArray(__rawData?.tracks?.items)
-              && __rawData?.tracks?.items?.length > 0,
+            && Array.isArray(__rawData?.tracks?.items)
+            && __rawData?.tracks?.items?.length > 0,
         ),
         tracks: __processedTracks,
       };
@@ -154,8 +153,8 @@ class spotify {
         : undefined)
         ?? (rawTrack?.id || rawTrack?.track?.id
           ? `https://open.spotify.com/track/${
-            rawTrack?.id ?? rawTrack?.track?.id
-          }`
+              rawTrack?.id ?? rawTrack?.track?.id
+            }`
           : undefined),
     );
     const __trackBlueprint = {

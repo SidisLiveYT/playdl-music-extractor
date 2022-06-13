@@ -20,7 +20,10 @@ class Track {
     this.videoId = rawBlueprint?.video_Id ?? rawBlueprint?.videoId;
     this.title = rawBlueprint?.title;
     this.description = rawBlueprint?.description;
-    this.author = { name: rawBlueprint?.author, url: rawBlueprint?.author_link };
+    this.author = {
+      name: rawBlueprint?.author,
+      url: rawBlueprint?.author_link,
+    };
     this.extractorModel = {
       orignal: rawBlueprint?.orignal_extractor ?? 'Unknown',
       custom: rawBlueprint?.custom_extractor ?? 'play-dl',

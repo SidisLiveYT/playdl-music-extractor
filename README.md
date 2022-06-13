@@ -151,9 +151,9 @@ npm install playdl-music-extractor
 
 #### Methods :
 
-- **new playdl.streamExtractor()** | **playdlQuick.streamExtractor()**
-- **new playdl.softExtractor()** | **playdlQuick.softExtractor()**
-- **new playdl.exec()** | **playdlQuick.exec()**
+- **new playdl.streamExtractor()** OR **playdlQuick.streamExtractor()**
+- **new playdl.softExtractor()** OR **playdlQuick.softExtractor()**
+- **new playdl.exec()** OR **playdlQuick.exec()**
 
 ##### Option's Scheme :
 

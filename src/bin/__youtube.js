@@ -34,7 +34,7 @@ class youtube {
         tracks:
           (await playdlEngine?.__rawExtractor(
             rawQuery,
-            undefined,
+            { orignal_extractor: 'youtube' },
             __scrapperOptions,
             __cacheMain,
           )) ?? [],
