@@ -16,22 +16,6 @@ const Track = require('./bin/__trackModeler');
 
 class playdl extends EventEmitter {
   /**
-   * @constructor
-   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
-   */
-  constructor(__scrapperOptions = playdl.#__privateCaches.__scrapperOptions) {
-    super();
-    this.__scrapperOptions = {
-      ...playdl.#__privateCaches.__scrapperOptions,
-      ...__scrapperOptions,
-      fetchOptions: {
-        ...playdl.#__privateCaches?.fetchOptions,
-        ...__scrapperOptions?.fetchOptions,
-      },
-    };
-  }
-
-  /**
    * @static
    * @private
    * @property {Object} #__privateCaches -> Private Caches for functions to Store basic Options and Queue Data for Ratelimit
@@ -61,6 +45,22 @@ class playdl extends EventEmitter {
   };
 
   /**
+   * @constructor
+   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
+   */
+  constructor(__scrapperOptions = playdl.#__privateCaches.__scrapperOptions) {
+    super();
+    this.__scrapperOptions = {
+      ...playdl.#__privateCaches.__scrapperOptions,
+      ...__scrapperOptions,
+      fetchOptions: {
+        ...playdl.#__privateCaches?.fetchOptions,
+        ...__scrapperOptions?.fetchOptions,
+      },
+    };
+  }
+
+  /**
    * exec() -> Raw and in-built function for fetching Data for other methods with no exceptions
    * @param {string} rawQuery -> A String Value for Song Name or Url to be Parsed and Fetch Data about it
    * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
@@ -83,7 +83,7 @@ class playdl extends EventEmitter {
         !(rawQuery && typeof rawQuery === 'string' && rawQuery?.trim() !== '')
       ) {
         throw new Error(
-          'playdl-music-playdl Error : Invalid Query is Provided to Parse and Stream for Client',
+          'playdl-music-extractor Error : Invalid Query is Provided to Parse and Stream for Client',
         );
       }
 
@@ -92,17 +92,17 @@ class playdl extends EventEmitter {
       if (soundcloud.__test(rawQuery)) return await soundcloud.__extractor(rawQuery, __scrapperOptions, this);
       if (facebook.__test(rawQuery)) return await facebook.__extractor(rawQuery, __scrapperOptions, this);
       if (reverbnation.__test(rawQuery)) {
- return await reverbnation.__extractor(
+        return await reverbnation.__extractor(
           rawQuery,
           __scrapperOptions,
           this,
         );
-}
+      }
       if (deezer.__test(rawQuery)) return await deezer.__extractor(rawQuery, __scrapperOptions, this);
       if (youtube.__test(rawQuery)) return await youtube.__extractor(rawQuery, __scrapperOptions, this);
       if (arbitary.__test(rawQuery)) return await arbitary.__extractor(rawQuery, __scrapperOptions, this);
       throw new Error(
-        'playdl-music-playdl Error : Un-Supportable Query is Provided to Parse and Stream for Client',
+        'playdl-music-extractor Error : Un-Supportable Query is Provided to Parse and Stream for Client',
       );
     } catch (rawError) {
       if (__scrapperOptions?.ignoreInternalError) return void this.__errorHandling(rawError);
