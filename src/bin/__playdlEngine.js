@@ -43,7 +43,7 @@ class playdlEngine {
       __scrapperOptions?.fetchOptions?.userAgents
       && typeof __scrapperOptions?.fetchOptions?.userAgents === 'string'
       && __scrapperOptions?.fetchOptions?.userAgents?.toLowerCase()?.trim()
-        === 'random'
+      === 'random'
     ) {
       playdlEngine.__userAgents = [
         randomUserAgents(),
@@ -63,11 +63,12 @@ class playdlEngine {
         useragent: playdlEngine.__userAgents,
       });
     }
-
+    const validatedResult = await validate(rawQuery)?.catch(() => undefined);
     __searchResults = (
       await playdlEngine.#__customSearch(
         rawQuery,
         __scrapperOptions,
+        validatedResult,
         __trackBlueprint?.orignal_extractor,
       )
     )?.filter(Boolean);
@@ -80,9 +81,14 @@ class playdlEngine {
     ) return undefined;
     if (
       __scrapperOptions?.fetchOptions?.fetchLimit
-      && !Number.isNaN(__scrapperOptions?.fetchOptions?.fetchLimit)
+      && !Number.isNaN(Number(__scrapperOptions?.fetchOptions?.fetchLimit))
       && parseInt(__scrapperOptions?.fetchOptions?.fetchLimit) > 0
       && parseInt(__scrapperOptions?.fetchOptions?.fetchLimit) < Infinity
+      && !(
+        (validatedResult?.includes('playlist')
+          || validatedResult?.includes('album'))
+        && Boolean(__scrapperOptions?.fetchOptions?.skipPlaylistLimit)
+      )
     ) {
       __searchResults = __searchResults
         ?.slice(0, parseInt(__scrapperOptions?.fetchOptions?.fetchLimit ?? 1))
@@ -93,12 +99,12 @@ class playdlEngine {
         __searchResults?.map(async (__rawTrack) => {
           __cacheGarbage = await playdlEngine.__trackModelling(
             __rawTrack,
-            {
+{
               ...__trackBlueprint,
               Id: ++__indexCount,
             },
-            __scrapperOptions,
-            __cacheMain,
+__scrapperOptions,
+__cacheMain,
           );
           if (__cacheGarbage && __scrapperOptions?.eventReturn) {
             __cacheMain.emit(
@@ -106,8 +112,8 @@ class playdlEngine {
               __trackBlueprint?.orignal_extractor ?? 'youtube',
               __cacheGarbage,
               typeof __scrapperOptions?.eventReturn === 'object'
-                ? __scrapperOptions?.eventReturn?.metadata
-                : undefined,
+              ? __scrapperOptions?.eventReturn?.metadata
+              : undefined,
             );
           } else if (!__cacheGarbage) return undefined;
           return __cacheGarbage;
@@ -119,12 +125,16 @@ class playdlEngine {
   static async #__customSearch(
     rawQuery,
     __scrapperOptions,
+    __validate,
     extractor = 'arbitary',
   ) {
-    if (extractor && extractor?.toLowerCase()?.trim() === 'arbitary') return [{ url: rawQuery }];
+    if (extractor && extractor?.toLowerCase()?.trim() === 'arbitary') {
+ return [{
+        url: rawQuery,
+      }];
+}
     let __rawResults;
     let __videoDetails;
-    const __validate = await validate(rawQuery);
     const __validateResults = [];
     if (__validate && __validate?.includes('dz')) __validateResults[0] = 'deezer';
     else if (__validate && __validate?.includes('sp')) __validateResults[0] = 'spotify';
@@ -143,7 +153,9 @@ class playdlEngine {
           return __videoDetails ? [__videoDetails] : undefined;
         }
         __rawResults = await (
-          await playlist_info(rawQuery, { incomplete: true })
+          await playlist_info(rawQuery, {
+            incomplete: true,
+          })
         )?.all_videos();
         return __rawResults
           && Array.isArray(__rawResults)
@@ -168,12 +180,10 @@ class playdlEngine {
         return [__rawResults];
       default:
         __rawResults = await search(rawQuery, {
-          limit:
-            [Infinity, 0].includes(
+          limit: [Infinity, 0].includes(
               __scrapperOptions?.fetchOptions?.fetchLimit ?? 1,
             ) || (__scrapperOptions?.fetchOptions?.fetchLimit ?? 1) <= 0
-              ? 10
-              : __scrapperOptions?.fetchOptions?.fetchLimit ?? 1,
+            ? 10 : __scrapperOptions?.fetchOptions?.fetchLimit ?? 1,
         });
         if (
           __rawResults
@@ -197,23 +207,20 @@ class playdlEngine {
     try {
       await __cacheMain.__customRatelimit(__scrapperOptions?.ratelimit);
       const Track = new trackModel(
-        {
+{
           trackId: parseInt(__trackBlueprint?.Id ?? 0) || 0,
           url: __trackBlueprint?.url ?? __rawTrack?.url,
           video_Id: __trackBlueprint?.video_Id ?? __rawTrack?.id,
           title: __trackBlueprint?.title ?? __rawTrack?.title,
-          author:
-            __trackBlueprint?.author
+          author: __trackBlueprint?.author
             ?? __rawTrack?.artist?.name
             ?? __rawTrack?.channel?.name,
-          author_link:
-            __trackBlueprint?.author_link
+          author_link: __trackBlueprint?.author_link
             ?? __rawTrack?.artist?.url
             ?? __rawTrack?.channel?.url,
           description: __trackBlueprint?.description ?? __rawTrack?.description,
           custom_extractor: 'play-dl',
-          duration:
-            (__trackBlueprint?.is_live || __rawTrack?.live
+          duration: (__trackBlueprint?.is_live || __rawTrack?.live
               ? 0
               : __trackBlueprint?.duration)
             ?? (__rawTrack?.durationInSec ?? 0) * 1000,
@@ -221,18 +228,15 @@ class playdlEngine {
             (__trackBlueprint?.is_live || __rawTrack?.live
               ? 0
               : __trackBlueprint?.duration)
-              ?? (__rawTrack?.durationInSec ?? 0) * 1000,
+            ?? (__rawTrack?.durationInSec ?? 0) * 1000,
           ),
           orignal_extractor: __trackBlueprint?.orignal_extractor ?? 'youtube',
-          thumbnail:
-            __trackBlueprint?.thumbnail ?? __rawTrack?.thumbnails?.[0]?.url,
-          channelName:
-            __trackBlueprint?.channel_Name
+          thumbnail: __trackBlueprint?.thumbnail ?? __rawTrack?.thumbnails?.[0]?.url,
+          channelName: __trackBlueprint?.channel_Name
             ?? __rawTrack?.channel?.name
             ?? __trackBlueprint?.author,
           channelId: __trackBlueprint?.author ?? __rawTrack?.channel?.id,
-          channel_url:
-            __trackBlueprint?.author_link ?? __rawTrack?.channel?.url,
+          channel_url: __trackBlueprint?.author_link ?? __rawTrack?.channel?.url,
           likes: __trackBlueprint?.likes ?? __rawTrack?.likes ?? 0,
           is_live: __trackBlueprint?.is_live ?? __rawTrack?.live ?? false,
           dislikes: __trackBlueprint?.dislikes ?? __rawTrack?.dislikes ?? 0,
@@ -244,7 +248,9 @@ class playdlEngine {
           __trackBlueprint?.stream,
           __scrapperOptions?.ignoreInternalError,
           __cacheMain,
-          { userAgents: playdlEngine.__userAgents },
+{
+            userAgents: playdlEngine.__userAgents,
+          },
         );
       }
       if (__scrapperOptions?.fetchLyrics && __rawTrack?.url) await Track.getLyrics();

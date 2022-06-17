@@ -60,13 +60,13 @@ class Track {
       let __rawStream = {};
       let __garbageResults;
       let alterVideo = {};
+
       if (!this.url) return undefined;
       if (
         !(
-          soundCloud.__test(this.#__raw?.url)
-          || youtube.__test(this.#__raw?.url)
-        )
-        && !streamUrl
+          (soundCloud.__test(this.#__raw?.url)
+          || (this.#__raw?.url?.toLowerCase()?.trim())?.startsWith('https://www.youtube.com/watch'))
+        && !streamUrl)
       ) {
         __garbageResults = (await search(this.title, { limit: 1 }))?.filter(
           Boolean,

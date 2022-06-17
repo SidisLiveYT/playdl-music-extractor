@@ -79,7 +79,15 @@ class spotify {
               if (
                 !rawTrack
                 || (__cacheCount
-                  && __cacheCount >= __scrapperOptions?.fetchOptions?.fetchLimit)
+                  && __cacheCount >= __scrapperOptions?.fetchOptions?.fetchLimit
+                  && !(
+                    Boolean(
+                      __rawData?.tracks?.items
+                        && Array.isArray(__rawData?.tracks?.items)
+                        && __rawData?.tracks?.items?.length > 0,
+                    )
+                    && Boolean(__scrapperOptions?.fetchOptions?.skipPlaylistLimit)
+                  ))
               ) return undefined;
               __cacheGarbage = await spotify.__trackParser(
                 rawTrack,

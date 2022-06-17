@@ -14,6 +14,7 @@ declare type fetchOptions = {
   streamQuality: string
   rawCookies: string
   userAgents: string[]
+  skipPlaylistLimit: Boolean
 }
 
 export type scrapperOptions = {

@@ -28,6 +28,7 @@ class playdl extends EventEmitter {
       streamQuality: undefined,
       rawCookies: undefined,
       userAgents: undefined,
+      skipPlaylistLimit: true,
     },
     __scrapperOptions: {
       fetchLyrics: true,
@@ -39,6 +40,7 @@ class playdl extends EventEmitter {
         streamQuality: undefined,
         rawCookies: undefined,
         userAgents: undefined,
+        skipPlaylistLimit: true,
       },
       streamDownload: false,
     },
