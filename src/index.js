@@ -11,14 +11,14 @@ const arbitary = require('./bin/__arbitary');
 const Track = require('./bin/__trackModeler');
 
 /**
- * @class playdl -> Main Handler to Fetch and Parse Songs from Youtube and SoundCloud and many Others from play-dl as its base source
+ * @class playdl  Main Handler to Fetch and Parse Songs from Youtube and SoundCloud and many Others from play-dl as its base source
  */
 
 class playdl extends EventEmitter {
   /**
    * @static
    * @private
-   * @property {Object} #__privateCaches -> Private Caches for functions to Store basic Options and Queue Data for Ratelimit
+   * @property {Object} #__privateCaches  Private Caches for functions to Store basic Options and Queue Data for Ratelimit
    */
   static #__privateCaches = {
     __ratelimitQueue: undefined,
@@ -28,7 +28,7 @@ class playdl extends EventEmitter {
       streamQuality: undefined,
       rawCookies: undefined,
       userAgents: undefined,
-      skipPlaylistLimit: true,
+      skipalbumLimit: true,
     },
     __scrapperOptions: {
       fetchLyrics: true,
@@ -40,7 +40,7 @@ class playdl extends EventEmitter {
         streamQuality: undefined,
         rawCookies: undefined,
         userAgents: undefined,
-        skipPlaylistLimit: true,
+        skipalbumLimit: true,
       },
       streamDownload: false,
     },
@@ -48,7 +48,7 @@ class playdl extends EventEmitter {
 
   /**
    * @constructor
-   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
+   * @param {scrapperOptions} __scrapperOptions  Scrapping Options for functions and base Source Engine
    */
   constructor(__scrapperOptions = playdl.#__privateCaches.__scrapperOptions) {
     super();
@@ -63,10 +63,10 @@ class playdl extends EventEmitter {
   }
 
   /**
-   * exec() -> Raw and in-built function for fetching Data for other methods with no exceptions
-   * @param {string} rawQuery -> A String Value for Song Name or Url to be Parsed and Fetch Data about it
-   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
-   * @returns {Promise<extractorData>} playlist and Tracks from play-dl
+   * exec()  Raw and in-built function for fetching Data for other methods with no exceptions
+   * @param {string} rawQuery  A String Value for Song Name or Url to be Parsed and Fetch Data about it
+   * @param {scrapperOptions} __scrapperOptions  Scrapping Options for functions and base Source Engine
+   * @returns {Promise<extractorData>} album and Tracks from play-dl
    */
   async exec(
     rawQuery,
@@ -90,9 +90,9 @@ class playdl extends EventEmitter {
       }
 
       await this.__customRatelimit(__scrapperOptions?.ratelimit);
-      if (spotify.__test(rawQuery)) return await spotify.__extractor(rawQuery, __scrapperOptions, this);
-      if (soundcloud.__test(rawQuery)) return await soundcloud.__extractor(rawQuery, __scrapperOptions, this);
-      if (facebook.__test(rawQuery)) return await facebook.__extractor(rawQuery, __scrapperOptions, this);
+      if (spotify.__test(rawQuery)) { return await spotify.__extractor(rawQuery, __scrapperOptions, this); }
+      if (soundcloud.__test(rawQuery)) { return await soundcloud.__extractor(rawQuery, __scrapperOptions, this); }
+      if (facebook.__test(rawQuery)) { return await facebook.__extractor(rawQuery, __scrapperOptions, this); }
       if (reverbnation.__test(rawQuery)) {
         return await reverbnation.__extractor(
           rawQuery,
@@ -100,24 +100,24 @@ class playdl extends EventEmitter {
           this,
         );
       }
-      if (deezer.__test(rawQuery)) return await deezer.__extractor(rawQuery, __scrapperOptions, this);
-      if (youtube.__test(rawQuery)) return await youtube.__extractor(rawQuery, __scrapperOptions, this);
-      if (arbitary.__test(rawQuery)) return await arbitary.__extractor(rawQuery, __scrapperOptions, this);
+      if (deezer.__test(rawQuery)) { return await deezer.__extractor(rawQuery, __scrapperOptions, this); }
+      if (youtube.__test(rawQuery)) { return await youtube.__extractor(rawQuery, __scrapperOptions, this); }
+      if (arbitary.__test(rawQuery)) { return await arbitary.__extractor(rawQuery, __scrapperOptions, this); }
       throw new Error(
         'playdl-music-extractor Error : Un-Supportable Query is Provided to Parse and Stream for Client',
       );
     } catch (rawError) {
-      if (__scrapperOptions?.ignoreInternalError) return void this.__errorHandling(rawError);
+      if (__scrapperOptions?.ignoreInternalError) { return void this.__errorHandling(rawError); }
       throw rawError;
     }
   }
 
   /**
-   * streamExtractor() -> Raw and in-built function for fetching Data for other methods with no exceptions
-   * @param {string} rawQuery -> A String Value for Song Name or Url to be Parsed and Fetch Data about it
-   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
-   * @param {string | "tracks" | "streams"} returnType Return Type for method , And Optional choice and By Default its -> "tracks"
-   * @returns {Promise<Track[] | Object[]>} playlist and Tracks from play-dl
+   * streamExtractor()  Raw and in-built function for fetching Data for other methods with no exceptions
+   * @param {string} rawQuery  A String Value for Song Name or Url to be Parsed and Fetch Data about it
+   * @param {scrapperOptions} __scrapperOptions  Scrapping Options for functions and base Source Engine
+   * @param {string | "tracks" | "streams"} returnType Return Type for method , And Optional choice and By Default its  "tracks"
+   * @returns {Promise<Track[] | Object[]>} album and Tracks from play-dl
    */
   async streamExtractor(
     rawQuery,
@@ -135,10 +135,10 @@ class playdl extends EventEmitter {
   }
 
   /**
-   * softExtractor() -> Raw and in-built function for fetching Data for other methods with no exceptions
-   * @param {string} rawQuery -> A String Value for Song Name or Url to be Parsed and Fetch Data about it
-   * @param {scrapperOptions} __scrapperOptions -> Scrapping Options for functions and base Source Engine
-   * @returns {Promise<Track[]>} playlist and Tracks from play-dl
+   * softExtractor()  Raw and in-built function for fetching Data for other methods with no exceptions
+   * @param {string} rawQuery  A String Value for Song Name or Url to be Parsed and Fetch Data about it
+   * @param {scrapperOptions} __scrapperOptions  Scrapping Options for functions and base Source Engine
+   * @returns {Promise<Track[]>} album and Tracks from play-dl
    */
   async softExtractor(
     rawQuery,
@@ -154,7 +154,7 @@ class playdl extends EventEmitter {
 
   __errorHandling(error = new Error()) {
     if (!error?.message) return undefined;
-    if (!fileSystem.existsSync(path.join(__dirname, '/cache'))) fileSystem.mkdirSync(path.join(__dirname, '/cache'));
+    if (!fileSystem.existsSync(path.join(__dirname, '/cache'))) { fileSystem.mkdirSync(path.join(__dirname, '/cache')); }
     const __cacheLocation = path.join(__dirname, '/cache', '/__errorLogs.txt');
     if (!__cacheLocation) return undefined;
     if (!fileSystem.existsSync(__cacheLocation)) {
@@ -201,7 +201,7 @@ class playdl extends EventEmitter {
   }
 
   #sleep(waitTime = 2 * 1000) {
-    if (!(waitTime && typeof waitTime === 'number' && waitTime > 500)) return true;
+    if (!(waitTime && typeof waitTime === 'number' && waitTime > 500)) { return true; }
     return new Promise((resolve) => setTimeout(resolve, waitTime));
   }
 

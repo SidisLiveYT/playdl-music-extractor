@@ -1,20 +1,23 @@
 const { stream, setToken, search } = require('play-dl');
 const randomUserAgents = require('random-useragent').getRandom;
 const ffmpeg = require('prism-media').FFmpeg;
+const Album = require('./__album');
 const { getLyrics } = require('./__lyrics');
 const soundCloud = require('./__soundCloud');
-const youtube = require('./__youtube');
 
 class Track {
   #__raw = {};
 
-  constructor(rawBlueprint, __rawPlaydl) {
-    if (__rawPlaydl) this.#__raw = __rawPlaydl;
-    this.patch(rawBlueprint);
+  constructor(rawBlueprint, __rawPlaydl, __albumId) {
+    if (__rawPlaydl) {
+      this.#__raw = { ...__rawPlaydl, __albumId };
+    }
+    this.patch(rawBlueprint, __albumId);
   }
 
-  patch(rawBlueprint) {
+  patch(rawBlueprint, __albumId) {
     if (!rawBlueprint?.url) return undefined;
+    if (__albumId) this.albumId = __albumId;
     this.trackId = rawBlueprint?.trackId;
     this.url = rawBlueprint?.url;
     this.videoId = rawBlueprint?.video_Id ?? rawBlueprint?.videoId;
@@ -65,8 +68,12 @@ class Track {
       if (
         !(
           (soundCloud.__test(this.#__raw?.url)
-          || (this.#__raw?.url?.toLowerCase()?.trim())?.startsWith('https://www.youtube.com/watch'))
-        && !streamUrl)
+            || this.#__raw?.url
+              ?.toLowerCase()
+              ?.trim()
+              ?.startsWith('https://www.youtube.com/watch'))
+          && !streamUrl
+        )
       ) {
         __garbageResults = (await search(this.title, { limit: 1 }))?.filter(
           Boolean,
@@ -221,6 +228,11 @@ class Track {
         }`);
     }
     return __string.trim();
+  }
+
+  get album() {
+    if (!this.#__raw?.__albumId) return undefined;
+    return Album.get(this.#__raw?.__albumId);
   }
 
   get raw() {

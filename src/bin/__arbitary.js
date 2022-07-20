@@ -26,7 +26,7 @@ class arbitary {
   static async __extractor(rawUrl, __scrapperOptions, __cacheMain) {
     try {
       return {
-        playlist: false,
+        album: false,
         tracks: await playdlEngine.__rawExtractor(
           rawUrl,
           { stream: rawUrl, url: rawUrl, orignal_extractor: 'arbitary' },

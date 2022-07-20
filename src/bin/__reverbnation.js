@@ -30,7 +30,7 @@ class reverbnation {
     try {
       const __rawData = await reverbnationParser.getInfo(rawQuery);
       return {
-        playlist: false,
+        album: false,
         tracks: await playdlEngine.__rawExtractor(
           __rawData?.title?.slice(0, 10) ?? __rawData?.[0]?.title?.slice(0, 10),
           __rawData?.songs?.[0]?.streamURL

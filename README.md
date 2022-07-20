@@ -186,7 +186,7 @@ declare type __scrapperOptions = {
 };
 
 declare type extractorData = {
-  playlist: boolean;
+  album: boolean;
   tracks: Array<Track>;
 };
 ```
@@ -203,7 +203,7 @@ const { playdl } = require("playdl-music-extractor");
 
 const quickHandler = new playdl();
 
-quickHandler.on("tracks", (...eventData) => console.log(eventData));
+quickHandler.on("track", (...eventData) => console.log(eventData));
 
 new Promise(async (resolve, reject) => {
   resolve(

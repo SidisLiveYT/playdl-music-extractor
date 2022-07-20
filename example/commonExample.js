@@ -2,7 +2,7 @@ const { playdl } = require("../src/index");
 
 const quickHandler = playdl.playdlQuick;
 
-quickHandler.on("tracks", (...eventData) => console.log(eventData));
+quickHandler.on("track", (...eventData) => console.log(eventData));
 
 new Promise(async (resolve, reject) => {
   resolve(

@@ -35,7 +35,7 @@ class facebook {
       if (!__rawData) throw new Error("Facebook Metadata can't be fetched with given link");
       else {
         return {
-          playlist: false,
+          album: false,
           tracks: await playdlEngine.__rawExtractor(
             __rawData?.title?.slice(0, 10)?.trim(),
             __rawData,
