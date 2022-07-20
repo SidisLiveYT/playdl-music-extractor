@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Class: playdl</title>
+    <title>Class: Album</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,7 +27,7 @@
         <div class="burger-line-3"></div>
     </div>
 
-    <h1 class="page-title">Class: playdl</h1>
+    <h1 class="page-title">Class: Album</h1>
 
     
 
@@ -38,9 +38,9 @@
 <header>
     <hr>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>playdl<span class="signature">(__scrapperOptions)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Album<span class="signature">(customId, metadata, tracksCount)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>playdl  Main Handler to Fetch and Parse Songs from Youtube and SoundCloud and many Others from play-dl as its base source</p></div>
+            <div class="class-description"><p>Album  Album is a Class used for Patching album Info with Ids and attached with Tracks</p></div>
         
     
 </header>
@@ -55,7 +55,7 @@
     
 
     
-    <h4 class="name" id="playdl"><span class="type-signature"></span>new playdl<span class="signature">(__scrapperOptions)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Album"><span class="type-signature"></span>new Album<span class="signature">(customId, metadata, tracksCount)</span><span class="type-signature"></span></h4>
     
 
     
@@ -96,13 +96,19 @@
 
             <tr>
                 
-                    <td class="name"><code>__scrapperOptions</code></td>
+                    <td class="name"><code>customId</code></td>
                 
 
                 <td class="type">
                 
                     
-<span class="param-type">scrapperOptions</span>
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">String</span>
+|
+
+<span class="param-type">undefined</span>
 
 
                 
@@ -112,7 +118,53 @@
 
                 
 
-                <td class="description last"><p>Scrapping Options for functions and base Source Engine</p></td>
+                <td class="description last"><p>Custom Id for replaceing Indexing Id as a default and place for given Ids in Cache</p></td>
+            </tr>
+
+        
+
+            <tr>
+                
+                    <td class="name"><code>metadata</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">Object.&lt;any></span>
+
+
+                
+                </td>
+
+                
+
+                
+
+                <td class="description last"><p>Metadata for patching with defaulter and fetch only required data &quot; termed as raw Metadata for parsing&quot;</p></td>
+            </tr>
+
+        
+
+            <tr>
+                
+                    <td class="name"><code>tracksCount</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">Number</span>
+
+
+                
+                </td>
+
+                
+
+                
+
+                <td class="description last"><p>Tracks Count for album Metadata and tracking of Tracks fetched from extractors</p></td>
             </tr>
 
         
@@ -154,7 +206,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line17">line 17</a>
+        <a href="bin___album.js.html">bin/__album.js</a>, <a href="bin___album.js.html#line5">line 5</a>
     </li></ul></dd>
     
 
@@ -201,6 +253,187 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="cachedIds"><span class="type-signature"></span>cachedIds<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bin___album.js.html">bin/__album.js</a>, <a href="bin___album.js.html#line9">line 9</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+<hr>
+        
+            
+<h4 class="name" id="Id"><span class="type-signature"></span>Id<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<div class="table-box">
+    <table class="props">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            <tr>
+                
+                    <td class="name"><code>Id</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+                
+                </td>
+
+                
+
+                
+
+                <td class="description last"><p>public property and consist of unique album id and attached with Tracks for Fetching proper album Data</p></td>
+            </tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bin___album.js.html">bin/__album.js</a>, <a href="bin___album.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+<hr>
+        
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -211,380 +444,12 @@
     
 
     
-    <h4 class="name" id="exec"><span class="type-signature">(async) </span>exec<span class="signature">(rawQuery, __scrapperOptions)</span><span class="type-signature"> &rarr; {Promise.&lt;extractorData>}</span></h4>
+    <h4 class="name" id=".generate"><span class="type-signature">(static) </span>generate<span class="signature">(albumMetadata, tracksCount, cacheMain, eventTrigger)</span><span class="type-signature"> &rarr; {string|number|undefined}</span></h4>
     
 
     
 
 
-
-<div class="description">
-    <p>exec()  Raw and in-built function for fetching Data for other methods with no exceptions</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<div class="table-box">
-    <table class="params">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            <tr>
-                
-                    <td class="name"><code>rawQuery</code></td>
-                
-
-                <td class="type">
-                
-                    
-<span class="param-type">string</span>
-
-
-                
-                </td>
-
-                
-
-                
-
-                <td class="description last"><p>A String Value for Song Name or Url to be Parsed and Fetch Data about it</p></td>
-            </tr>
-
-        
-
-            <tr>
-                
-                    <td class="name"><code>__scrapperOptions</code></td>
-                
-
-                <td class="type">
-                
-                    
-<span class="param-type">scrapperOptions</span>
-
-
-                
-                </td>
-
-                
-
-                
-
-                <td class="description last"><p>Scrapping Options for functions and base Source Engine</p></td>
-            </tr>
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line71">line 71</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>album and Tracks from play-dl</p>
-</div>
-
-
-
-<ul>
-    <li>
-        Type: <span class="simple-code">
-<span class="param-type">Promise.&lt;extractorData></span>
-
-</span>
-    </li>
-</ul>
-
-    
-
-
-
-
-
-<hr>
-        
-            
-
-    
-
-    
-    <h4 class="name" id="softExtractor"><span class="type-signature">(async) </span>softExtractor<span class="signature">(rawQuery, __scrapperOptions)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Track>>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>softExtractor()  Raw and in-built function for fetching Data for other methods with no exceptions</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<div class="table-box">
-    <table class="params">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            <tr>
-                
-                    <td class="name"><code>rawQuery</code></td>
-                
-
-                <td class="type">
-                
-                    
-<span class="param-type">string</span>
-
-
-                
-                </td>
-
-                
-
-                
-
-                <td class="description last"><p>A String Value for Song Name or Url to be Parsed and Fetch Data about it</p></td>
-            </tr>
-
-        
-
-            <tr>
-                
-                    <td class="name"><code>__scrapperOptions</code></td>
-                
-
-                <td class="type">
-                
-                    
-<span class="param-type">scrapperOptions</span>
-
-
-                
-                </td>
-
-                
-
-                
-
-                <td class="description last"><p>Scrapping Options for functions and base Source Engine</p></td>
-            </tr>
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line143">line 143</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>album and Tracks from play-dl</p>
-</div>
-
-
-
-<ul>
-    <li>
-        Type: <span class="simple-code">
-<span class="param-type">Promise.&lt;Array.&lt;Track>></span>
-
-</span>
-    </li>
-</ul>
-
-    
-
-
-
-
-
-<hr>
-        
-            
-
-    
-
-    
-    <h4 class="name" id="streamExtractor"><span class="type-signature">(async) </span>streamExtractor<span class="signature">(rawQuery, __scrapperOptions, returnType)</span><span class="type-signature"> &rarr; {Promise.&lt;(Array.&lt;Track>|Array.&lt;Object>)>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>streamExtractor()  Raw and in-built function for fetching Data for other methods with no exceptions</p>
-</div>
 
 
 
@@ -622,13 +487,13 @@
 
             <tr>
                 
-                    <td class="name"><code>rawQuery</code></td>
+                    <td class="name"><code>albumMetadata</code></td>
                 
 
                 <td class="type">
                 
                     
-<span class="param-type">string</span>
+<span class="param-type">Object.&lt;any></span>
 
 
                 
@@ -642,20 +507,20 @@
                     </td>
                 
 
-                <td class="description last"><p>A String Value for Song Name or Url to be Parsed and Fetch Data about it</p></td>
+                <td class="description last"><p>Metadata for patching with defaulter and fetch only required data &quot; termed as raw Metadata for parsing&quot;</p></td>
             </tr>
 
         
 
             <tr>
                 
-                    <td class="name"><code>__scrapperOptions</code></td>
+                    <td class="name"><code>tracksCount</code></td>
                 
 
                 <td class="type">
                 
                     
-<span class="param-type">scrapperOptions</span>
+<span class="param-type">number</span>
 
 
                 
@@ -669,26 +534,20 @@
                     </td>
                 
 
-                <td class="description last"><p>Scrapping Options for functions and base Source Engine</p></td>
+                <td class="description last"><p>Tracks Count for album Metadata and tracking of Tracks fetched from extractors</p></td>
             </tr>
 
         
 
             <tr>
                 
-                    <td class="name"><code>returnType</code></td>
+                    <td class="name"><code>cacheMain</code></td>
                 
 
                 <td class="type">
                 
                     
-<span class="param-type">string</span>
-|
-
-<span class="param-type">"tracks"</span>
-|
-
-<span class="param-type">"streams"</span>
+<span class="param-type">any</span>
 
 
                 
@@ -699,12 +558,42 @@
                 
                     <td class="default">
                     
-                        tracks
+                    </td>
+                
+
+                <td class="description last"><p>cachedMain Instance for events Trigger</p></td>
+            </tr>
+
+        
+
+            <tr>
+                
+                    <td class="name"><code>eventTrigger</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">boolean</span>
+|
+
+<span class="param-type">true</span>
+
+
+                
+                </td>
+
+                
+
+                
+                    <td class="default">
+                    
+                        true
                     
                     </td>
                 
 
-                <td class="description last"><p>Return Type for method , And Optional choice and By Default its  &quot;tracks&quot;</p></td>
+                <td class="description last"><p>default (True) | Used for Triggering album Event on cachedMain instance</p></td>
             </tr>
 
         
@@ -746,7 +635,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line122">line 122</a>
+        <a href="bin___album.js.html">bin/__album.js</a>, <a href="bin___album.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -775,7 +664,7 @@
 
         
 <div class="param-desc">
-    <p>album and Tracks from play-dl</p>
+    <p>Returns Id of the Album Instance this.Id value</p>
 </div>
 
 
@@ -783,7 +672,177 @@
 <ul>
     <li>
         Type: <span class="simple-code">
-<span class="param-type">Promise.&lt;(Array.&lt;Track>|Array.&lt;Object>)></span>
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+|
+
+<span class="param-type">undefined</span>
+
+</span>
+    </li>
+</ul>
+
+    
+
+
+
+
+
+<hr>
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".get"><span class="type-signature">(static) </span>get<span class="signature">(Id)</span><span class="type-signature"> &rarr; {<a href="Album.html">Album</a>|undefined}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<div class="table-box">
+    <table class="params">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            <tr>
+                
+                    <td class="name"><code>Id</code></td>
+                
+
+                <td class="type">
+                
+                    
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+                
+                </td>
+
+                
+
+                
+
+                <td class="description last"><p>Given Id for related Album Instance saved to Caches</p></td>
+            </tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bin___album.js.html">bin/__album.js</a>, <a href="bin___album.js.html#line49">line 49</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Returns Album Instance only if its present or undefined</p>
+</div>
+
+
+
+<ul>
+    <li>
+        Type: <span class="simple-code">
+<span class="param-type"><a href="Album.html">Album</a></span>
+|
+
+<span class="param-type">undefined</span>
 
 </span>
     </li>
