@@ -186,7 +186,7 @@ declare type __scrapperOptions = {
 };
 
 declare type extractorData = {
-  album: boolean;
+  album: Album | boolean;
   tracks: Array<Track>;
 };
 ```

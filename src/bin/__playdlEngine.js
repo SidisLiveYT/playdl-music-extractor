@@ -97,7 +97,6 @@ class playdlEngine {
         ?.slice(0, parseInt(__scrapperOptions?.fetchOptions?.fetchLimit ?? 1))
         ?.filter(Boolean);
     }
-
     return (
       await Promise.all(
         __searchResults?.tracks?.map(async (__rawTrack) => {
@@ -142,8 +141,9 @@ class playdlEngine {
         },
       ];
     }
-    let __rawResults; let rawTracks; let
-rawAlbumId;
+    let __rawResults;
+    let rawTracks;
+    let rawAlbumId;
     let __videoDetails;
     const __validateResults = [];
     if (__validate && __validate?.includes('dz')) {

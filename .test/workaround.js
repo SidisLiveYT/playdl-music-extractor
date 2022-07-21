@@ -12,10 +12,8 @@ quickHandler.on("track", (...eventData) =>
 */
 new Promise(async (resolve, reject) => {
   console.log(
-    (
-      await quickHandler.exec("https://soundcloud.com/uveeay/sets/palylist", {
-        streamDownload: true,
-      })
-    )?.album
+    await quickHandler.exec("Despacito", {
+      streamDownload: true,
+    })
   );
 });

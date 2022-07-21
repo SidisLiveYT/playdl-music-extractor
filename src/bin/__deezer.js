@@ -2,14 +2,14 @@ const playdlEngine = require('./__playdlEngine');
 
 class deezer {
   static __dezerRegex = [
-    /^https?:\/\/(?:www\.)?deezer\.com\/([^#/\&\?]+)\/(track|album|album)\/(\d+)$/,
+    /^https?:\/\/(?:www\.)?deezer\.com\/([^#/\&\?]+)\/(track|album|playlist)\/(\d+)$/,
     /^https?:\/\/(?:www\.)?deezer\.com\/([^#/\&\?]+)\/(track)\/(\d+)$/,
-    /^https?:\/\/(?:www\.)?deezer\.com\/([^#/\&\?]+)\/(album|album)\/(\d+)$/,
+    /^https?:\/\/(?:www\.)?deezer\.com\/([^#/\&\?]+)\/(album|playlist)\/(\d+)$/,
   ];
 
   static __dezerTrackRegex = /^https?:\/\/(?:www\.)?deezer\.com\/([^#/\&\?]+)\/(track)\/(\d+)$/;
 
-  static __dezeralbumRegex = /^https?:\/\/(?:www\.)?deezer\.com\/([^#/\&\?]+)\/(album|album)\/(\d+)$/;
+  static __dezeralbumRegex = /^https?:\/\/(?:www\.)?deezer\.com\/([^#/\&\?]+)\/(album|playlist)\/(\d+)$/;
 
   static __test(rawUrl, returnRegexValue = false) {
     try {

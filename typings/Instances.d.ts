@@ -131,8 +131,8 @@ export interface trackEvents {
       | "reverbnation"
       | "soundcloud"
       | "arbitary",
+    album: Album,
     track: Track,
-    playlistId: String | Number | undefined,
     metadata: any
   ];
   playlist: [Album];

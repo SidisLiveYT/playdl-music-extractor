@@ -13,24 +13,25 @@ class youtube {
 
   static __test(rawUrl, returnRegexValue = false) {
     try {
-      if (!(rawUrl && typeof rawUrl === 'string' && rawUrl !== '')) { return false; }
+      if (!(rawUrl && typeof rawUrl === 'string' && rawUrl !== '')) {
+        return false;
+      }
       if (
         returnRegexValue
         && Boolean(youtube.__youtubeRegex.find((regExp) => regExp.test(rawUrl)))
       ) {
- return (
+        return (
           rawUrl?.match(
             youtube.__youtubeRegex.find(
               (regExp) => rawUrl.match(regExp)?.length > 2,
             ),
           ) ?? (!uriCheck(rawUrl) ? rawUrl : false)
         );
-}
+      }
       return (
-          Boolean(
-            youtube.__youtubeRegex.find((regExp) => regExp.test(rawUrl)),
-          ) ?? !uriCheck(rawUrl)
-        );
+        Boolean(youtube.__youtubeRegex.find((regExp) => regExp.test(rawUrl)))
+        || !uriCheck(rawUrl)
+      );
     } catch {
       return false;
     }
@@ -38,6 +39,12 @@ class youtube {
 
   static async __extractor(rawQuery, __scrapperOptions, __cacheMain) {
     try {
+      if (!uriCheck(rawQuery)) {
+ __scrapperOptions = {
+          ...__scrapperOptions,
+          fetchOptions: { ...__scrapperOptions?.fetchOptions, fetchLimit: 1 },
+        };
+}
       const playdlEngine = require('./__playdlEngine');
       const rawTracks = (await playdlEngine?.__rawExtractor(
           rawQuery,
@@ -54,7 +61,9 @@ class youtube {
         tracks: rawTracks,
       };
     } catch (rawError) {
-      if (__scrapperOptions?.ignoreInternalError) { return void __cacheMain.__errorHandling(rawError); }
+      if (__scrapperOptions?.ignoreInternalError) {
+        return void __cacheMain.__errorHandling(rawError);
+      }
       throw rawError;
     }
   }

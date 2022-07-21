@@ -1,6 +1,6 @@
 {
   "name": "playdl-music-extractor",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials",
   "main": "./src/index.js",
   "module": "./src/index.mjs",
@@ -34,7 +34,7 @@
     "eslint": "^8.20.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
-    "jsdoc": "^3.6.10",
+    "jsdoc": "^3.6.11",
     "jsdoc-babel": "^0.5.0",
     "jsdoc-skyceil": "^2.0.0",
     "nyc": "^15.1.0",
