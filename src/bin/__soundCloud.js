@@ -88,6 +88,7 @@ class soundCloud {
           __rawTracks?.length,
           __cacheMain,
           true,
+          __scrapperOptions?.eventReturn?.metadata,
         );
       } else {
         __rawTracks = [

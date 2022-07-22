@@ -14,7 +14,7 @@ class Album {
    * @param {Object<any>} metadata  Metadata for patching with defaulter and fetch only required data " termed as raw Metadata for parsing"
    * @param {Number} tracksCount  Tracks Count for album Metadata and tracking of Tracks fetched from extractors
    */
-  constructor(customId, metadata, tracksCount) {
+  constructor(customId, metadata, tracksCount, customMetadata = undefined) {
     /**
      * @property {number | string | undefined} Id  public property and consist of unique album id and attached with Tracks for Fetching proper album Data
      */
@@ -23,6 +23,7 @@ class Album {
     );
     Album.cachedIds[this.Id] = this.patch({
       ...metadata,
+      metadata: customMetadata,
       tracksCount,
     });
   }
@@ -35,8 +36,14 @@ class Album {
    * @param {boolean | true} eventTrigger  default (True) | Used for Triggering album Event on cachedMain instance
    * @returns {string | number | undefined} Returns Id of the Album Instance this.Id value
    */
-  static generate(albumMetadata, tracksCount, cacheMain, eventTrigger = true) {
-    const album = new Album(undefined, albumMetadata, tracksCount);
+  static generate(
+    albumMetadata,
+    tracksCount,
+    cacheMain,
+    eventTrigger = true,
+    metadata = undefined,
+  ) {
+    const album = new Album(undefined, albumMetadata, tracksCount, metadata);
     if (eventTrigger) cacheMain.emit('album', album);
     return album?.Id;
   }
@@ -81,6 +88,7 @@ class Album {
           }
         : undefined;
     this.views = metadata?.views;
+    this.metadata = metadata?.metadata;
     return this;
   }
 

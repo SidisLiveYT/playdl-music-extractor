@@ -49,6 +49,7 @@ class Track {
       likes: parseInt(rawBlueprint?.likes ?? 0) ?? 0,
       dislikes: parseInt(rawBlueprint?.dislikes ?? 0) ?? 0,
     };
+    this.customMetadata = rawBlueprint?.customMetadata;
     return this;
   }
 

@@ -92,6 +92,7 @@ export class Track {
     };
     videoId: string | number;
   };
+  customMetadata: any;
   readonly lyrics:
     | string
     | ""
@@ -116,6 +117,7 @@ export class Album {
       }
     | undefined;
   readonly views: Number;
+  customMetadata: any;
 }
 
 export type Awaitable<T> = T | PromiseLike<T>;
@@ -135,5 +137,5 @@ export interface trackEvents {
     track: Track,
     metadata: any
   ];
-  playlist: [Album];
+  album: [Album];
 }

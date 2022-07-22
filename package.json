@@ -1,6 +1,6 @@
 {
   "name": "playdl-music-extractor",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "PlayDL Music Extractor is a Extractor/Scrapper and Helps Players to fetch data from play-dl or Custom Extractors , as Per reduces extra work and credentials",
   "main": "./src/index.js",
   "module": "./src/index.mjs",
@@ -62,8 +62,8 @@
     "jericho-player"
   ],
   "engines": {
-    "node": ">= 16.6.0",
-    "npm": ">=7.0.0"
+    "node": ">= 17.0.0",
+    "npm": ">=8.0.0"
   },
   "dependencies": {
     "axios": "^0.27.2",

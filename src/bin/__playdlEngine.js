@@ -116,9 +116,7 @@ class playdlEngine {
               __trackBlueprint?.orignal_extractor ?? 'youtube',
               __cacheGarbage?.album ?? undefined,
               __cacheGarbage,
-              typeof __scrapperOptions?.eventReturn === 'object'
-                ? __scrapperOptions?.eventReturn?.metadata
-                : undefined,
+              __scrapperOptions?.eventReturn?.metadata,
             );
           } else if (!__cacheGarbage) return undefined;
           return __cacheGarbage;
@@ -177,6 +175,7 @@ class playdlEngine {
           rawTracks?.length,
           __cacheMain,
           true,
+          __scrapperOptions?.eventReturn?.metadata,
         );
         return {
           albumId: rawAlbumId,
@@ -192,6 +191,7 @@ class playdlEngine {
             rawTracks?.length,
             __cacheMain,
             true,
+            __scrapperOptions?.eventReturn?.metadata,
           );
           return {
             albumId: rawAlbumId,
@@ -216,6 +216,7 @@ class playdlEngine {
             rawTracks?.length,
             __cacheMain,
             true,
+            __scrapperOptions?.eventReturn?.metadata,
           );
           return {
             albumId: rawAlbumId,
@@ -299,6 +300,7 @@ class playdlEngine {
           likes: __trackBlueprint?.likes ?? __rawTrack?.likes ?? 0,
           is_live: __trackBlueprint?.is_live ?? __rawTrack?.live ?? false,
           dislikes: __trackBlueprint?.dislikes ?? __rawTrack?.dislikes ?? 0,
+          customMetadata: __scrapperOptions?.eventReturn?.metadata,
         },
         __rawTrack,
         __albumId,

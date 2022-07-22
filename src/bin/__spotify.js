@@ -15,7 +15,9 @@ class spotify {
 
   static __test(rawUrl, returnRegexValue = false) {
     try {
-      if (!(rawUrl && typeof rawUrl === 'string' && rawUrl !== '')) { return false; }
+      if (!(rawUrl && typeof rawUrl === 'string' && rawUrl !== '')) {
+        return false;
+      }
       return returnRegexValue
         && Boolean(spotify.__spotifyRegex.find((regExp) => regExp.test(rawUrl)))
         ? rawUrl?.match(
@@ -41,7 +43,9 @@ class spotify {
             __rawData?.type?.toLowerCase()?.trim(),
           ))
         || __rawData?.show
-      ) { __arryData = [__rawData]; } else if (
+      ) {
+        __arryData = [__rawData];
+      } else if (
         __rawData?.tracks?.items
         && Array.isArray(__rawData?.tracks?.items)
         && __rawData?.tracks?.items?.length > 0
@@ -57,6 +61,7 @@ class spotify {
           __arryData?.length,
           __cacheMain,
           true,
+          __scrapperOptions?.eventReturn?.metadata,
         );
       }
       if (
@@ -95,7 +100,9 @@ class spotify {
                     )
                     && Boolean(__scrapperOptions?.fetchOptions?.skipalbumLimit)
                   ))
-              ) { return undefined; }
+              ) {
+                return undefined;
+              }
               __cacheGarbage = await spotify.__trackParser(
                 rawTrack,
                 ++__cacheCount,
@@ -118,7 +125,9 @@ class spotify {
         tracks: __processedTracks,
       };
     } catch (rawError) {
-      if (__scrapperOptions?.ignoreInternalError) { return void __cacheMain.__errorHandling(rawError); }
+      if (__scrapperOptions?.ignoreInternalError) {
+        return void __cacheMain.__errorHandling(rawError);
+      }
       throw rawError;
     }
   }
@@ -153,7 +162,9 @@ class spotify {
         __cacheMain,
       );
     } catch (rawError) {
-      if (__scrapperOptions?.ignoreInternalError) { return void __cacheMain.__errorHandling(rawError); }
+      if (__scrapperOptions?.ignoreInternalError) {
+        return void __cacheMain.__errorHandling(rawError);
+      }
       throw rawError;
     }
   }
